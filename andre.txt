@@ -1,0 +1,35 @@
+---------------------------------Group Members
+
+| Name | Identifier | Priority | Description |
+| --- | --- | --- | --- |
+| USXX | Make a Post in Group | high | As a *Group Member*, I want to be able to post on the group, so I can communicate with other members. |
+| USXX | View Group Members | high | As a *Group Member*, I want to be able to see other members of the group, so I can connect with them. |
+| USXX | Leave Group | As a *Group Member*, I want to be able to leave the group, so I can stop interacting with it. |
+
+---------------------------------Moderators
+
+| Name | Identifier | Priority | Description |
+| --- | --- | --- | --- |
+| USXX | Invite/Remove User from Group | high | As a *Moderator*, I want to be able to invite or remove a user from the group I moderate, so I can control access to it. |
+| USXX | Remove any Post from Group | high | As a *Moderator*, I want to be able to remove a post from a group, so I can moderate the content in it. |
+| USXX | Delete Group | high | As a *Moderator*, I want to be able to delete the group I moderate, so I can end every interaction in the group. |
+| USXX | Alter Group Information | high | As a *Moderator*, I want to be able to alter the group information, so I can better describe what the group is about. |
+| USXX | Pin Post on Group | low | As a *Moderator*, I want to be able to pin a post on the group, so I can increase its visibility. |
+
+---------------------------------Technical Requirements
+
+Requirements related to technical aspects of the system, such as performance, reliability and availability.
+
+| Identifier | Name | Description |
+| --- | --- | --- |
+| TR01 | Performance | The system should be have response times shorter than 2 seconds. |
+| TR02 | Robustness | The system should be prepared to handle and continue operating when runtime errors occur. |
+| TR03 | Scalibility | The system should be prepared to deal with growth in the number of users. |
+| TR04 | Accessibility | The system must ensure that everyone can access the pages. |
+| TR05 | Availability | The system should always be available. |
+| TR06 | Usability | The system should be simple and intuitive to use |
+| TR07 | Security | The system should protect information from unauthorized access. | 
+
+
+
+
