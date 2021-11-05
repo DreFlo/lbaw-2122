@@ -13,7 +13,6 @@ Authenticator User
 | USXX | Remove Like From Post | high | As an *Authenticated User*, I want to remove a like from a post, in case of my latest feelings about the post |
 | USXX | Remove Comment From Post | | As an *Authenticated User*, I want to remove a comment from a post |
 | USXX | Edit Comment | high | As an *Authenticated User*, I want to edit comment in case I made a mistake and want to correct it |
-| USXX | Share Post | high | As an *Authenticated User*, I want to share a post from another user to reach people watching my feed or in a group |
 | USXX | Like Comment | high | As an *Authenticated User*, I want to like a comment so that i can express my feelings about a comment |
 | USXX | Remove Like From Comment | high | As an *Authenticated User*, I want to remove a like from a comment so that I can express my last feelings about the comment |
 | USXX | Search for User | high | As an *Authenticated User*, I want to search for a user |----------------
@@ -31,7 +30,8 @@ Authenticator User
 | USXX | View Friends' Feed | medium | As an *Authenticated User*, I want to view friends' feed, so that I can view what my friends interests are |
 | USXX | Request to Join Public Group | medium | As an *Authenticated User*, I want to request to join public group, so that I can enter and watch posts |
 | USXX | Tag Friends in Post | low | As an *Authenticated User*, I want to tag friends in post so that they can see the post |
-| USXX | Chat with other users | low/medium | As an *Authenticated User*, I want to chat with another user, so that I can privately communicate with someone |------------
+| USXX | Share Post | high | As an *Authenticated User*, I want to share a post from another user to reach people watching my feed or in a group |
+| USXX | Chat with other users | low | As an *Authenticated User*, I want to chat with another user, so that I can privately communicate with someone |------------
 | USXX | | | |
 | USXX | | | |
 | USXX | | | |
