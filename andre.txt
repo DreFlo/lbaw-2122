@@ -12,9 +12,11 @@
 | --- | --- | --- | --- |
 | USXX | Invite/Remove User from Group | high | As a *Moderator*, I want to be able to invite or remove a user from the group I moderate, so I can control access to it. |
 | USXX | Remove any Post from Group | high | As a *Moderator*, I want to be able to remove a post from a group, so I can moderate the content in it. |
+| USXX | Remove any Comment on Post on Group | high | As a *Moderator*, I want to be able to remove a comment from a group, so I can moderate the content in it. |
 | USXX | Delete Group | high | As a *Moderator*, I want to be able to delete the group I moderate, so I can end every interaction in the group. |
 | USXX | Alter Group Information | high | As a *Moderator*, I want to be able to alter the group information, so I can better describe what the group is about. |
 | USXX | Pin Post on Group | low | As a *Moderator*, I want to be able to pin a post on the group, so I can increase its visibility. |
+| USXX | Pin Comment on Post | low | As a *Moderator*, I want to be able to pin a comment on a post, so I can increase its visibility. |
 
 ---------------------------------Technical Requirements
 
