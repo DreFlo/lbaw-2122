@@ -9,14 +9,16 @@ drop table if exists comment;
 drop table if exists share;
 drop table if exists tag;
 drop table if exists "like";
-drop table if exists user_notification;
-drop table if exists content_user_notification;
-drop table if exists friend_request_user_notification;
-drop table if exists group_invite_user_notification;
-drop table if exists request_group_notification;
 drop table if exists friend_request;
 drop table if exists group_request;
 drop table if exists group_invite;
+drop table if exists like_notification;
+drop table if exists comment_notification;
+drop table if exists tag_notification;
+drop table if exists share_notification;
+drop table if exists group_invite_notification;
+drop table if exists group_request_notification;
+drop table if exists friend_request_notification;
 
 
 drop type if exists request_status;
@@ -125,42 +127,6 @@ create table "like"
     primary key (user, content)
 );
 
-create table user_notification
-(
-    not_id integer primary key,
-    "timestamp" timestamp with zone not null default now(),
-    user integer references authenticated_user(auth_user_id),
-    seen boolean
-);
-
-create table content_user_notification
-(
-    not_id integer references user_notification(not_id),
-    content_id integer references user_content(user_content_id),
-    primary key (not_id)
-);
-
-create table friend_request_user_notification
-(
-    not_id integer references user_notification(not_id),
-    requester_id integer references authenticated_user(auth_user_id),
-    primary key (not_id)
-);
-
-create table group_invite_user_notification
-(
-    not_id integer references user_notification(not_id),
-    inviter_id integer references group(group_id),
-    primary key (not_id)
-);
-
-create table request_group_notification
-(
-    requester_id integer references authenticated_user(auth_user_id),
-    group_id integer references group(group_id),
-    primary key (requester_id, group_id)
-);
-
 create table friend_request
 (
     requester integer references authenticated_user(auth_user_id),
@@ -186,4 +152,71 @@ create table group_invite
     req_stat request_status not null default "Pending",
     "timestamp" timestamp with zone not null default now(),
     primary key (requester, "target")
+);
+
+create table like_notification
+(
+    "timestamp" timestamp with zone not null default now(),
+    seen boolean not null default 0,
+    user_liked_id integer references authenticated_user,            -- Recebeu like
+    content_id integer references user_content,
+    user_like_id integer references authenticated_user,             -- Deu like
+    primary key (content_id, user_like_id)
+);
+
+create table comment_notification
+(
+    "timestamp" timestamp with zone not null default now(),
+    seen boolean not null default 0,
+    user_commented_id integer references authenticated_user,        -- Recebeu comentario
+    content_id integer references user_content,
+    user_comment_id integer references authenticated_user,          -- Deu comentario
+    primary key (content_id, user_comment_id)
+);
+
+create table tag_notification
+(
+    "timestamp" timestamp with zone not null default now(),
+    seen boolean not null default 0,
+    user_tagged_id integer references authenticated_user,           -- Recebeu tag
+    content_id integer references user_content,
+    user_tag_id integer references authenticated_user,              -- Deu tag
+    primary key (content_id, user_tag_id)
+);
+
+create table share_notification
+(
+    "timestamp" timestamp with zone not null default now(),
+    seen boolean not null default 0,
+    user_shared_id integer references authenticated_user,           -- Recebeu share
+    content_id integer references user_content,
+    user_share_id integer references authenticated_user,            -- Deu share
+    primary key (content_id, user_share_id)
+);
+
+create table group_invite_notification
+(
+    "timestamp" timestamp with zone not null default now(),
+    seen boolean not null default 0,
+    group_id integer references group,
+    user_id integer references authenticated_user,
+    primary key (group_id, user_id)
+);
+
+create table friend_request_notification
+(
+    "timestamp" timestamp with zone not null default now(),
+    seen boolean not null default 0,
+    user_invite_id integer references authenticated_user,
+    user_request_id integer references authenticated_user,
+    primary key (user_request_id, user_invite_id)
+);
+
+create table group_request_notification
+(
+    "timestamp" timestamp with zone not null default now(),
+    seen boolean not null default 0,
+    group_id integer references group,
+    user_id integer references authenticated_user,
+    primary key (user_id, group_id)
 );
