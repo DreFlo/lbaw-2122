@@ -158,40 +158,40 @@ create table like_notification
 (
     "timestamp" timestamp with zone not null default now(),
     seen boolean not null default 0,
-    user_liked_id integer references authenticated_user,            -- Recebeu like
+    user_sender_id integer references authenticated_user,            
     content_id integer references user_content,
-    user_like_id integer references authenticated_user,             -- Deu like
-    primary key (content_id, user_like_id)
+    user_target_id integer references authenticated_user,           
+    primary key (content_id, user_sender_id)
 );
 
 create table comment_notification
 (
     "timestamp" timestamp with zone not null default now(),
     seen boolean not null default 0,
-    user_commented_id integer references authenticated_user,        -- Recebeu comentario
+    user_sender_id integer references authenticated_user,        
     content_id integer references user_content,
-    user_comment_id integer references authenticated_user,          -- Deu comentario
-    primary key (content_id, user_comment_id)
+    user_target_id integer references authenticated_user,          
+    primary key (content_id, user_sender_id)
 );
 
 create table tag_notification
 (
     "timestamp" timestamp with zone not null default now(),
     seen boolean not null default 0,
-    user_tagged_id integer references authenticated_user,           -- Recebeu tag
+    user_sender_id integer references authenticated_user,          
     content_id integer references user_content,
-    user_tag_id integer references authenticated_user,              -- Deu tag
-    primary key (content_id, user_tag_id)
+    user_target_id integer references authenticated_user,              
+    primary key (content_id, user_sender_id)
 );
 
 create table share_notification
 (
     "timestamp" timestamp with zone not null default now(),
     seen boolean not null default 0,
-    user_shared_id integer references authenticated_user,           -- Recebeu share
+    user_sender_id integer references authenticated_user,          
     content_id integer references user_content,
-    user_share_id integer references authenticated_user,            -- Deu share
-    primary key (content_id, user_share_id)
+    user_target_id integer references authenticated_user,          
+    primary key (content_id, user_sender_id)
 );
 
 create table group_invite_notification
@@ -207,9 +207,9 @@ create table friend_request_notification
 (
     "timestamp" timestamp with zone not null default now(),
     seen boolean not null default 0,
-    user_invite_id integer references authenticated_user,
-    user_request_id integer references authenticated_user,
-    primary key (user_request_id, user_invite_id)
+    user_sender_id integer references authenticated_user,
+    user_target_id integer references authenticated_user,
+    primary key (user_sender_id, user_target_id)
 );
 
 create table group_request_notification
