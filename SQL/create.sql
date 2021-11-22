@@ -41,7 +41,7 @@ create table user
     id serial primary key,
     "name" text not null,
     birthdate date,
-    email text not null like ,
+    email text not null unique,
     "password" text not null,
     admin_flag boolean not null default False,
     profile_pic integer references image (id) on delete set null,
@@ -83,13 +83,13 @@ create table user_content
     "timestamp" timestamp with zone not null default now(),
     creator_id integer references user (id),
     edited_id boolean not null,
+    group_id integer references group(id),
     pinned_id boolean not null,
 );
 
 create table post
 (
     id integer references user_content(id) on delete cascade,
-    group_id integer references group(id),
     pic_1 integer references "image" (id),
     pic_2 integer references "image" (id),
     pic_3 integer references "image" (id),
@@ -157,8 +157,7 @@ create table comment_notification
     id serial primary key,
     "timestamp" timestamp with zone not null default now(),
     seen boolean not null default False,        
-    comment_id integer references comment,
-    target_id integer references user
+    comment_id integer references comment
 );
 
 create table tag_notification
