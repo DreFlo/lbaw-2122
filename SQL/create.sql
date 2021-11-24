@@ -22,11 +22,18 @@ drop table if exists friend_request_notification;
 
 
 drop type if exists request_status;
+drop type if exists privacy_status;
 
 create type request_status as ENUM (
     'Accepted',
     'Declined',
     'Pending'
+);
+
+create type privacy_status as ENUM (
+    'Public',
+    'Private',
+    'Anonymous'
 );
 
 create table "image"
@@ -40,12 +47,13 @@ create table user
 (
     id serial primary key,
     "name" text not null,
-    birthdate date,
+    birthdate date not null,
     email text not null unique,
     "password" text not null,
-    admin_flag boolean not null default False,
+    admin_flag boolean not null default 'false',
     profile_pic integer references image (id) on delete set null,
     cover_pic integer references image (id) on delete set null,
+    priv_stat privacy_status not null default 'Public',
     constraint email_formatting check (email like '_%@_%.-%')
 );
 
@@ -55,7 +63,7 @@ create table group
     "name" text not null,
     creation_date date not null default current_date,
     cover_pic integer references image (id) on delete set null,
-    private_flag boolean not null
+    priv_stat privacy_status not null default 'Public'
 );
 
 create table friendship
@@ -70,7 +78,7 @@ create table membership
 (
     user integer references user(id) on delete cascade,
     group integer references group(id) on delete cascade,
-    moderator boolean default False,
+    moderator boolean not null default 'false',
     primary key (user, group)
 )
 
@@ -79,12 +87,13 @@ create table membership
 create table user_content
 (
     id serial primary key,
-    "text" text,
+    "text" text not null,
     "timestamp" timestamp with zone not null default now(),
-    creator_id integer references user (id),
-    edited_id boolean not null,
+    creator_id integer not null references user (id),
+    edited boolean not null default 'false',
     group_id integer references group(id),
-    pinned_id boolean not null,
+    pinned boolean not null default 'false',
+    priv_stat privacy_status not null references user(priv_stat)
 );
 
 create table post
@@ -95,111 +104,117 @@ create table post
     pic_3 integer references "image" (id),
     pic_4 integer references "image" (id),
     pic_5 integer references "image" (id),
-    primary key (post_id)
+    primary key (id)
 );
 
 create table comment
 (
     id integer references user_content(id) on delete cascade,
     parent_id integer references user_content(id) on delete cascade,
-    primary key (comment_id)
+    primary key (id)
 );
 
 create table share
 (
     id integer references user_content(id) on delete cascade,
     post_id integer references post(post_id),
-    primary key (share_id)
+    primary key (id)
 );
 
 create table tag
 (
     "user_id" integer references user(id),
     content_id integer references user_content(id),
-    primary key (user, content)
+    primary key ("user_id", content_id)
 );
 
 create table "like"
 (
     "user_id" integer references user(id),
     content_id integer references user_content(id),
-    primary key (user, content)
+    primary key ("user_id", content_id)
 );
 
 create table friend_request
 (
     requester_id integer references user(id),
     target_id integer references user(id),
-    req_stat request_status not null default "Pending",
-    primary key (requester, "target")
+    req_stat request_status not null default 'Pending',
+    primary key (requester_id, target_id)
 );
 
 create table group_request
 (
     requester_id integer references user(id),
     target_id integer references group(id),
-    req_stat request_status not null default "Pending",
+    req_stat request_status not null default 'Pending',
     invite boolean not null,
-    primary key (requester, "target")
+    primary key (requester_id, target_id)
 );
+
+-- why not pk with user and user_content
 
 create table like_notification
 (
     id serial primary key,
     "timestamp" timestamp with zone not null default now(),
-    seen boolean not null default False,
-    sender_id integer references user,            
-    content_id integer references user_content
+    seen boolean not null default 'false',
+    sender_id integer references user(id),            
+    content_id integer references user_content(id)
 );
 
 create table comment_notification
 (
     id serial primary key,
     "timestamp" timestamp with zone not null default now(),
-    seen boolean not null default False,        
-    comment_id integer references comment
+    seen boolean not null default 'false',        
+    comment_id integer references comment(id)
 );
 
 create table tag_notification
 (
     id serial primary key,
     "timestamp" timestamp with zone not null default now(),
-    seen boolean not null default False,         
-    content_id integer references user_content,
-    target_id integer references user
+    seen boolean not null default 'false',         
+    content_id integer references user_content(id),
+    target_id integer references user(id)
 );
 
 create table share_notification
 (
     id serial primary key,
     "timestamp" timestamp with zone not null default now(),
-    seen boolean not null default False,
-    share_id integer references share
+    seen boolean not null default 'false',
+    share_id integer references share(id)
 );
 
 create table group_invite_notification
 (
     id serial primary key,
     "timestamp" timestamp with zone not null default now(),
-    seen boolean not null default False,
-    group_id integer references group,
-    "user_id" integer references user,
+    seen boolean not null default 'false',
+    group_id integer references group(id),
+    "user_id" integer references user(id),
 );
 
 create table friend_request_notification
 (
     id serial primary key,
     "timestamp" timestamp with zone not null default now(),
-    seen boolean not null default False,
-    sender_id integer references user,
-    target_id integer references user
+    seen boolean not null default 'false',
+    sender_id integer references user(id),
+    target_id integer references user(id)
 );
 
 create table group_request_notification
 (
     id serial primary key,
     "timestamp" timestamp with zone not null default now(),
-    seen boolean not null default False,
-    group_id integer references group,
-    "user_id" integer references user
+    seen boolean not null default 'false',
+    group_id integer references group(id),
+    "user_id" integer references user(id)
 );
+
+drop index if exists post_text;
+
+create index post_text on user_content using gist (to_tsvector('english', "text"));

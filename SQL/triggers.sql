@@ -46,4 +46,12 @@ begin
 end;
 
 
+--maybe
+create trigger delete_user
+before delete on user
+begin
+    update user
+    set priv_stat = 'Anonymous'
+    where id = old.id;
+end;
 
