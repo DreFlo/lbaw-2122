@@ -254,6 +254,13 @@ create table "group_request_notification"
 );
 
 drop index if exists "post_text";
+drop index if exists "group_posts_index";
+drop index if exists "parent_comments_index";
+drop index if exists "like_notif_index";
+drop index if exists "comment_notif_index";
 
 create index post_text on user_content using gist (to_tsvector('english', "text"));
-
+create clustered index group_posts_index on user_content using hash (group_id);
+create clustered index parent_comments_index on comment using hash (parent_id);
+create clustered index like_notif_index on like_notification using hash (content_id);
+create clustered index comment_notif_index on comment_notification using hash (comment_id);
