@@ -264,3 +264,10 @@ create clustered index group_posts_index on user_content using hash (group_id);
 create clustered index parent_comments_index on comment using hash (parent_id);
 create clustered index like_notif_index on like_notification using hash (content_id);
 create clustered index comment_notif_index on comment_notification using hash (comment_id);
+
+--NOTE - CHECK CLUSTERING AGAIN - SHOULD NOT BE CLUSTERED https://medium.com/geekculture/indexing-in-postgres-db-4cf502ce1b4e
+
+create index tag_notif_index on tag_notification using hash (target_id);
+create index group_inv_notif_index on group_invite_notification using hash ("user_id");
+create index group_req_notif_index on group_request_notification using hash (group_id);
+create index friend_req_notif_index on friend_request_notification using hash (target_id);
