@@ -104,7 +104,8 @@ create table "user_content"
     pinned boolean not null default 'false',
     priv_stat privacy_status not null references "user"(priv_stat),
 	constraint fk_creator_id foreign key(creator_id) references "user"(id),
-	constraint fk_group_id foreign key(group_id) references "group"(id)
+	constraint fk_group_id foreign key(group_id) references "group"(id),
+    constraint no_future_dates check "timestamp" <= now()
 );
 
 create table "post"
@@ -191,7 +192,8 @@ create table "like_notification"
     sender_id integer,            
     content_id integer,
 	constraint fk_sender_id foreign key(sender_id) references "user"(id),
-	constraint fk_content_id foreign key(content_id) references user_content(id)
+	constraint fk_content_id foreign key(content_id) references user_content(id),
+    constraint no_future_dates check "timestamp" <= now()
 );
 
 create table "comment_notification"
@@ -200,7 +202,8 @@ create table "comment_notification"
     "timestamp" timestamptz not null default now(),
     seen boolean not null default 'false',        
     comment_id integer,
-	constraint fk_comment_id foreign key(comment_id) references "comment"(id)
+	constraint fk_comment_id foreign key(comment_id) references "comment"(id),
+    constraint no_future_dates check "timestamp" <= now()
 );
 
 create table "tag_notification"
@@ -211,7 +214,8 @@ create table "tag_notification"
     content_id integer,
     target_id integer,
 	constraint fk_content_id foreign key(content_id) references user_content(id),
-	constraint fk_target_id foreign key(target_id) references "user"(id)
+	constraint fk_target_id foreign key(target_id) references "user"(id),
+    constraint no_future_dates check "timestamp" <= now()
 );
 
 create table "share_notification"
@@ -220,7 +224,8 @@ create table "share_notification"
     "timestamp" timestamptz not null default now(),
     seen boolean not null default 'false',
     share_id integer,
-	constraint fk_share_id foreign key(share_id) references "share"(id)
+	constraint fk_share_id foreign key(share_id) references "share"(id),
+    constraint no_future_dates check "timestamp" <= now()
 );
 
 create table "group_invite_notification"
@@ -231,8 +236,8 @@ create table "group_invite_notification"
     group_id integer,
     user_id integer,
 	constraint fk_group_id foreign key(group_id) references "group"(id),
-	constraint fk_user_id foreign key(user_id) references "user"(id)
-	
+	constraint fk_user_id foreign key(user_id) references "user"(id),
+	constraint no_future_dates check "timestamp" <= now()
 );
 
 create table "friend_request_notification"
@@ -241,7 +246,8 @@ create table "friend_request_notification"
     "timestamp" timestamptz not null default now(),
     seen boolean not null default 'false',
     sender_id integer references "user"(id),
-    target_id integer references "user"(id)
+    target_id integer references "user"(id),
+    constraint no_future_dates check "timestamp" <= now()
 );
 
 create table "group_request_notification"
@@ -250,24 +256,31 @@ create table "group_request_notification"
     "timestamp" timestamptz not null default now(),
     seen boolean not null default 'false',
     group_id integer references "group"(id),
-    "user_id" integer references "user"(id)
+    "user_id" integer references "user"(id),
+    constraint no_future_dates check "timestamp" <= now()
 );
 
 drop index if exists "post_text";
+
 drop index if exists "group_posts_index";
 drop index if exists "parent_comments_index";
 drop index if exists "like_notif_index";
 drop index if exists "comment_notif_index";
+drop index if exists "tag_notif_index";
+drop index if exists "group_inv_notif_index";
+drop index if exists "group_req_notif_index";
+drop index if exists "friend_req_notif_index";
 
 create index post_text on user_content using gist (to_tsvector('english', "text"));
-create clustered index group_posts_index on user_content using hash (group_id);
-create clustered index parent_comments_index on comment using hash (parent_id);
-create clustered index like_notif_index on like_notification using hash (content_id);
-create clustered index comment_notif_index on comment_notification using hash (comment_id);
+
+create clustered index "group_posts_index" on user_content using hash (group_id);
+create clustered index "parent_comments_index" on comment using hash (parent_id);
+create clustered index "like_notif_index" on like_notification using hash (content_id);
+create clustered index "comment_notif_index" on comment_notification using hash (comment_id);
 
 --NOTE - CHECK CLUSTERING AGAIN - SHOULD NOT BE CLUSTERED https://medium.com/geekculture/indexing-in-postgres-db-4cf502ce1b4e
 
-create index tag_notif_index on tag_notification using hash (target_id);
-create index group_inv_notif_index on group_invite_notification using hash (user_id);
-create index group_req_notif_index on group_request_notification using hash (group_id);
-create index friend_req_notif_index on friend_request_notification using hash (target_id);
+create index "tag_notif_index" on tag_notification using hash (target_id);
+create index "group_inv_notif_index" on group_invite_notification using hash (user_id);
+create index "group_req_notif_index" on group_request_notification using hash (group_id);
+create index "friend_req_notif_index" on friend_request_notification using hash (target_id);
