@@ -1,5 +1,3 @@
-
-
 ------------------
 -- NOTIFICAÇÕES --
 ------------------
@@ -46,12 +44,15 @@ begin
 end;
 
 
---maybe
+drop trigger if exists delete_user;
+
+-- Make data anonymous on user delete
 create trigger delete_user
-before delete on user
+instead of delete on user
 begin
     update user
     set priv_stat = 'Anonymous'
     where id = old.id;
 end;
 
+create function update_user_content_priv_stat(user_id integer, priv_stat privacy_status)
