@@ -268,6 +268,6 @@ create clustered index comment_notif_index on comment_notification using hash (c
 --NOTE - CHECK CLUSTERING AGAIN - SHOULD NOT BE CLUSTERED https://medium.com/geekculture/indexing-in-postgres-db-4cf502ce1b4e
 
 create index tag_notif_index on tag_notification using hash (target_id);
-create index group_inv_notif_index on group_invite_notification using hash ("user_id");
+create index group_inv_notif_index on group_invite_notification using hash (user_id);
 create index group_req_notif_index on group_request_notification using hash (group_id);
 create index friend_req_notif_index on friend_request_notification using hash (target_id);
