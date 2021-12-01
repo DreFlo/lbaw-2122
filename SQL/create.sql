@@ -49,7 +49,7 @@ create table "user"
 (
     id serial,
     "name" text not null,
-    birthdate date not null,
+    birthdate date not null check (age(birthdate) >= '13 years'),
     email text not null unique,
     "password" text not null,
     admin_flag boolean not null default 'false',
