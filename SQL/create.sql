@@ -431,6 +431,51 @@ create trigger add_founder_to_group
 after insert on "group" for each row
 execute procedure add_founder_fn();
 
+create or replace function check_new_friendship_fn()
+returns trigger as '
+begin
+    if (new.req_stat = ''Accepted'') then
+        insert into friendship(user_1, user_2) values(new.requester_id, new.target_id);
+        delete from friend_request where requester_id = new.requester_id and target_id = new.target_id;
+        return null;
+    elsif (new.req_stat = ''Declined'') then
+        delete from friend_request where requester_id = new.requester_id and target_id = new.target_id;
+        return null;
+    else
+        return null;
+    end if;
+end;'
+language plpgsql;
+
+drop trigger if exists add_friendship_on_friend_req_update on "friend_request";
+
+create trigger add_friendship_on_friend_req_update
+after update on "friend_request" for each row
+execute procedure check_new_friendship_fn();
+
+create or replace function check_new_membership_fn()
+returns trigger as '
+begin
+    if (new.req_stat = ''Accepted'') then
+        insert into membership(user_id, group_id) values(new.user_id, new.group_id);
+        delete from group_request where user_id = new.user_id and group_id = new.group_id;
+        return null;
+    elsif (new.req_stat = ''Declined'') then
+        delete from group_request where user_id = new.user_id and group_id = new.group_id;
+        return null;
+    else
+        return null;
+    end if;
+end;
+'
+language plpgsql;
+
+drop trigger if exists add_membership_on_group_req_update on "group_request";
+
+create trigger add_membership_on_group_req_update
+after update on "group_request" for each row
+execute procedure  check_new_membership_fn();
+
 --insert into "user"("name", birthdate, email, "password") values('Andre', '2001-03-15', 'a@a.a', 'pass');
 --insert into "user"("name", birthdate, email, "password") values('Tiago', '2001-05-11', 't@t.t', 'pass');
 --insert into "group"("name") values('FEUP');
