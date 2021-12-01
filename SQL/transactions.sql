@@ -66,15 +66,28 @@ SET TRANSACTION ISOLATION LEVEL SERIALIZABLE READ ONLY;
 SELECT (SELECT "name"
 		FROM "user"
 		WHERE "user".id = "user_content".creator_id) AS Creator, 
-		text AS Content,
-		(SELECT "name"
-		 FROM "group"
-		 WHERE "group".id = "user_content".group_id) AS "Group",
-		 timestamp
-FROM (SELECT id, ts_rank(to_tsvector('english', user_content.text), to_tsquery('english', $seach)) AS rank
+		text AS "Content/Group Name"
+FROM (SELECT id, ts_rank(setweight(to_tsvector('english', user_content."text"), 'A'), to_tsquery('english', $search)) AS rank
 	  FROM user_content
-	  WHERE to_tsvector('english', user_content.text) @@ to_tsquery('english', $search) AND priv_stat = 'Public'
+	  WHERE to_tsvector('english', user_content.text) @@ to_tsquery('english', $search) 
+              AND priv_stat = 'Public'
 	  GROUP BY id, creator_id
-	  ORDER BY rank DESC) AS results INNER JOIN "user_content" ON (results.id = "user_content".id);
+	  ORDER BY rank DESC) AS results INNER JOIN "user_content" 
+              ON (results.id = "user_content".id)
+
+UNION
+			  
+	  
+SELECT (SELECT "name"
+		FROM "user"
+		WHERE "user".id = "group".creator_id) AS Creator, 
+		"name" AS "Content/Group Name"
+FROM (SELECT id, ts_rank(setweight(to_tsvector('english', "group"."name"), 'B'), to_tsquery('english', $search)) AS rank
+	  FROM "group"
+	  WHERE to_tsvector('english', "group"."name") @@ to_tsquery('english', $search) 
+              AND priv_stat = 'Public'
+	  GROUP BY id
+	  ORDER BY rank DESC) AS results INNER JOIN "group" 
+              ON (results.id = "group".id);
 
 COMMIT;
