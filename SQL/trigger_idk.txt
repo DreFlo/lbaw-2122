@@ -1,0 +1,15 @@
+create or replace function check_in_group()
+returns trigger as '
+begin
+    if (new.group_id is not null and not exists (select * from membership where user_id = new.creator_id and group_id = new.group_id)) then
+        raise exception ''User not in group''; 
+    end if;
+    return null;
+end;'
+language plpgsql;
+
+drop trigger if exists no_user_content_in_group_if_not_in_group on "user_content";
+
+create trigger no_user_content_in_group_if_not_in_group
+before insert on "user_content" for each row
+execute procedure check_in_group();
