@@ -49,7 +49,7 @@ create table "user"
 (
     id serial,
     "name" text not null,
-    birthdate date not null,
+    birthdate date not null check (age(birthdate) >= '13 years'),
     email text not null unique,
     "password" text not null,
     admin_flag boolean not null default 'false',
@@ -476,9 +476,125 @@ create trigger add_membership_on_group_req_update
 after update on "group_request" for each row
 execute procedure  check_new_membership_fn();
 
---insert into "user"("name", birthdate, email, "password") values('Andre', '2001-03-15', 'a@a.a', 'pass');
---insert into "user"("name", birthdate, email, "password") values('Tiago', '2001-05-11', 't@t.t', 'pass');
---insert into "group"("name") values('FEUP');
---insert into "user_content"("text", creator_id, priv_stat) values('Hi!', 1, 'Public');
---insert into "tag"(user_id, content_id) values(2, 1);
---select * from user_delete_fn(1);
+insert into "user"("name", birthdate, email, "password") values('Andre', '2001-03-15', 'a@a.a', 'pass');
+insert into "user"("name", birthdate, email, "password") values('Tiago', '2001-05-11', 't@t.t', 'pass');
+insert into "user"("name", birthdate, email, "password") values('Diogo', '2001-11-30', 'd@d.d', 'pass');
+insert into "user"("name", birthdate, email, "password") values('Mendes', '1998-10-21', 'm@m.m', 'pass');
+insert into "user"("name", birthdate, email, "password") values('Ana', '2000-02-23', 'ana@a.a', '1234567');
+insert into "user"("name", birthdate, email, "password") values('Miguel', '1997-01-01', 'miguel@mig.m', 'passe');
+insert into "user"("name", birthdate, email, "password") values('Joao', '2003-07-05', 'j@j.j', 'passsss');
+insert into "user"("name", birthdate, email, "password") values('Pedro', '1999-09-19', 'p@p.p', 'palavrapasse');
+insert into "user"("name", birthdate, email, "password") values('Maria', '1998-12-23', 'maria@m.ma', 'sim123');
+insert into "user"("name", birthdate, email, "password") values('Carlos', '2000-04-01', 'car@car.car', 'teste');
+insert into "user"("name", birthdate, email, "password") values('Sara', '1999-03-20', 's@s.s', 'teste123');
+insert into "user"("name", birthdate, email, "password") values('Manuel', '2002-01-13', 'man@man.m', 'exemplo');
+insert into "user"("name", birthdate, email, "password") values('Sofia', '1996-08-11', 'sof@sof.s', 'example');
+insert into "user"("name", birthdate, email, "password") values('Fernando', '1997-03-07', 'f@f.f', 'yup123');
+insert into "user"("name", birthdate, email, "password") values('Ariana', '2000-09-22', 'ari@ari.ari', 'naosei');
+insert into "user"("name", birthdate, email, "password") values('Julio', '1995-10-31', 'jul@jul.j', 'esqueci_me');
+insert into "user"("name", birthdate, email, "password") values('Paula', '2000-06-25', 'pa@pa.pa', 'strongpass');
+insert into "user"("name", birthdate, email, "password") values('Marco', '1998-03-18', 'mar@mar.mar', 'lockedin');
+insert into "user"("name", birthdate, email, "password") values('Alice', '1999-09-23', 'ali@ali.a', '123exemplo');
+insert into "user"("name", birthdate, email, "password") values('Rui', '1999-09-19', 'r@ru.rui', '123321');
+insert into "user"("name", birthdate, email, "password") values('Carolina', '2002-10-04', 'carol@c.car', 'numeros');
+
+insert into "friendship"(user_1, user_2) values(2,8);
+insert into "friendship"(user_1, user_2) values(8,14);
+insert into "friendship"(user_1, user_2) values(1,3);
+insert into "friendship"(user_1, user_2) values(2,16);
+insert into "friendship"(user_1, user_2) values(10,6);
+insert into "friendship"(user_1, user_2) values(7,1);
+insert into "friendship"(user_1, user_2) values(8,3);
+insert into "friendship"(user_1, user_2) values(16,12);
+insert into "friendship"(user_1, user_2) values(12,18);
+insert into "friendship"(user_1, user_2) values(3,5);
+
+insert into "group"("name", creator_id) values('FEUP', 1);
+insert into "group"("name", creator_id) values('TechNerds', 1);
+insert into "group"("name", creator_id) values('HarryPotter Fans', 2);
+insert into "group"("name", creator_id) values('Book Geeks', 3);
+insert into "group"("name", creator_id) values('Gaming Community', 3);
+insert into "group"("name", creator_id) values('Influencers', 4);
+insert into "group"("name", creator_id) values('FoodLovers', 4);
+insert into "group"("name", creator_id) values('_ShareMusic_', 4);
+insert into "group"("name", creator_id) values('MathGeniuses', 3);
+insert into "group"("name", creator_id) values('AnimeAddicted', 1);
+
+insert into "membership"(user_id, group_id) values(2,1);
+insert into "membership"(user_id, group_id) values(2,2);
+insert into "membership"(user_id, group_id) values(2,4);
+insert into "membership"(user_id, group_id) values(2,5);
+insert into "membership"(user_id, group_id) values(2,6);
+insert into "membership"(user_id, group_id) values(2,7);
+insert into "membership"(user_id, group_id) values(2,8);
+insert into "membership"(user_id, group_id) values(2,9);
+insert into "membership"(user_id, group_id) values(2,10);
+insert into "membership"(user_id, group_id) values(1,5);
+
+insert into "user_content"("text", creator_id, group_id, priv_stat) values('Hi!', 1, 2, 'Public');
+insert into "user_content"("text", creator_id, group_id, priv_stat) values('My recent trip was quite satisfying!', 2, null, 'Private');
+insert into "user_content"("text", creator_id, group_id, priv_stat) values('Your mission is not just difficult, it is impossible.', 3, 5, 'Public');
+insert into "user_content"("text", creator_id, group_id, priv_stat) values('The word SUN has only one syllable.', 1, 6, 'Public');
+insert into "user_content"("text", creator_id, group_id, priv_stat) values('Hi! It is often said that cats have nine lives but that is really just a myth.', 5, 1, 'Public');
+insert into "user_content"("text", creator_id, group_id, priv_stat) values('Clowns like to display humor!', 2, null, 'Private');
+insert into "user_content"("text", creator_id, group_id, priv_stat) values('I have been busier these days due to having a lot on my plate.', 5, 3, 'Public');
+insert into "user_content"("text", creator_id, group_id, priv_stat) values('This... is... delicious!', 4, null, 'Public');
+insert into "user_content"("text", creator_id, group_id, priv_stat) values('I finally got a new bike!', 7, null, 'Private');
+insert into "user_content"("text", creator_id, group_id, priv_stat) values('Thank you for repaying the favor when you didnt have to.', 1, 7, 'Public');
+insert into "user_content"("text", creator_id, group_id, priv_stat) values('Share', 1, null, 'Public');
+
+insert into "post"(id) values(1);
+insert into "post"(id) values(2);
+insert into "post"(id) values(3);
+insert into "post"(id) values(4);
+insert into "post"(id) values(5);
+
+insert into "comment"(id, parent_id) values(6, 2);
+insert into "comment"(id, parent_id) values(8, 2);
+insert into "comment"(id, parent_id) values(9, 2);
+
+insert into "share"(id, post_id) values(10,2);
+
+insert into "tag"(user_id, content_id) values(3, 1);
+insert into "tag"(user_id, content_id) values(5, 7);
+insert into "tag"(user_id, content_id) values(2, 1);
+insert into "tag"(user_id, content_id) values(8, 10);
+insert into "tag"(user_id, content_id) values(7, 5);
+insert into "tag"(user_id, content_id) values(1, 1);
+insert into "tag"(user_id, content_id) values(6, 3);
+insert into "tag"(user_id, content_id) values(9, 3);
+insert into "tag"(user_id, content_id) values(2, 5);
+insert into "tag"(user_id, content_id) values(10, 10);
+
+insert into "like"(user_id, content_id) values(1, 3);
+insert into "like"(user_id, content_id) values(16, 2);
+insert into "like"(user_id, content_id) values(7, 7);
+insert into "like"(user_id, content_id) values(4, 8);
+insert into "like"(user_id, content_id) values(10, 1);
+insert into "like"(user_id, content_id) values(1, 7);
+insert into "like"(user_id, content_id) values(8, 7);
+insert into "like"(user_id, content_id) values(8, 6);
+insert into "like"(user_id, content_id) values(13, 4);
+insert into "like"(user_id, content_id) values(18, 1);
+
+insert into "friend_request"(requester_id, target_id) values(18, 2);
+insert into "friend_request"(requester_id, target_id) values(15, 10);
+insert into "friend_request"(requester_id, target_id) values(6, 11);
+insert into "friend_request"(requester_id, target_id) values(7, 8);
+insert into "friend_request"(requester_id, target_id) values(12, 7);
+insert into "friend_request"(requester_id, target_id) values(19, 5);
+insert into "friend_request"(requester_id, target_id) values(5, 1);
+insert into "friend_request"(requester_id, target_id) values(1, 17);
+insert into "friend_request"(requester_id, target_id) values(4, 19);
+insert into "friend_request"(requester_id, target_id) values(14, 3);
+
+insert into "group_request"(user_id, group_id, invite) values(1, 3, true);
+insert into "group_request"(user_id, group_id, invite) values(3, 6, false);
+insert into "group_request"(user_id, group_id, invite) values(5, 1, true);
+insert into "group_request"(user_id, group_id, invite) values(7, 2, true);
+insert into "group_request"(user_id, group_id, invite) values(9, 7, false);
+insert into "group_request"(user_id, group_id, invite) values(11, 9, false);
+insert into "group_request"(user_id, group_id, invite) values(13, 10, true);
+insert into "group_request"(user_id, group_id, invite) values(15, 3, false);
+insert into "group_request"(user_id, group_id, invite) values(17, 4, false);
+insert into "group_request"(user_id, group_id, invite) values(19, 5, true);
