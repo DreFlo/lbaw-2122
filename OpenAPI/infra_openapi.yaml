@@ -1,0 +1,47 @@
+openapi: 3.1.0
+
+info:
+    version: '1.0'
+    title: 'LBAW Infra Web API'
+    description: 'Web Resources Specification (A7) for Infra'
+
+servers:
+    -   url : http://lbaw2192.lbaw.fe.up.pt
+        description : Server #Mudar
+
+externalDocs:
+    description: Find more info here
+    url: https://git.fe.up.pt/lbaw/lbaw2122/lbaw2192/-/wikis/EAP
+
+tags:
+    -   name: 'M01: Authentication and User Profile'
+    -   name: 'M02: Group'
+    -   name: 'M03: User Content'
+    -   name: 'M04: Notifications'
+    -   name: 'M05: Administration and Static Pages'
+
+paths:
+    /:
+        get:
+            operationId: R101
+            summary: 'R101: Login Form'
+            description: 'Provide login form. Access: PUB'
+            tags:
+                -   'M01: Authentication and User Profile'
+            responses:
+                '200':
+                    description: 'OK'
+        post:
+            operationId: R102
+            summary: 'IDK'
+    /users:
+        get:
+            operationId: R103
+            summary: 'smth'
+            description: 'smth'
+            parameters:
+                -   in: query
+                    name: 
+
+
+
