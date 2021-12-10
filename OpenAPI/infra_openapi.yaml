@@ -232,4 +232,291 @@ paths:
                 302Error:
                   description: 'Failed. Redirect to edit form'
                   value: '/profile/edit'
-                
+  /user_content/{id}:
+        get:
+            operationId: R301
+            summary: 'R301: View User Content Page'
+            description: 'Show user content page. Access: USR'
+            tags:
+                - 'M03: User Content'
+            parameters:
+                - in: path
+                  name: id
+                  description: User content ID
+                  schema:
+                    type: integer
+                  required: true
+            responses:
+                '200':
+                    description: 'OK'
+  /api/user_content:
+        get:
+            operationId: R302
+            summary: 'R302: Get All User Content'
+            description: 'Get All User Content. Access: USR'
+            tags:
+                - 'M03: User Content'
+            parameters:
+                - in: query
+                  name: group_id
+                  description: 'Group ID'
+                  schema:
+                    type: integer
+                - in: query
+                  name: creator_id
+                  description: 'Creator ID'
+                  schema:
+                    type: integer
+                - in: query
+                  name: text
+                  description: 'Text Query'
+                  schema:
+                    type: string
+                  required: false
+            responses:
+                '200':
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                              type: array
+                              items:
+                                $ref: '#/components/schemas/User_content' #???
+        put:
+            operationId: R303
+            summary: 'R303: Add new User Content'
+            description: 'Add new User Content. Access: USR'
+            tags:
+                - 'M03: User Content'
+            requestBody:
+                required: true
+                content:
+                application/json:
+                    schema:
+                    type: object
+                    properties:
+                        creator_id:
+                          type: integer
+                        text:
+                          type: string
+                        timestamp:
+                          type: string
+                        images:
+                          type: array
+                          items:
+                            type: string
+                    required:
+                        - creator_id
+                        - text
+            responses:
+                '201':
+                    $ref: '#/components/responses/create'
+                '403':
+                    description: 'Access Forbidden'
+  /api/user_content/{id}:
+        get:
+            operationId: R304
+            summary: 'R304: Get User Content'
+            description: 'Get User Content. Access: USR'
+            tags:
+                - 'M03: User Content'
+            parameters:
+                - in: path
+                  name: id
+                  description: User Content ID
+                  schema:
+                    type: integer
+                  required: true
+            responses:
+                '200':
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/User_content'
+                '404':
+                    description: Failure
+        delete:
+            operationId: R305
+            summary: 'R305: Delete User Content'
+            description: 'Delete User Content. Access: OWN MOD ADM'
+            tags:
+                - 'M03: User Content'
+            parameters:
+                - in: path
+                  name: id
+                  description: User Content ID
+                  schema:
+                    type: integer
+                  required: true
+            responses:
+                '200':
+                    $ref: '#/components/responses/delete'
+                '404':
+                    $ref: '#/components/responses/not_found'
+        patch:
+            operationId: R306
+            summary: 'R306: Update User Content'
+            description: 'Update User Content. Access: USR'
+            tags:
+                - 'M03: User Content'
+            parameters:
+                - in: path
+                  name: id
+                  description: User Content ID
+                  schema:
+                    type: integer
+                  required: true
+            requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                    properties:
+                        creator_id:
+                          type: integer
+                        text:
+                          type: string
+                        timestamp:
+                          type: string
+                        images:
+                          type: array
+                        items:
+                          type: string
+                    required:
+                        - creator_id
+                        - text
+            responses:
+                '200':
+                    $ref: '#/components/responses/update'
+                '404':
+                    $ref: '#/components/responses/not_found'
+  /api/user_content/posts/{id}:
+        get:
+            operationId: R307
+            summary: 'R307: Get User Content Posts'
+            description: 'Get User Content Posts. Access: USR'
+            tags:
+                - 'M03: User Content'
+            parameters:
+                - in: path
+                  name: id
+                  description: Post ID
+                  schema:
+                    type: integer
+                  required: true
+            responses:
+                '200':
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Post'
+                '404':
+                    $ref: '#/components/responses/not_found'
+  /api/user_content/comments/{id}:
+        get:
+            operationId: R308
+            summary: 'R308: Get User Content Comments'
+            description: 'Get User Content Comments. Access: USR'
+            tags:
+                - 'M03: User Content'
+            parameters:
+                - in: path
+                  name: id
+                  description: Comment ID
+                  schema:
+                    type: integer
+                  required: true
+            responses:
+                '200':
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Comment'
+                '404':
+                    $ref: '#/components/responses/not_found'
+  /api/user_content/{id}/likes:
+        get:
+            operationId: R3
+            summary: 'R3: Get User Content Likes'
+            description: 'Get User Content Likes. Access: USR'
+            tags:
+                - 'M03: User Content'
+            parameters:
+                - in: path
+                  name: id
+                  description: User Content ID
+                  schema:
+                    type: integer
+                  required: true
+            responses:
+                '200':
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                    user_id:
+                                        $ref: '#/components/schemas/User'
+                '404':
+                    description: User Content Not Found.
+  /api/user_content/{id}/shares:
+        get:
+            operationId: R3
+            summary: 'R3: Get User Content Shares'
+            description: 'Get User Content Shares. Access: USR'
+            tags:
+                - 'M03: User Content'
+            parameters:
+                - in: path
+                  name: id
+                  description: User Content ID
+                  schema:
+                    type: integer
+                  required: true
+            responses:
+                '200':
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Share'
+                '404':
+                    $ref: '#/components/responses/not_found'
+  /api/user_content/{id}/shares/{id_share}:
+        delete:
+            operationId: R3
+            summary: 'R3: Delete User Content Share'
+            description: 'Delete User Content Share. Access: OWN MOD ADM'
+            tags:
+                - 'M03: User Content'
+            parameters:
+                - in: path
+                  name: id
+                  description: User Content ID
+                  schema:
+                    type: integer
+                  required: true
+                - in: path
+                  name: id_share
+                  description: Share ID
+                  schema:
+                    type: integer
+                  required: true
+            responses:
+                '200':
+                    $ref: '#/components/responses/delete'
+                '404':
+                    $ref: '#/components/responses/not_found'
