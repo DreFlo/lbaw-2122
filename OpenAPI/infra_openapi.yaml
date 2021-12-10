@@ -757,3 +757,88 @@ paths:
                     $ref: '#/components/responses/delete'
                 '404':
                     $ref: '#/components/responses/not_found'
+  /api/user_content/{id}/tags:
+        get:
+            operationId: R320
+            summary: 'R320: Get User Content Tags'
+            description: 'Get User Content Tags. Access: USR'
+            tags:
+                - 'M03: User Content'
+            parameters:
+                - in: path
+                  name: id
+                  description: User Content ID
+                  schema:
+                    type: integer
+                  required: true
+            responses:
+                '200':
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Tag'
+                '404':
+                    $ref: '#/components/responses/not_found'
+        put:
+          operationId: R321
+          summary: 'R321: Add User Content Tag'
+          description: 'Add User Content Tag. Access: USR'
+          tags:
+            - 'M03: User Content'
+          parameters:
+            - in: path
+              name: id
+              description: User Content ID
+              schema:
+                type: integer
+              required: true
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    content_id:
+                      type: integer
+                    user_id:
+                      type: integer
+                  required:
+                    - content_id
+                    - user_id
+                  example:
+                    content_id: 3 
+                    user_id: 8
+          responses:
+            '201':
+              $ref: '#/components/responses/create'
+            '404':
+              $ref: '#/components/responses/not_found'
+  /api/user_content/{id}/tags/{id_tag}:
+        delete:
+            operationId: R322
+            summary: 'R322: Delete User Content Tag'
+            description: 'Delete User Content Tag. Access: OWN ADM'
+            tags:
+                - 'M03: User Content'
+            parameters:
+                - in: path
+                  name: id
+                  description: User Content ID
+                  schema:
+                    type: integer
+                  required: true
+                - in: path
+                  name: id_tag
+                  description: Tag ID
+                  schema:
+                    type: integer
+                  required: true
+            responses:
+                '200':
+                    $ref: '#/components/responses/delete'
+                '404':
+                    $ref: '#/components/responses/not_found'
