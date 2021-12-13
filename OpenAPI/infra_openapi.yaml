@@ -1123,7 +1123,11 @@ paths:
           description: Post ID
           schema:
             type: integer
-      responses: TODO
+      responses:
+        '200':
+          description: 'Success'
+        '404':
+          description: 'Not Found!'
   /notifications/request:
     get:
       operationId: R403
@@ -1159,7 +1163,11 @@ paths:
       description: ' Delete Request Notifications such as Friend or Group Request Notifications'
       tags:
         - 'M04: Notifications'
-      responses: TODO
+      responses: 
+        '200':
+          description: 'Success'
+        '404':
+          description: 'Not Found!'
   /notifications/invite:
     get:
       operationId: R405
@@ -1188,6 +1196,9 @@ paths:
       description: 'Delete Invite Notifications from Groups'
       responses:
         '200':
+          description: 'Success'
+        '404':
+          description: 'Not Found!'
         
 
   
