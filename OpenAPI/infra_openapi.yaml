@@ -105,7 +105,7 @@ paths:
       requestBody:
         required: true
         content:
-          application/x-www-form-urlencoded:
+          multipart/form-data:
             schema:
               type: object
               properties:
@@ -121,8 +121,10 @@ paths:
                   type: string
                 profile_pic:
                   type: string
+                  default: default_profile
                 cover_pic:
                   type: string
+                  default: default_cover
                 priv_stat:
                   type: string
                   enum: [Public, Private]
@@ -133,6 +135,8 @@ paths:
                 - password_confirmation
                 - birthdate
                 - priv_stat
+                - profile_pic
+                - cover_pic
       responses:
         '302':
           description: 'Redirect after processing new user'
@@ -232,6 +236,214 @@ paths:
                 302Error:
                   description: 'Failed. Redirect to edit form'
                   value: '/profile/edit'
+  /profile/edit/delete:
+    get:
+      operationId: R111
+      summary: 'R111: Delete Account'
+      description: 'Show deletion page. Access: OWN'
+      tags:
+        - 'M01: Authentication and User Profile'
+      responses:
+        '200':
+          description: 'OK. Sow deletion page.'
+    post:
+      operationId: R112
+      summary: 'R112: Delete Account Action'
+      description: 'Process account deletion. Access: OWN'
+      tags:
+        - 'M01: Authentication and User Profile'
+      responses:
+        '302':
+          description: 'Redirect after deletion.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Success. Go to welcome'
+                  value: '/welcome'
+                302Failure:
+                  description: 'Failed. Redirect to edit.'
+                  value: '/profile/edit'
+  /profile/groups:
+    get:
+      operationId: R112
+      summary: 'R112: Get users groups.'
+      description: 'Get a user''s groups.'
+      tags:
+        - 'M01: Authentication and User Profile'
+      parameters:
+        - in : query
+          name: uid
+          schema: 
+            type: integer 
+          description: User ID
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Membership'
+  /profile/friends:
+    get:
+      operationId: R113
+      summary: 'R113: Get user''s friends.'
+      description: 'Get user''s friends.'
+      tags:
+        - 'M01: Authentication and User Profile'
+      parameters:
+        - in : query
+          name: uid
+          schema: 
+            type: integer 
+          description: User ID
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Friendship'
+  /group/create:
+    get:
+      operationId: R201
+      summary: 'R201: Create Group'
+      description: 'Show group creation page. Access: USR'
+      tags:
+      - 'M02: Group'
+      responses:
+        '200':
+          description: 'OK. Show group creation page'
+    post:
+      operationId: R202
+      summary: 'R202: Create Group'
+      description: 'Process group creation. Access: USR'
+      tags:
+      - 'M02: Group'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                cover_pic:
+                  type: string
+                priv_stat:
+                  type: string
+                  enum: [Public, Private]
+              required:
+              - name
+              - cover_pic
+              - priv_stat        
+      responses:
+        '302':
+          description: 'Redirect after creating new group.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Successful group creation. Redirect to created group.'
+                  value: '/group/{id}'
+                302Error:
+                  description: 'Failed group creation. Redirect to group creation page.'
+                  value: '/group/create'
+  /group/{id}:
+    get:
+      operationId: R203
+      summary: 'R203: View Group'
+      description: 'Show group page. Access: USR'
+      tags:
+        - 'M02: Group'
+      parameters:
+        - in: path
+          name: id
+          description: 'Group ID'
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: 'OK. Show group page.'
+  /group/{id}/info:
+      get:
+        operationId: R204
+        summary: 'R204: View group information page'
+        description: 'Show group information page. Access: USR'
+        tags:
+          - 'M02: Group'
+        parameters:
+          - in: path
+            name: id
+            description: 'Group ID'
+            schema:
+              type: integer
+            required: true
+        responses:
+          '200':
+            description: 'Ok. Show group information page.'
+  /group/{id}/edit:
+    get:
+      operationId: R205
+      summary: 'R204: Edit group information'
+      description: 'Edit group description. Access: MOD'
+      tags:
+        - 'M02: Group'
+      parameters:
+        - in: path
+          name: id
+          description: 'Group ID'
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: 'Ok. Show group edit information page.'
+    patch:
+      operationId: R206
+      summary: 'R205: Process edit group information'
+      description: 'Process edit group information. Access: MOD'
+      tags:
+        - 'M02: Group'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                cover_pic:
+                  type: string
+                priv_status:
+                  type: string
+                  enum: [Public, Private]
+      responses:
+        '302':
+          description: 'Redirect to edit group information page.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Successful group edit Redirect to edit information page.'
+                  value: '/group/{id}/edit'
+                302Error:
+                  description: 'Failed group edit. Redirect to edit information page.'
+                  value: '/group/{id}/edit'
+  
   /user_content/{id}:
         get:
             operationId: R301
@@ -520,3 +732,98 @@ paths:
                     $ref: '#/components/responses/delete'
                 '404':
                     $ref: '#/components/responses/not_found'
+
+components:
+  schemas:
+    Privacy_Status:
+      type: string
+      enum: [Public, Private, Anonymous, Banned]
+
+    Image:
+      type: object
+      properties:
+        id: 
+          type: integer
+        alt:
+          type: string
+        path: 
+          type: string
+      required:
+        - id
+        - path
+      example: 
+        - id: 1
+          alt: Various fishes
+          path: ./fishes.png
+
+    User:
+      type: object
+      properties:
+        id: 
+          type: integer
+        name:
+          type: string
+        birthdate:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        admin_flag:
+          type: boolean
+        profile_pic:
+          $ref: '#/components/schemas/Image'
+        cover_pic:
+          $ref: '#/components/schemas/Image'
+        priv_stat:
+          $ref: '#/components/schemas/Privacy_Status'
+      required:
+        - id
+        - name
+        - birthdate
+        - email
+        - priv_stat
+      example: 
+        - id: 1
+          name: Ada Lovelace
+          birthdate: '1970-01-01'
+          email: ada@lovelace.com
+          priv_stat: Public
+
+    Group:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        creation_date:
+          type: string
+        cover_pic:
+          $ref: '#/components/schemas/Image'
+        creator:
+          $ref: '#/components/schemas/User'
+        priv_stat:
+          $ref: '#/components/schemas/Privacy_Status'
+      required:
+        - id
+        - name
+        - creation_date
+        - creator
+        - priv_stat
+                
+    Membership:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/User'
+        group:
+          $ref: '#/components/schemas/Group'
+
+    Friendship:
+      type: object
+      properties:
+        user_1:
+          $ref: '#/components/schemas/User'
+        user_2:
+          $ref: '#/components/schemas/User'
