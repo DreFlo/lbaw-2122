@@ -22,6 +22,16 @@ tags:
     -   name: 'M05: Administration and Static Pages'
 
 paths:
+  /:
+    get:
+      operationId: R100
+      summary: 'R100: Landing page'
+      description: 'Provide Welcome or Timeline. Access: PUB'
+      tags:
+        - 'M01: Authentication and User Profile'
+      responses:
+        '200':
+          description: 'OK. Show page.'
   /welcome:
     get:
       operationId: R101
@@ -106,7 +116,7 @@ paths:
       requestBody:
         required: true
         content:
-          application/x-www-form-urlencoded:
+          multipart/form-data:
             schema:
               type: object
               properties:
@@ -122,8 +132,10 @@ paths:
                   type: string
                 profile_pic:
                   type: string
+                  default: default_profile
                 cover_pic:
                   type: string
+                  default: default_cover
                 priv_stat:
                   type: string
                   enum: [Public, Private]
@@ -134,6 +146,8 @@ paths:
                 - password_confirmation
                 - birthdate
                 - priv_stat
+                - profile_pic
+                - cover_pic
       responses:
         '302':
           description: 'Redirect after processing new user'
@@ -233,6 +247,225 @@ paths:
                 302Error:
                   description: 'Failed. Redirect to edit form'
                   value: '/profile/edit'
+  /profile/edit/delete:
+    get:
+      operationId: R111
+      summary: 'R111: Delete Account'
+      description: 'Show deletion page. Access: OWN'
+      tags:
+        - 'M01: Authentication and User Profile'
+      responses:
+        '200':
+          description: 'OK. Sow deletion page.'
+    post:
+      operationId: R112
+      summary: 'R112: Delete Account Action'
+      description: 'Process account deletion. Access: OWN'
+      tags:
+        - 'M01: Authentication and User Profile'
+      responses:
+        '302':
+          description: 'Redirect after deletion.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Success. Go to welcome'
+                  value: '/welcome'
+                302Failure:
+                  description: 'Failed. Redirect to edit.'
+                  value: '/profile/edit'
+  /profile/groups:
+    get:
+      operationId: R112
+      summary: 'R112: Get users groups.'
+      description: 'Get a user''s groups.'
+      tags:
+        - 'M01: Authentication and User Profile'
+      parameters:
+        - in : query
+          name: uid
+          schema: 
+            type: integer 
+          description: User ID
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Membership'
+  /profile/friends:
+    get:
+      operationId: R113
+      summary: 'R113: Get user''s friends.'
+      description: 'Get user''s friends.'
+      tags:
+        - 'M01: Authentication and User Profile'
+      parameters:
+        - in : query
+          name: uid
+          schema: 
+            type: integer 
+          description: User ID
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Friendship'
+  /timeline:
+    get:
+      operationId: R114
+      summary: 'R114: Timeline'
+      description: 'Show a User''s timeline. Access: USR'
+      tags:
+        - 'M01: Authentication and User Profile'
+      responses:
+        '200':
+          description: 'OK. Show page.'
+          
+  /group/create:
+    get:
+      operationId: R201
+      summary: 'R201: Create Group'
+      description: 'Show group creation page. Access: USR'
+      tags:
+      - 'M02: Group'
+      responses:
+        '200':
+          description: 'OK. Show group creation page'
+    post:
+      operationId: R202
+      summary: 'R202: Create Group'
+      description: 'Process group creation. Access: USR'
+      tags:
+      - 'M02: Group'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                cover_pic:
+                  type: string
+                priv_stat:
+                  type: string
+                  enum: [Public, Private]
+              required:
+              - name
+              - cover_pic
+              - priv_stat        
+      responses:
+        '302':
+          description: 'Redirect after creating new group.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Successful group creation. Redirect to created group.'
+                  value: '/group/{id}'
+                302Error:
+                  description: 'Failed group creation. Redirect to group creation page.'
+                  value: '/group/create'
+  /group/{id}:
+    get:
+      operationId: R203
+      summary: 'R203: View Group'
+      description: 'Show group page. Access: USR'
+      tags:
+        - 'M02: Group'
+      parameters:
+        - in: path
+          name: id
+          description: 'Group ID'
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: 'OK. Show group page.'
+  /group/{id}/info:
+      get:
+        operationId: R204
+        summary: 'R204: View group information page'
+        description: 'Show group information page. Access: USR'
+        tags:
+          - 'M02: Group'
+        parameters:
+          - in: path
+            name: id
+            description: 'Group ID'
+            schema:
+              type: integer
+            required: true
+        responses:
+          '200':
+            description: 'Ok. Show group information page.'
+  /group/{id}/edit:
+    get:
+      operationId: R205
+      summary: 'R204: Edit group information'
+      description: 'Edit group description. Access: MOD'
+      tags:
+        - 'M02: Group'
+      parameters:
+        - in: path
+          name: id
+          description: 'Group ID'
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: 'Ok. Show group edit information page.'
+    patch:
+      operationId: R206
+      summary: 'R205: Process edit group information'
+      description: 'Process edit group information. Access: MOD'
+      tags:
+        - 'M02: Group'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                cover_pic:
+                  type: string
+                priv_status:
+                  type: string
+                  enum: [Public, Private]
+      responses:
+        '302':
+          description: 'Redirect to edit group information page.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Successful group edit Redirect to edit information page.'
+                  value: '/group/{id}/edit'
+                302Error:
+                  description: 'Failed group edit. Redirect to edit information page.'
+                  value: '/group/{id}/edit'
+  
   /user_content/{id}:
         get:
             operationId: R301
@@ -396,8 +629,8 @@ paths:
   /api/user_content/posts/{id}:
         get:
             operationId: R307
-            summary: 'R307: Get User Content Posts'
-            description: 'Get User Content Posts. Access: USR'
+            summary: 'R307: Get User Content Post'
+            description: 'Get User Content Post. Access: USR'
             tags:
                 - 'M03: User Content'
             parameters:
@@ -418,10 +651,67 @@ paths:
                                     $ref: '#/components/schemas/Post'
                 '404':
                     $ref: '#/components/responses/not_found'
-  /api/user_content/comments/{id}:
+        delete:
+          operationId: R308
+          summary: 'R308: Delete User Content Post'
+          description: 'Delete User Content Post. Access: OWN MOD ADM'
+          tags:
+              - 'M03: User Content'
+          parameters:
+            - in: path
+              name: id
+              description: Post ID
+          schema:
+            type: integer
+          required: true
+          responses:
+            '200':
+              $ref: '#/components/responses/delete'
+            '404':
+              $ref: '#/components/responses/not_found'
+        patch:
+          operationId: R309
+          summary: 'R309: Update User Content Post'
+          description: 'Update User Content Post. Access: USR'
+          tags:
+            - 'M03: User Content'
+          parameters:
+            - in: path
+              name: id
+              description: Post ID
+              schema:
+                type: integer
+              required: true
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    pic_1:
+                      type: integer
+                    pic_2:
+                      type: integer
+                    pic_3:
+                      type: integer
+                    pic_4:
+                      type: integer
+                    pic_5:
+                      type: integer
+                  required:
+                    - id
+          responses:
+            '200':
+              $ref: '#/components/responses/update'
+            '404':
+              $ref: '#/components/responses/not_found'
+  /api/user_content/{id}/comments:
         get:
-            operationId: R308
-            summary: 'R308: Get User Content Comments'
+            operationId: R310
+            summary: 'R310: Get User Content Comments'
             description: 'Get User Content Comments. Access: USR'
             tags:
                 - 'M03: User Content'
@@ -443,10 +733,94 @@ paths:
                                     $ref: '#/components/schemas/Comment'
                 '404':
                     $ref: '#/components/responses/not_found'
+        put:
+          operationId: R311
+          summary: 'R311: Add User Content Comment'
+          description: 'Add User Content Comment. Access: USR'
+          tags:
+            - 'M03: User Content'
+          parameters:
+            - in: path
+              name: id
+              description: User Content ID
+              schema:
+                type: integer
+              required: true
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                  required:
+                    - id
+                  example:
+                    id: 12
+          responses:
+            '201':
+              $ref: '#/components/responses/create'
+            '404':
+              $ref: '#/components/responses/not_found'
+  /api/user_content/{id}/comments/{id_comment}:
+    get:
+      operationId: R312
+      summary: 'R312: Get User Content Comment'
+      description: 'Get User Content Comment. Access: USR'
+      tags:
+        - 'M03: User Content'
+      parameters:
+        - in: path
+          name: id
+          description: User Content ID
+          schema:
+            type: integer
+          required: true
+        - in: path
+          name: id_comment
+          description: Comment ID
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+        '404':
+          description: Failure
+    delete:
+      operationId: R313
+      summary: 'R313: Delete User Content Comment'
+      description: 'Delete User Content Comment. Access: OWN MOD ADM'
+      tags:
+        - 'M03: User Content'
+      parameters:
+        - in: path
+          name: id
+          description: User Content ID
+          schema:
+            type: integer
+          required: true
+        - in: path
+          name: id_comment
+          description: Comment ID
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          $ref: '#/components/responses/delete'
+        '404':
+          $ref: '#/components/responses/not_found'
   /api/user_content/{id}/likes:
         get:
-            operationId: R3
-            summary: 'R3: Get User Content Likes'
+            operationId: R314
+            summary: 'R314: Get User Content Likes'
             description: 'Get User Content Likes. Access: USR'
             tags:
                 - 'M03: User Content'
@@ -471,10 +845,71 @@ paths:
                                         $ref: '#/components/schemas/User'
                 '404':
                     description: User Content Not Found.
+        put:
+          operationId: R315
+          summary: 'R315: Add User Content Like'
+          description: 'Add User Content Like. Access: USR'
+          tags:
+            - 'M03: User Content'
+          parameters:
+            - in: path
+              name: id
+              description: User Content ID
+              schema:
+                type: integer
+              required: true
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    user_id:
+                      type: integer
+                  required:
+                    - user_id
+                  example:
+                    id: 4
+                    user_id: 7
+          responses:
+            '201':
+              description: Success
+              content:
+                text/plain:
+                  schema:
+                    type: string
+                  examples:
+                    201Success:
+                      description: Success adding user content like.
+                      value: Success
+                    201Failure:
+                      description: Failure adding user content like.
+                      value: Failure
+            '404':
+              description: User Content Not Found.
+        delete:
+          operationId: R316
+          summary: 'R316: Delete User Content Like'
+          description: 'Delete User Content Like. Access: OWN ADM'
+          tags:
+            - 'M03: User Content'
+          parameters:
+            - in: path
+              name: id
+              description: User Content ID
+              schema:
+                type: integer
+              required: true
+          responses:
+            '200':
+              $ref: '#/components/responses/delete'
+            '404':
+              $ref: '#/components/responses/not_found'
   /api/user_content/{id}/shares:
         get:
-            operationId: R3
-            summary: 'R3: Get User Content Shares'
+            operationId: R317
+            summary: 'R317: Get User Content Shares'
             description: 'Get User Content Shares. Access: USR'
             tags:
                 - 'M03: User Content'
@@ -496,10 +931,45 @@ paths:
                                     $ref: '#/components/schemas/Share'
                 '404':
                     $ref: '#/components/responses/not_found'
+        put:
+          operationId: R318
+          summary: 'R318: Add User Content Share'
+          description: 'Add User Content Share. Access: USR'
+          tags:
+            - 'M03: User Content'
+          parameters:
+            - in: path
+              name: id
+              description: User Content ID
+              schema:
+                type: integer
+              required: true
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    post_id:
+                      type: integer
+                    id:
+                      type: integer
+                  required:
+                    - post_id
+                    - id
+                  example:
+                    post_id: 2
+                    id: 5
+          responses:
+            '201':
+              $ref: '#/components/responses/create'
+            '404':
+              $ref: '#/components/responses/not_found'
   /api/user_content/{id}/shares/{id_share}:
         delete:
-            operationId: R3
-            summary: 'R3: Delete User Content Share'
+            operationId: R319
+            summary: 'R319: Delete User Content Share'
             description: 'Delete User Content Share. Access: OWN MOD ADM'
             tags:
                 - 'M03: User Content'
@@ -521,7 +991,93 @@ paths:
                     $ref: '#/components/responses/delete'
                 '404':
                     $ref: '#/components/responses/not_found'
-  
+  /api/user_content/{id}/tags:
+        get:
+            operationId: R320
+            summary: 'R320: Get User Content Tags'
+            description: 'Get User Content Tags. Access: USR'
+            tags:
+                - 'M03: User Content'
+            parameters:
+                - in: path
+                  name: id
+                  description: User Content ID
+                  schema:
+                    type: integer
+                  required: true
+            responses:
+                '200':
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Tag'
+                '404':
+                    $ref: '#/components/responses/not_found'
+        put:
+          operationId: R321
+          summary: 'R321: Add User Content Tag'
+          description: 'Add User Content Tag. Access: USR'
+          tags:
+            - 'M03: User Content'
+          parameters:
+            - in: path
+              name: id
+              description: User Content ID
+              schema:
+                type: integer
+              required: true
+          requestBody:
+            required: true
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    content_id:
+                      type: integer
+                    user_id:
+                      type: integer
+                  required:
+                    - content_id
+                    - user_id
+                  example:
+                    content_id: 3 
+                    user_id: 8
+          responses:
+            '201':
+              $ref: '#/components/responses/create'
+            '404':
+              $ref: '#/components/responses/not_found'
+  /api/user_content/{id}/tags/{id_tag}:
+    delete:
+            operationId: R322
+            summary: 'R322: Delete User Content Tag'
+            description: 'Delete User Content Tag. Access: OWN ADM'
+            tags:
+                - 'M03: User Content'
+            parameters:
+                - in: path
+                  name: id
+                  description: User Content ID
+                  schema:
+                    type: integer
+                  required: true
+                - in: path
+                  name: id_tag
+                  description: Tag ID
+                  schema:
+                    type: integer
+                  required: true
+            responses:
+                '200':
+                    $ref: '#/components/responses/delete'
+                '404':
+                    $ref: '#/components/responses/not_found'
+
+
   /notifications/post:
     get:
       operationId: R401
@@ -634,14 +1190,101 @@ paths:
         '200':
         
 
-
-
-
-
   
 
 components:
   schemas:
+    Privacy_Status:
+      type: string
+      enum: [Public, Private, Anonymous, Banned]
+
+    Image:
+      type: object
+      properties:
+        id: 
+          type: integer
+        alt:
+          type: string
+        path: 
+          type: string
+      required:
+        - id
+        - path
+      example: 
+        - id: 1
+          alt: Various fishes
+          path: ./fishes.png
+    User:
+      type: object
+      properties:
+        id: 
+          type: integer
+        name:
+          type: string
+        birthdate:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        admin_flag:
+          type: boolean
+        profile_pic:
+          $ref: '#/components/schemas/Image'
+        cover_pic:
+          $ref: '#/components/schemas/Image'
+        priv_stat:
+          $ref: '#/components/schemas/Privacy_Status'
+      required:
+        - id
+        - name
+        - birthdate
+        - email
+        - priv_stat
+      example: 
+        - id: 1
+          name: Ada Lovelace
+          birthdate: '1970-01-01'
+          email: ada@lovelace.com
+          priv_stat: Public
+
+    Group:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        creation_date:
+          type: string
+        cover_pic:
+          $ref: '#/components/schemas/Image'
+        creator:
+          $ref: '#/components/schemas/User'
+        priv_stat:
+          $ref: '#/components/schemas/Privacy_Status'
+      required:
+        - id
+        - name
+        - creation_date
+        - creator
+        - priv_stat
+                
+    Membership:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/User'
+        group:
+          $ref: '#/components/schemas/Group'
+
+    Friendship:
+      type: object
+      properties:
+        user_1:
+          $ref: '#/components/schemas/User'
+        user_2:
+          $ref: '#/components/schemas/User'
     LikeNotifications:
       type: object
       properties:
@@ -677,6 +1320,7 @@ components:
         "timestamp": '2021-12-10 11:41'
         seen: false
         comment_id: 1
+    
     TagNotifications:
       type: object
       properties:
@@ -773,4 +1417,3 @@ components:
         seen: false
         group_id: 3
         "user_id": 1
-        
