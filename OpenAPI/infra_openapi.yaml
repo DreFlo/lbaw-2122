@@ -21,6 +21,16 @@ tags:
     -   name: 'M05: Administration and Static Pages'
 
 paths:
+  /:
+    get:
+      operationId: R100
+      summary: 'R100: Landing page'
+      description: 'Provide Welcome or Timeline. Access: PUB'
+      tags:
+        - 'M01: Authentication and User Profile'
+      responses:
+        '200':
+          description: 'OK. Show page.'
   /welcome:
     get:
       operationId: R101
@@ -310,7 +320,17 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Friendship'
-                  
+  /timeline:
+    get:
+      operationId: R114
+      summary: 'R114: Timeline'
+      description: 'Show a User''s timeline. Access: USR'
+      tags:
+        - 'M01: Authentication and User Profile'
+      responses:
+        '200':
+          description: 'OK. Show page.'
+          
   /group/create:
     get:
       operationId: R201
