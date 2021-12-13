@@ -233,7 +233,7 @@ create table "group_invite_notification"
     "timestamp" timestamptz not null default now(),
     seen boolean not null default 'false',
     group_id integer not null,
-    user_id integer not null,
+    "user_id" integer not null,
 	constraint fk_group_id foreign key(group_id) references "group"(id),
 	constraint fk_user_id foreign key(user_id) references "user"(id),
 	constraint no_future_dates check ("timestamp" <= now())
