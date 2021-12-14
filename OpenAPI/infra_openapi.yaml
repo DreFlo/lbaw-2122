@@ -415,30 +415,29 @@ paths:
           '200':
             description: 'Ok. Show group information page.'
   /group/{id}/edit:
-    get:
-      operationId: R205
-      summary: 'R204: Edit group information'
-      description: 'Edit group description. Access: MOD'
-      tags:
-        - 'M02: Group'
-      parameters:
+    parameters:
         - in: path
           name: id
           description: 'Group ID'
           schema:
             type: integer
           required: true
+    get:
+      operationId: R205
+      summary: 'R205: Edit group information'
+      description: 'Edit group description. Access: MOD'
+      tags:
+        - 'M02: Group'
       responses:
         '200':
           description: 'Ok. Show group edit information page.'
     patch:
       operationId: R206
-      summary: 'R205: Process edit group information'
+      summary: 'R206: Process edit group information'
       description: 'Process edit group information. Access: MOD'
       tags:
         - 'M02: Group'
       requestBody:
-        required: true
         content:
           multipart/form-data:
             schema:
@@ -465,6 +464,141 @@ paths:
                 302Error:
                   description: 'Failed group edit. Redirect to edit information page.'
                   value: '/group/{id}/edit'
+    delete:
+      operationID: R207
+      summary: 'R207: Delete group'
+      description: 'Delete group. Access: MOD ADM'
+      tags:
+        - 'M02: Group'
+      responses:
+        '302':
+          description: 'Redirect after deleting group.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Successful group deletion. Redirect to timeline.'
+                  value: '/timeline'
+                302Error:
+                  description: 'Failed group deletion. Redirect to information page.'
+                  value: '/group/{id}/edit'
+  /group/{id}/members:
+    get:
+      operationID: R208
+      summary: 'R208: Get group members.'
+      description: 'Get group members. Access USR'
+      tags:
+        - 'M02: Group'
+      parameters:
+        - in: path
+          name: id
+          description: 'Group ID'
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: 'Ok. show memberships.'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Membership'
+  /group/{id}/members/{user_id}:
+    parameters:
+        - in: path
+          name: id
+          description: 'Group ID'
+          schema:
+            type: integer
+          required: true
+        - in: path
+          name: user_id
+          description: 'User ID'
+          schema:
+            type: integer
+          required: true
+    get:
+      operationID: R209
+      summary: 'R209: View group member and role.'
+      description: 'View group member and role. Access: USR'
+      tags:
+        - 'M02: Group'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Membership'
+    patch:
+      operationID: R210
+      summary: 'R210: Change group member role.'
+      description: 'Change group member role. Access: MOD'
+      tags:
+        - 'M02: Group'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                moderator: 
+                  type: boolean
+              required:
+                  - moderator
+    delete:
+      operationID: 'R211'
+      summary: 'R211: Delete group member.'
+      description: 'Delete group member. Access: MOD'
+      tags:
+        - 'M02: Group'
+      responses:
+        '302':
+          description: 'Redirect after deleting group member.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Successful member deletion. Redirect to group members list.'
+                  value: '/group/{id}/members'
+                303failure:
+                  description: 'Failed member deletion. Redirect to group member page.'
+                  value: 'group/{id}/members/{user_id}'
+  /group/{id}/requests:
+    parameters:
+        - in : path
+          name: id
+          description: 'Group ID'
+          schema: 
+            type: integer
+          required: true
+    get:
+      operationId: R212
+      summary: 'R212: Get group requests'
+      description: 'R212: Get group requests. Access: MOD'
+      tags:
+        - 'M02: Group'
+      responses:
+        '200':
+          description: 'Ok. Show groups requests.'
+    put:
+      operationId: R213
+      summary: 'R213: Add group request'
+      description: 'R213: Add group request. Access MOD'
+      tags:
+        - 'M02: Group'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/schemas/User'
   
   /user_content/{id}:
         get:
@@ -1188,9 +1322,6 @@ paths:
       description: 'Delete Invite Notifications from Groups'
       responses:
         '200':
-        
-
-  
 
 components:
   schemas:
@@ -1277,6 +1408,10 @@ components:
           $ref: '#/components/schemas/User'
         group:
           $ref: '#/components/schemas/Group'
+        moderator:
+          type: boolean
+        example:
+          moderator: false
 
     Friendship:
       type: object
