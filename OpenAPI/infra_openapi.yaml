@@ -331,6 +331,28 @@ paths:
       responses:
         '200':
           description: 'OK. Show page.'
+  /profile/friend_requests:
+    get:
+      operationId: R115
+      summary: 'R115: Friend Requests'
+      description: 'Show User''s friend requests'
+      tags:
+        - 'M01: Authentication and User Profile'
+      responses:
+        '200':
+          description: 'OK. Show page.'
+  /profile/group_requests:
+    get:
+      operationId: R116
+      summary: 'R116: Friend Requests'
+      description: 'Show User''s group requests'
+      tags:
+        - 'M01: Authentication and User Profile'
+      responses:
+        '200':
+          description: 'OK. Show page.'
+
+
           
   /group/create:
     get:
@@ -486,7 +508,7 @@ paths:
                   value: '/group/{id}/edit'
   /group/{id}/members:
     get:
-      operationID: R208
+      operationId: R208
       summary: 'R208: Get group members.'
       description: 'Get group members. Access USR'
       tags:
@@ -522,7 +544,7 @@ paths:
             type: integer
           required: true
     get:
-      operationID: R209
+      operationId: R209
       summary: 'R209: View group member and role.'
       description: 'View group member and role. Access: USR'
       tags:
@@ -534,7 +556,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Membership'
     patch:
-      operationID: R210
+      operationId: R210
       summary: 'R210: Change group member role.'
       description: 'Change group member role. Access: MOD'
       tags:
@@ -551,7 +573,7 @@ paths:
               required:
                   - moderator
     delete:
-      operationID: 'R211'
+      operationId: 'R211'
       summary: 'R211: Delete group member.'
       description: 'Delete group member. Access: MOD'
       tags:
