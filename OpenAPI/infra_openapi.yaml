@@ -487,7 +487,7 @@ paths:
                   description: 'Failed group edit. Redirect to edit information page.'
                   value: '/group/{id}/edit'
     delete:
-      operationID: R207
+      operationId: R207
       summary: 'R207: Delete group'
       description: 'Delete group. Access: MOD ADM'
       tags:
@@ -551,6 +551,7 @@ paths:
         - 'M02: Group'
       responses:
         '200':
+          description: 'Ok. Show group member and role.'
           content:
             application/json:
               schema:
@@ -572,6 +573,20 @@ paths:
                   type: boolean
               required:
                   - moderator
+      responses:
+        '302':
+          description: 'Redirect after changing group member role.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Successful role change. Redirect to group member viewing page.'
+                  value: '/group/{id}/members/{user_id}'
+                302Error:
+                  description: 'Failed role change. Redirect to group member viewing page.'
+                  value: '/group/{id}/members/{user_id}'
     delete:
       operationId: 'R211'
       summary: 'R211: Delete group member.'
@@ -621,7 +636,80 @@ paths:
           application/json:
             schema:
               $ref: '#components/schemas/User'
-  
+      responses:
+        '302':
+          description: 'Redirect after adding group request.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Successful request added. Redirect to group requests page.'
+                  value: '/group/{id}/requests'
+                302Error:
+                  description: 'Failed request added. Redirect to group requests page.'
+                  value: '/group/{id}/requests'
+  /group/{id}/requests/{user_id}:
+    parameters:
+        - in: path
+          name: id
+          description: 'Group ID'
+          schema:
+            type: integer
+          required: true
+        - in: path
+          name: user_id
+          description: 'User ID to which request is to or from'
+          schema:
+            type: integer
+          required: true
+    get:
+      operationId: R214
+      summary: 'R214: View group request.'
+      description: 'View group request. Access USR'
+      tags:
+        - 'M02: Group'
+      responses:
+        '200':
+          description: 'Ok. Show group request.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupRequest'
+    patch:
+      operationId: R215
+      summary: 'R215: Accept or Decline group request.'
+      description: 'Accept or Decline group request. Access: MOD'
+      tags:
+        - 'M02: Group'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status: 
+                  type: string
+                  enum: [Accepted, Declined]
+              required:
+                  - status
+      responses:
+        '302':
+          description: 'Redirect after accepting or declining group request.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Successful operation. Redirect to overall group requests page.'
+                  value: '/group/{id}/requests'
+                302Error:
+                  description: 'Failed request added. Redirect to specific group request page.'
+                  value: '/group/{id}/requests/{user_id}'
+        
   /user_content/{id}:
         get:
             operationId: R301
@@ -1350,6 +1438,9 @@ components:
     Privacy_Status:
       type: string
       enum: [Public, Private, Anonymous, Banned]
+    Request_Status:
+      type: string
+      enum: [Accepted, Declined, Pending]
 
     Image:
       type: object
@@ -1432,8 +1523,23 @@ components:
           $ref: '#/components/schemas/Group'
         moderator:
           type: boolean
-        example:
-          moderator: false
+      required:
+        - user
+        - group
+        - moderator
+      example:
+        - moderator: true
+    
+    GroupRequest:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/User'
+        group:
+          $ref: '#/components/schemas/Group'
+        status:
+          $ref: '#/components/schemas/Request_Status'
+
 
     Friendship:
       type: object
