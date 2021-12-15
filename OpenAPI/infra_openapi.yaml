@@ -759,7 +759,7 @@ paths:
                             schema:
                               type: array
                               items:
-                                $ref: '#/components/schemas/User_content' #???
+                                $ref: '#/components/schemas/UserContent'
         put:
             operationId: R303
             summary: 'R303: Add new User Content'
@@ -811,7 +811,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/User_content'
+                                $ref: '#/components/schemas/UserContent'
                 '404':
                     description: Failure
         delete:
@@ -892,7 +892,7 @@ paths:
                             schema:
                                 type: array
                                 items:
-                                    $ref: '#/components/schemas/Post'
+                                    $ref: '#/components/schemas/UserContent'
                 '404':
                     $ref: '#/components/responses/not_found'
         delete:
@@ -1434,6 +1434,48 @@ paths:
         '200':
 
 components:
+  responses:
+    create:
+      description: Success
+      content:
+        text/plain:
+          schema:
+            type: string
+          examples:
+            201Success:
+              description: Success adding content.
+              value: Success
+            201Failure:
+              description: Failure adding content.
+              value: Failure
+    update:
+      description: Success
+      content:
+        text/plain:
+          schema:
+            type: string
+          examples:
+            200Success:
+              description: Success updating content.
+              value: Success
+            200Failure:
+              description: Failure updating content.
+              value: Failure
+    delete:
+      description: Success
+      content:
+        text/plain:
+          schema:
+            type: string
+          examples:
+            200Success:
+              description: Success deleting.
+              value: Success
+            200Failure:
+              description: Failure deleting.
+              value: Failure
+    'not_found':
+      description: Not Found
   schemas:
     Privacy_Status:
       type: string
@@ -1491,6 +1533,57 @@ components:
           birthdate: '1970-01-01'
           email: ada@lovelace.com
           priv_stat: Public
+
+    Comment:
+      type: object
+      properties:
+        id:
+          type: integer
+        creator:
+          $ref: '#/components/schemas/User'
+        text:
+          type: string
+        timestamp:
+          type: string
+        likes:
+          type: integer
+        replies:
+          type: array
+          items:
+            $ref: '#/components/schemas/Comment'
+      example:
+        - id: 3
+          creator:
+            id: 1
+            name: Ada Lovelace
+            birthdate: '1970-01-01'
+            email: ada@lovelace.com
+            priv_stat: Public
+          text: 'Lorem Ipsum'
+          timestamp: '2021-12-15 10:35'
+          likes: 7
+    
+    UserContent:
+      type: object
+      properties:
+        id:
+          type: integer
+        creator_id:
+          type: integer
+        text:
+          type: string
+        timestamp:
+          type: string
+        images:
+          type: array
+          items:
+            type: string
+        comments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Comment'
+        likes:
+          type: integer
 
     Group:
       type: object
@@ -1584,6 +1677,16 @@ components:
         seen: false
         comment_id: 1
     
+    Tag:
+      type: object
+      properties:
+        id:
+          type: integer
+        user_id:
+          type: integer
+        content_id:
+          type: integer
+    
     TagNotifications:
       type: object
       properties:
@@ -1603,6 +1706,14 @@ components:
         seen: false
         content_id: 1
         target_id: 3
+
+    Share:
+      type: object
+      properties:
+        id:
+          type: integer
+        post_id:
+          type: integer
 
     ShareNotification:
       type: object
