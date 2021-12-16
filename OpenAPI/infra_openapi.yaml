@@ -1321,7 +1321,6 @@ paths:
                 '404':
                     $ref: '#/components/responses/not_found'
 
-
   /notifications/post:
     get:
       operationId: R401
@@ -1443,6 +1442,41 @@ paths:
           description: 'Success'
         '404':
           description: 'Not Found!'
+
+  /about:
+    get: 
+      operationId: R501
+      summary: 'R501: About Us Page'
+      description: 'Provide About Us page. Access: PUB'
+      tags:
+        - 'M05: Administration and Static Pages'
+      responses:
+        '200': 
+          description: 'Ok. Show About Us page.'
+  /contact:
+    get: 
+      operationId: R502
+      summary: 'R502: Contact Us Page'
+      description: 'Provide Constact US page. Access: PUB'
+      tags:
+        - 'M05: Administration and Static Pages'
+      responses:
+        '200':
+          description: 'Ok. Show Contact Us page.'
+  /admin:
+    get:
+      operationId: R503
+      summary: 'R503: Admin Dashboard'
+      description: ' Provide Admin Dashboard. Access: ADM'
+      tags:
+        - 'M05: Administration and Static Pages'
+      responses:
+        '200':
+          description: 'Ok. Show Admin Dashboard'
+
+      
+
+
 
 components:
   responses:
