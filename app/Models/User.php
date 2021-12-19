@@ -55,7 +55,7 @@ class User extends Authenticatable
      */
     public function friends(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'friendship', 'user_1');
+        return $this->belongsToMany(User::class, 'friendship', 'user_1', 'user_2')->using(Friendship::class);
     }
 
     /**
@@ -63,11 +63,41 @@ class User extends Authenticatable
      */
     public function groups(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(Group::class, 'membership', 'user_id', 'group_id')->using(Membership::class);
+        return $this->belongsToMany(Group::class, 'membership', 'user_id', 'group_id')->withPivot('moderator')->using(Membership::class);
     }
 
     public function moderatedGroups(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Group::class, 'membership', 'user_id', 'group_id')->using(Membership::class)->wherePivot('moderator', true);
+    }
+
+    public function taggedIn(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(UserContent::class, 'tag', 'user_id', 'content_id')->using(Tag::class);
+    }
+
+    public function likes(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'like', 'user_id', 'content_id')->using(Like::class);
+    }
+
+    public function outgoingFriendRequests(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'friend_request', 'requester_id', 'target_id')->withPivot('req_stat')->using(FriendRequest::class);
+    }
+
+    public function incomingFriendRequests(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'friend_request', 'target_id', 'requester_id')->withPivot('req_stat')->using(FriendRequest::class);
+    }
+
+    public function groupRequests(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Group::class, 'group_request', 'user_id', 'group_id')->withPivot('req_stat', 'invite')->using(GroupRequest::class)->wherePivot('invite', false);
+    }
+
+    public function groupInvites(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Group::class, 'group_request', 'user_id', 'group_id')->withPivot('req_stat', 'invite')->using(GroupRequest::class)->wherePivot('invite', true);
     }
 }

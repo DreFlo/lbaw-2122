@@ -31,4 +31,14 @@ class UserContent extends Model
     {
         return $this->belongsTo(User::class, 'creator_id', 'id');
     }
+
+    public function tagged(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'tag', 'content_id', 'user_id')->using(Tag::class);
+    }
+
+    public function likedBy(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'like', 'content_id', 'user_id')->using(Like::class);
+    }
 }

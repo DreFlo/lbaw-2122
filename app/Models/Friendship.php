@@ -11,6 +11,8 @@ class Friendship extends Pivot
 
     public $timestamps = false;
 
+    protected $table = 'friendship';
+
     protected $fillable = [
         'user_1', 'user_2'
     ];

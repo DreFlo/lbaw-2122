@@ -36,4 +36,14 @@ class Group extends Model
     {
         return $this->belongsTo(User::class, 'creator_id', 'id');
     }
+
+    public function userRequests(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Group::class, 'group_request', 'group_id', 'user_id')->withPivot('req_stat', 'invite')->using(GroupRequest::class)->wherePivot('invite', false);
+    }
+
+    public function userInvites(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Group::class, 'group_request', 'group_id', 'user_id')->withPivot('req_stat', 'invite')->using(GroupRequest::class)->wherePivot('invite', true);
+    }
 }

@@ -22,6 +22,7 @@ class Post extends Model
         return $this->belongsTo(UserContent::class, 'id', 'id');
     }
 
+    #TODO-I dont know if working
     public function images(): array
     {
         $images = [];
@@ -35,5 +36,10 @@ class Post extends Model
     {
         $localKeyString = 'pic_'.$n;
         return $this->hasOne(Image::class, 'id', $localKeyString);
+    }
+
+    public function shares(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Share::class, 'post_id', 'id');
     }
 }

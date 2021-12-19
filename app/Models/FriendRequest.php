@@ -5,15 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class Membership extends Pivot
+class FriendRequest extends Pivot
 {
     use HasFactory;
 
     public $timestamps = false;
 
-    public $table = 'membership';
+    protected $table = 'friend_request';
 
     protected $fillable = [
-        'user_id', 'group_id'
+      'requester_id', 'target_id', 'req_stat'
     ];
 }
