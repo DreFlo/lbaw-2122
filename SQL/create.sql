@@ -1,5 +1,4 @@
---TODO -- age must be 13 years old for users
---set search_path to lbaw2192;
+set search_path to lbaw2192;
 
 drop table if exists "image" cascade;
 drop table if exists "user" cascade;
@@ -141,7 +140,7 @@ create table "share"
     post_id integer,
     primary key (id),
 	constraint fk_id foreign key(id) references user_content(id) on delete cascade,
-	constraint fk_post_id foreign key(post_id) references post(id)	
+	constraint fk_post_id foreign key(post_id) references post(id)
 );
 
 create table "tag"
@@ -188,7 +187,7 @@ create table "like_notification"
     id serial primary key,
     "timestamp" timestamptz not null default now(),
     seen boolean not null default 'false',
-    sender_id integer not null,            
+    sender_id integer not null,
     content_id integer not null,
 	constraint fk_sender_id foreign key(sender_id) references "user"(id),
 	constraint fk_content_id foreign key(content_id) references user_content(id),
@@ -199,7 +198,7 @@ create table "comment_notification"
 (
     id serial primary key,
     "timestamp" timestamptz not null default now(),
-    seen boolean not null default 'false',        
+    seen boolean not null default 'false',
     comment_id integer not null,
 	constraint fk_comment_id foreign key(comment_id) references "comment"(id),
     constraint no_future_dates check ("timestamp" <= now())
@@ -209,7 +208,7 @@ create table "tag_notification"
 (
     id serial primary key,
     "timestamp" timestamptz not null default now(),
-    seen boolean not null default 'false',         
+    seen boolean not null default 'false',
     content_id integer not null,
     target_id integer not null,
 	constraint fk_content_id foreign key(content_id) references user_content(id),
@@ -313,7 +312,7 @@ language plpgsql;
 create or replace function user_delete_fn(u_id integer)
 returns integer as '
 begin
-	update "user" set priv_stat = ''Anonymous'' where id=u_id;	
+	update "user" set priv_stat = ''Anonymous'' where id=u_id;
 	update "user_content" set priv_stat = ''Anonymous'' where creator_id=u_id;
 	return 0;
 end;'

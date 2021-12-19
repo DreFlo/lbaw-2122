@@ -2,15 +2,19 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
     use Notifiable;
+    use HasFactory;
 
     // Don't add create and update timestamps in database.
     public $timestamps  = false;
+
+    public $table = 'user';
 
     /**
      * The attributes that are mass assignable.
@@ -18,7 +22,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'birthdate','email', 'password', 'profile_pic', 'cover_pic', 'priv_stat'
     ];
 
     /**
@@ -27,13 +31,43 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password'
     ];
 
     /**
-     * The cards this user owns.
+     * This user's cover picture.
      */
-     public function cards() {
-      return $this->hasMany('App\Models\Card');
+     public function coverPic(): \Illuminate\Database\Eloquent\Relations\HasOne
+     {
+      return $this->hasOne(Image::class, 'id', 'cover_pic');
+    }
+
+    /**
+     * This user's profile picture
+     */
+    public function profilePic(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Image::class, 'id', 'profile_pic');
+    }
+
+    /**
+     * This user's friends
+     */
+    public function friends(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'friendship', 'user_1');
+    }
+
+    /**
+     * This user's groups
+     */
+    public function groups(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Group::class, 'membership', 'user_id', 'group_id')->using(Membership::class);
+    }
+
+    public function moderatedGroups(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Group::class, 'membership', 'user_id', 'group_id')->using(Membership::class)->wherePivot('moderator', true);
     }
 }
