@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 #TODO - check priv_stat and creator on fillable
 class UserContent extends Model
@@ -19,7 +22,7 @@ class UserContent extends Model
     /**
      * This content's group
      */
-    public function group(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function group(): BelongsTo
     {
         return $this->belongsTo(Group::class, 'group_id', 'id');
     }
@@ -27,18 +30,25 @@ class UserContent extends Model
     /**
      * This content's creator
      */
-    public function creator(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'creator_id', 'id');
     }
 
-    public function tagged(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function tagged(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'tag', 'content_id', 'user_id')->using(Tag::class);
+        return $this->belongsToMany(User::class, 'tag', 'content_id', 'user_id')
+                    ->using(Tag::class);
     }
 
-    public function likedBy(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function likedBy(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'like', 'content_id', 'user_id')->using(Like::class);
+        return $this->belongsToMany(User::class, 'like', 'content_id', 'user_id')
+                    ->using(Like::class);
+    }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class, 'parent_id', 'id');
     }
 }

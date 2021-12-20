@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Share extends Model
 {
@@ -17,13 +19,18 @@ class Share extends Model
         'id', 'post_id'
     ];
 
-    public function content(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function content(): BelongsTo
     {
         return $this->belongsTo(UserContent::class, 'id', 'id');
     }
 
-    public function post(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function post(): BelongsTo
     {
-        return $this->belongsTo(Post::class, 'id', 'id');
+        return $this->belongsTo(Post::class, 'post_id', 'id');
+    }
+
+    public function notification(): HasOne
+    {
+        return $this->hasOne(ShareNotification::class, 'share_id', 'id');
     }
 }

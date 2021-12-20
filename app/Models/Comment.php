@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Comment extends Model
 {
@@ -17,13 +19,18 @@ class Comment extends Model
         'id', 'parent_id'
     ];
 
-    public function content(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function content(): BelongsTo
     {
         return $this->belongsTo(UserContent::class, 'id', 'id');
     }
 
-    public function parent(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function parent(): BelongsTo
     {
-        return $this->belongsTo(UserContent::class, 'id', 'id');
+        return $this->belongsTo(UserContent::class, 'parent_id', 'id');
+    }
+
+    public function notification(): HasOne
+    {
+        return $this->hasOne(CommentNotification::class, 'comment_id', 'id');
     }
 }
