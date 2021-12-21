@@ -189,4 +189,16 @@ class User extends Authenticatable
     {
         return $this->hasMany(FriendRequestNotification::class, 'target_id', 'id');
     }
+
+    public function isFriend(User $user): bool
+    {
+        foreach ($this->friends as $friend) {
+            if ($user->id === $friend->id) return true;
+        }
+        return false;
+    }
+
+    public function isAdmin() {
+        return $this->admin_flag;
+    }
 }

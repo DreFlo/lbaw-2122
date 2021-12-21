@@ -84,4 +84,12 @@ class Group extends Model
     {
         return $this->hasManyThrough(Share::class, UserContent::class, 'group_id', 'id', 'id', 'id');
     }
+
+    public function isMember(User $user): bool
+    {
+        foreach ($this->members as $member) {
+            if ($user->id == $member->id) return true;
+        }
+        return false;
+    }
 }
