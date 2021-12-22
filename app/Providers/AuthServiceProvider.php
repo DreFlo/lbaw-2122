@@ -2,8 +2,14 @@
 
 namespace App\Providers;
 
+use App\Models\ShareNotification;
+use App\Models\Tag;
+use App\Models\TagNotification;
 use App\Models\User;
 use App\Models\UserContent;
+use App\Policies\ShareNotificationPolicy;
+use App\Policies\TagNotificationPolicy;
+use App\Policies\TagPolicy;
 use App\Policies\UserContentPolicy;
 use App\Policies\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -18,7 +24,10 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         UserContent::class => UserContentPolicy::class,
-        User::class => UserPolicy::class
+        User::class => UserPolicy::class,
+        Tag::class => TagPolicy::class,
+        TagNotification::class => TagNotificationPolicy::class,
+        ShareNotification::class => ShareNotificationPolicy::class
     ];
 
     /**

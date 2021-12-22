@@ -14,12 +14,12 @@ class UserContentPolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param User|null $user
+     * @param User $user
      * @return bool
      */
-    public function viewAny(?User $user): bool
+    public function viewAny(User $user): bool
     {
-        return ($user->priv_stat !== 'Banned' ?? true) && ($user->priv_stat !== 'Anonymous' ?? true);
+        return $user->isAdmin();
     }
 
     /**

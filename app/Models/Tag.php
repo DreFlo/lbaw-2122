@@ -16,4 +16,14 @@ class Tag extends Pivot
     protected $fillable = [
       'user_id', 'content_id'
     ];
+
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function content(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(UserContent::class, 'content_id', 'id');
+    }
 }
