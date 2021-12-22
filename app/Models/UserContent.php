@@ -54,6 +54,26 @@ class UserContent extends Model
 
     public function inGroup(): bool
     {
-        return $this->group_id == null;
+        return $this->group_id !== null;
+    }
+
+    public function isPost(): bool
+    {
+        return Post::find($this->id) !== null;
+    }
+
+    public function isComment(): bool
+    {
+        return Comment::find($this->id) !== null;
+    }
+
+    public function isShare(): bool
+    {
+        return Share::find($this->id) !== null;
+    }
+
+    public function hasComments(): bool
+    {
+        return !$this->comments->isEmpty();
     }
 }

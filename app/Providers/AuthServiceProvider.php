@@ -38,5 +38,7 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
+
+        Gate::define('view-content', [UserContentPolicy::class, 'view']);
     }
 }

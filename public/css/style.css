@@ -1,0 +1,64 @@
+.post {
+    background-color: lightgray;
+    border: 1px solid black;
+    border-radius: 10px;
+    max-width: 75%;
+    margin: 0;
+}
+
+.post_content {
+    margin: 1px 1px;
+}
+
+.post_comments_banner {
+    margin-top: 2px;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+}
+
+.post_comments {
+    margin: 5px 0px;
+}
+
+.post_title {
+    margin: 3px 5px;
+    font-weight: normal;
+}
+
+.comment {
+    width: 75%;
+    left: 25%;
+}
+
+.comment_title {
+    margin: 1px 5px;
+    font-weight: normal;
+}
+
+.comment_content {
+    margin: 1px 1px;
+}
+
+.link {
+    font-weight: bold;
+    text-decoration: none;
+}
+
+header {
+    background-color: #FF271E;
+    height: 7vh;
+}
+
+.banner_title {
+    display: flex;
+    justify-content: flex-start;
+    margin: 0px 10px;
+    font-family: "Microsoft YaHei", serif;
+    color: white;
+    font-weight: bold;
+    font-size: 40px;
+}
+
+body {
+    margin: 0;
+}
