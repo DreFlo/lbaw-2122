@@ -22,5 +22,6 @@ class LikeNotification extends Model
         return $this->belongsTo(User::class, 'sender_id', 'id');
     }
 
+
     //TODO - can we use other packages https://github.com/staudenmeir/belongs-to-through (May not be needed)
 }

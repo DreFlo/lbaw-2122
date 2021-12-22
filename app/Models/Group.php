@@ -92,4 +92,12 @@ class Group extends Model
         }
         return false;
     }
+
+    public function isModerator(User $user): bool
+    {
+        foreach ($this->moderators as $moderator) {
+            if ($user->id == $moderator->id) return true;
+        }
+        return false;
+    }
 }

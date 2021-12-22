@@ -25,6 +25,7 @@ class Post extends Model
         return $this->belongsTo(UserContent::class, 'id', 'id');
     }
 
+
     #TODO-I dont know if working
     public function images(): array
     {

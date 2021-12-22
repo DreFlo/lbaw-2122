@@ -16,4 +16,11 @@ class Like extends Pivot
     protected $fillable = [
         'user_id', 'content_id'
     ];
+
+    public function content(): BelongsTo
+    {
+        return $this->belongsTo(UserContent::class, 'id', 'id');
+    }
+
+    
 }
