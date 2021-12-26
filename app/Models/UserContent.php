@@ -76,4 +76,16 @@ class UserContent extends Model
     {
         return !$this->comments->isEmpty();
     }
+
+    public function sortedComments(): \Illuminate\Support\Collection
+    {
+        $comments = collect($this->comments);
+
+        $comments->sort(function ($a, $b) {
+            if ($a->content->timestamp === $b->content->timestamp) return 0;
+            return $a->content->timestamp > $b->content->timestamp ? 1 : -1;
+        });
+
+        return $comments;
+    }
 }

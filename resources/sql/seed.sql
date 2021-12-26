@@ -545,8 +545,8 @@ insert into "membership"(user_id, group_id) values(2,10);
 insert into "membership"(user_id, group_id) values(1,5);
 
 insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(1, 'Hi!', 1, 2, 'Public');
-insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(2, 'My recent trip was quite satisfying!', 2, null, 'Private');
-insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(3, 'Your mission is not just difficult, it is impossible.', 3, 5, 'Public');
+insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(2, 'My recent trip was quite satisfying!', 2, null, 'Public');
+insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(3, 'Your mission is not just difficult, it is impossible.', 3, null, 'Public');
 insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(4, 'The word SUN has only one syllable.', 1, 6, 'Public');
 insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(5, 'Hi! It is often said that cats have nine lives but that is really just a myth.', 5, 1, 'Public');
 insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(6, 'Clowns like to display humor!', 2, null, 'Private');
@@ -556,15 +556,18 @@ insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(9
 insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(10, 'Thank you for repaying the favor when you didnt have to.', 1, 7, 'Public');
 insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(11, 'Share', 1, null, 'Public');
 
+insert into "image"(id, path) values (1, 'Wheel-of-Time-MyrddraalTeaser.webp');
+
 insert into "post"(id) values(1);
-insert into "post"(id) values(2);
+insert into "post"(id, pic_1) values(2, 1);
 insert into "post"(id) values(3);
 insert into "post"(id) values(4);
 insert into "post"(id) values(5);
 
 insert into "comment"(id, parent_id) values(6, 2);
-insert into "comment"(id, parent_id) values(8, 2);
-insert into "comment"(id, parent_id) values(9, 2);
+insert into "comment"(id, parent_id) values(8, 3);
+insert into "comment"(id, parent_id) values(9, 6);
+insert into "comment"(id, parent_id) values(3, 6);
 
 insert into "share"(id, post_id) values(10,2);
 
