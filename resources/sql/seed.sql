@@ -556,10 +556,11 @@ insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(9
 insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(10, 'Thank you for repaying the favor when you didnt have to.', 1, 7, 'Public');
 insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(11, 'Share', 1, null, 'Public');
 
-insert into "image"(id, path) values (1, 'Wheel-of-Time-MyrddraalTeaser.webp');
+insert into "image"(id, path) values (1, 'storage/images/Wheel-of-Time-MyrddraalTeaser.webp');
+insert into "image"(id, path) values (2, 'storage/images/tumblr_nqza7zgUZc1tqgexdo1_1280.jpg');
 
 insert into "post"(id) values(1);
-insert into "post"(id, pic_1) values(2, 1);
+insert into "post"(id, pic_1, pic_2) values(2, 1, 2);
 insert into "post"(id) values(3);
 insert into "post"(id) values(4);
 insert into "post"(id) values(5);

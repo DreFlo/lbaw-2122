@@ -177,4 +177,31 @@ function createItem(item) {
   return new_item;
 }
 
+let postSlideIndex = 1;
+showPostSlides(postSlideIndex);
+
+function plusPostSlides(n) {
+    showPostSlides(postSlideIndex += n);
+}
+
+function currentPostSlide(n) {
+    showPostSlides(postSlideIndex = n);
+}
+
+function showPostSlides(n) {
+    let i;
+    const slides = document.getElementsByClassName("post_image");
+    const dots = document.getElementsByClassName("dot");
+    if (n > slides.length) {postSlideIndex = 1}
+    if (n < 1) {postSlideIndex = slides.length}
+    for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+    }
+    for (i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" active", "");
+    }
+    slides[postSlideIndex-1].style.display = "block";
+    dots[postSlideIndex-1].className += " active";
+}
+
 addEventListeners();

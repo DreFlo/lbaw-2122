@@ -77,4 +77,9 @@ class Post extends Model
     {
         return $this->hasMany(Share::class, 'post_id', 'id');
     }
+
+    public function hasImages(): bool
+    {
+        return !empty($this->images());
+    }
 }
