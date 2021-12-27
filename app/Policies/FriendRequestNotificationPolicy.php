@@ -30,7 +30,7 @@ class FriendRequestNotificationPolicy
      */
     public function view(User $user, FriendRequestNotification $friendRequestNotification)
     {
-        return $user == $friendRequestNotification->target();
+        return $user->admin_flag || $user == $friendRequestNotification->target();
     }
 
     /**
@@ -41,7 +41,7 @@ class FriendRequestNotificationPolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->priv_stat !== 'Banned' && $user->priv_stat !== 'Anonymous';
     }
 
     /**
@@ -53,7 +53,7 @@ class FriendRequestNotificationPolicy
      */
     public function update(User $user, FriendRequestNotification $friendRequestNotification)
     {
-        //
+        return $user->admin_flag || $user == $friendRequestNotification->target();
     }
 
     /**
@@ -65,7 +65,7 @@ class FriendRequestNotificationPolicy
      */
     public function delete(User $user, FriendRequestNotification $friendRequestNotification)
     {
-        return $user == $friendRequestNotification->target();
+        return $user->admin_flag || $user == $friendRequestNotification->target();
     }
 
     /**
@@ -77,7 +77,7 @@ class FriendRequestNotificationPolicy
      */
     public function restore(User $user, FriendRequestNotification $friendRequestNotification)
     {
-        //
+        return $user->admin_flag;
     }
 
     /**
@@ -89,6 +89,6 @@ class FriendRequestNotificationPolicy
      */
     public function forceDelete(User $user, FriendRequestNotification $friendRequestNotification)
     {
-        return $user == $friendRequestNotification->target();
+        return $user->admin_flag;
     }
 }

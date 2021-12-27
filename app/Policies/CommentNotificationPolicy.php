@@ -30,7 +30,7 @@ class CommentNotificationPolicy
      */
     public function view(User $user, CommentNotification $commentNotification)
     {
-        //
+        return $user->admin_flag || $user->commentNotifications()->contains($commentNotification);
     }
 
     /**
@@ -41,7 +41,7 @@ class CommentNotificationPolicy
      */
     public function create(User $user)
     {
-        //
+        return false;
     }
 
     /**
@@ -53,7 +53,7 @@ class CommentNotificationPolicy
      */
     public function update(User $user, CommentNotification $commentNotification)
     {
-        //
+        return $user->admin_flag || $user->commentNotifications()->contains($commentNotification);
     }
 
     /**
@@ -65,7 +65,7 @@ class CommentNotificationPolicy
      */
     public function delete(User $user, CommentNotification $commentNotification)
     {
-        //
+        return $user->admin_flag || $user->commentNotifications()->contains($commentNotification);
     }
 
     /**
@@ -77,7 +77,7 @@ class CommentNotificationPolicy
      */
     public function restore(User $user, CommentNotification $commentNotification)
     {
-        //
+        return $user->admin_flag;
     }
 
     /**
@@ -89,6 +89,6 @@ class CommentNotificationPolicy
      */
     public function forceDelete(User $user, CommentNotification $commentNotification)
     {
-        //
+        return $user->admin_flag;
     }
 }
