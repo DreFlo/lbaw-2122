@@ -15,6 +15,8 @@ class UserContent extends Model
 
     protected $primaryKey = 'id';
 
+    public $incrementing = false;
+
     public $table = 'user_content';
 
     public $timestamps = false;
