@@ -14,6 +14,8 @@ class Post extends Model
 
     public $timestamps = false;
 
+    const UPDATED_AT = null;
+
     public $table = "post";
 
     public $fillable = [
@@ -79,5 +81,10 @@ class Post extends Model
     public function hasImages(): bool
     {
         return !empty($this->images());
+    }
+
+    public function delete()
+    {
+        $this->content->delete();
     }
 }

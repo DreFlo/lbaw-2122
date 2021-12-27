@@ -15,6 +15,8 @@ class UserContent extends Model
 
     public $table = 'user_content';
 
+    const UPDATED_AT = null;
+
     protected $fillable = [
       'text', 'creator_id', 'group_id', 'pinned', 'priv_stat'
     ];
@@ -87,5 +89,11 @@ class UserContent extends Model
         });
 
         return $comments;
+    }
+
+    public function delete()
+    {
+        $this->priv_stat = 'Anonymous';
+        $this->save();
     }
 }
