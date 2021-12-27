@@ -30,9 +30,11 @@ class FriendRequestPolicy
      */
     public function view(User $user, FriendRequest $friendRequest)
     {
-        if($friendRequest->req_stat === 'Pending') return Response::allow();
+        if($user->admin_flag) return true;
+        else if($user == $friendRequest->target() && $friendRequest->req_stat === 'Pending') return true;
+        else if($user == $friendRequest->requester() && $friendRequest->req_stat === 'Pending') return true;
 
-        return Response::deny();
+        return false;
     }
 
     /**
@@ -43,9 +45,10 @@ class FriendRequestPolicy
      */
     public function create(User $user)
     {
-        if($user->priv_stat !== 'Banned' && $user->priv_stat !== 'Anonymous') return Response::allow();
+        if($user->priv_stat !== 'Banned' && $user->priv_stat !== 'Anonymous') return true;
+        else if($user->admin_flag) return true;
 
-        return Response::deny();
+        return false;
     }
 
     /**
@@ -57,7 +60,7 @@ class FriendRequestPolicy
      */
     public function update(User $user, FriendRequest $friendRequest)
     {
-        return false;
+        return $user->admin_flag || $user == $friendRequest->target() || $user == $friendRequest->requester();
     }
 
     /**
@@ -69,7 +72,7 @@ class FriendRequestPolicy
      */
     public function delete(User $user, FriendRequest $friendRequest)
     {
-        return ($user == $friendRequest->target || $user == $friendRequest->requester);
+        return $user->admin_flag || $user == $friendRequest->target() || $user == $friendRequest->requester();
     }
 
     /**
@@ -81,7 +84,7 @@ class FriendRequestPolicy
      */
     public function restore(User $user, FriendRequest $friendRequest)
     {
-        //
+        return $user->admin_flag;
     }
 
     /**
@@ -93,6 +96,6 @@ class FriendRequestPolicy
      */
     public function forceDelete(User $user, FriendRequest $friendRequest)
     {
-        return ($user == $friendRequest->target || $user == $friendRequest->requester);
+        return $user->admin_flag;
     }
 }

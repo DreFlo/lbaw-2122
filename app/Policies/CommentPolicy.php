@@ -30,7 +30,14 @@ class CommentPolicy
      */
     public function view(User $user, Comment $comment)
     {
-        //
+        if($user->priv_stat === 'Banned' || $user->priv_stat === 'Anonymous') return false;
+        if($comment->content()->priv_stat === 'Public') return true;
+        elseif($comment->content()->priv_stat === 'Private') {
+            if($user->isFriend($comment->content()->creator())) return true;
+            elseif($comment->content->inGroup() && $comment->content()->group()->isMember($user)) return true;
+            return false;
+        }
+        return false;
     }
 
     /**
@@ -53,7 +60,7 @@ class CommentPolicy
      */
     public function update(User $user, Comment $comment)
     {
-        //
+        return $user->id === $comment->content()->creator_id;
     }
 
     /**
@@ -65,7 +72,7 @@ class CommentPolicy
      */
     public function delete(User $user, Comment $comment)
     {
-        return $user->isAdmin();
+        return $user->isAdmin() || $user->id === $comment->content()->creator_id;
     }
 
     /**

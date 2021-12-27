@@ -30,7 +30,7 @@ class FriendshipPolicy
      */
     public function view(User $user, Friendship $friendship)
     {
-        return ($user->id === $friendship->user_1 || $user->id === $friendship->user_2);
+        return $user->admin_flag || $user->id === $friendship->user_1 || $user->id === $friendship->user_2;
     }
 
     /**
@@ -41,7 +41,7 @@ class FriendshipPolicy
      */
     public function create(User $user)
     {
-        //
+        return false;
     }
 
     /**
@@ -53,7 +53,7 @@ class FriendshipPolicy
      */
     public function update(User $user, Friendship $friendship)
     {
-        return false;
+        return $user->admin_flag || $user->id === $friendship->user_1 || $user->id === $friendship->user_2;
     }
 
     /**
@@ -65,12 +65,7 @@ class FriendshipPolicy
      */
     public function delete(User $user, Friendship $friendship)
     {
-        if ($user->id === $friendship->user_1 || $user->id === $friendship->user_2)
-            return Response::allow();
-        else if($user->admin_flag === true)
-            return Response::allow();
-        
-        return Response::deny();
+        return $user->admin_flag || $user->id === $friendship->user_1 || $user->id === $friendship->user_2;
     }
 
     /**
@@ -94,11 +89,6 @@ class FriendshipPolicy
      */
     public function forceDelete(User $user, Friendship $friendship)
     {
-        if ($user->id === $friendship->user_1 || $user->id === $friendship->user_2)
-            return Response::allow();
-        else if($user->admin_flag === true)
-            return Response::allow();
-        
-        return Response::deny();
+        return $user->admin_flag;
     }
 }
