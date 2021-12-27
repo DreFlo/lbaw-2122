@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\UserContent;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -28,7 +29,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.create_post');
     }
 
     /**
@@ -39,7 +40,17 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $userContent = new UserContent;
+        $userContent->text = $request->input('text');
+        $userContent->creator_id = 1;
+        $userContent->priv_stat = 'Public';
+        $userContent->save();
+
+        $post = new Post;
+        $post->id = $userContent->id;
+        $post->save();
+
+        return redirect('posts/'.$post->id);
     }
 
     /**

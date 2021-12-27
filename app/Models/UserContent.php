@@ -13,9 +13,11 @@ class UserContent extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'id';
+
     public $table = 'user_content';
 
-    const UPDATED_AT = null;
+    public $timestamps = false;
 
     protected $fillable = [
       'text', 'creator_id', 'group_id', 'pinned', 'priv_stat'
