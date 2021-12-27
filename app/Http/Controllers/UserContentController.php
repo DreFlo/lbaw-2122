@@ -88,10 +88,13 @@ class UserContentController extends Controller
      * Remove the specified resource from storage.
      *
      * @param UserContent $userContent
-     * @return \Illuminate\Http\Response
+     * @return string
      */
     public function destroy(UserContent $userContent)
     {
-        //
+        $userContent->priv_stat = 'Anonymous';
+        $userContent->save();
+
+        return response('Deleted');
     }
 }

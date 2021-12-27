@@ -50,7 +50,9 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        // TODO Auth
+        if (!Gate::allows('view-content', $post->content)) {
+            abort(403);
+        }
         return view('pages.post', ['post' => $post]);
     }
 

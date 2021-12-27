@@ -1,5 +1,6 @@
 <div class="post" id="post_{{$post->id}}">
-    <h2 class="post_title" id="post_title_{{$post->id}}">
+    <h2 class="post_header" id="post_title_{{$post->id}}">
+        <div class="post_title">
         <a class="link" href="/users/{{$post->content->creator_id}}">{{$post->content->creator->name}}</a>
         @if($post->content->inGroup())
             in
@@ -9,6 +10,12 @@
         @if($post->content->edited)
             edited
         @endif
+        </div>
+        <form action="{{route('posts.destroy', $post)}}" method="POST" class="post_control_form">
+            @csrf
+            @method('DELETE')
+            <button type="submit">D</button>
+        </form>
     </h2>
     <div class="post_content" id="post_content_{{$post->id}}">
         {{$post->content->text}}

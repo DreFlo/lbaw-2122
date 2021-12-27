@@ -19,7 +19,7 @@ Route::get('cards', 'CardController@list');
 Route::get('cards/{id}', 'CardController@show');
 
 Route::get('user_content/{user_content}', 'UserContentController@show');
-Route::get('posts/{post}', 'PostController@show');
+Route::resource('posts', 'PostController');
 
 // API
 Route::put('api/cards', 'CardController@create');
