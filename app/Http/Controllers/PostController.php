@@ -8,6 +8,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 
 class PostController extends Controller
@@ -36,21 +37,37 @@ class PostController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
      */
     public function store(Request $request)
     {
-        $userContent = new UserContent;
-        $userContent->text = $request->input('text');
-        $userContent->creator_id = 1;
-        $userContent->priv_stat = 'Public';
-        $userContent->save();
+        $request->validate([
+            'image' => '|image|mimes:jpeg,png,jpg,gif,svg,webp',
+        ]);
 
-        $post = new Post;
-        $post->id = $userContent->id;
-        $post->save();
+        $image_id = null;
 
-        return redirect('posts/'.$post->id);
+        if ($request->has('image')) {
+            $imageName = time().'.'.$request->image->extension();
+            $request->image->move(public_path('storage/images'), $imageName);
+
+            $image_id = DB::table('image')->insertGetId([
+                'path' => 'storage\images'.'\\'.$imageName
+            ]);
+        }
+
+        $user_content_id = DB::table('user_content')->insertGetId([
+            'text' => $request->input('text'),
+            'priv_stat' => 'Public',
+            'creator_id' => 1
+        ]);
+
+        $post_id = DB::table('post')->insertGetId([
+            'id' => $user_content_id,
+            'pic_1' => $image_id
+        ]);
+
+        return redirect('posts/'.$post_id);
     }
 
     /**
