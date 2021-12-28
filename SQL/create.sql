@@ -275,11 +275,11 @@ drop index if exists "group_name_index";
 drop index if exists "user_content_text";
 drop index if exists "user_content_creator_index";
 
-create index "user_name_index" on "user" using hash ("name");
+create index "user_name_index" on "user" using gist (setweight(to_tsvector('english', "name"), 'A'));
 
-create index "group_name_index" on "group" using gist (setweight(to_tsvector('english', "name"), 'B'));
+create index "group_name_index" on "group" using gist (setweight(to_tsvector('english', "name"), 'C'));
 
-create index "user_content_text" on user_content using gist (setweight(to_tsvector('english', "text"), 'A'));
+create index "user_content_text" on user_content using gist (setweight(to_tsvector('english', "text"), 'B'));
 
 create index "user_content_creator_index" on user_content using hash(creator_id);
 

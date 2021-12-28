@@ -17,8 +17,7 @@ class SearchController extends Controller
         $users = User::query()->whereRaw(
             'plainto_tsquery(?) @@ to_tsvector(name)', [$input]
         )->get();
-        dd($users);
 
-        return view('pages.searchResults', ['posts' => $results]);
+        return view('pages.searchResults', ['users' => $users]);
     }
 }

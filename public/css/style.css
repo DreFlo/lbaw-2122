@@ -267,3 +267,19 @@ form .login_txt {
 .signup_link a:hover{
     text-decoration: underline;
 }
+
+.nav-pills .nav-link:not(active){
+    color: #FF271E;
+    font-weight: bold;
+    font-size: large;
+}
+
+.nav-pills .nav-link.active{
+    background-color: #FF271E;
+    color: white;
+}
+
+#pills-users, #pills-groups, #pills-posts, #pills-comments{
+    margin-left: 2%;
+    font-size: large;
+}
