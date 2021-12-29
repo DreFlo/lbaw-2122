@@ -43,7 +43,17 @@
             @endif
         </div>
     @endif
-    <!-- TODO Insert Reply Function Here -->
+    <form action="{{route('comment.add')}}" method="POST" class="post_control_form">
+        @csrf
+        @method('POST')
+        <div class="form-group">
+            <input type="hidden" name="parent_id" value="{{$post->id}}">
+            <label>
+                <textarea class="form-control" name="text" placeholder="Enter Text" required></textarea>
+            </label>
+        </div>
+        <button type="submit">Reply</button>
+    </form>
     @if($post->content->hasComments())
     <div class="post_comments" id="post_comments_{{$post->id}}">
         <div class="post_comments_banner">Comments</div>

@@ -20,6 +20,8 @@ Route::get('cards/{id}', 'CardController@show');
 
 Route::get('user_content/{user_content}', 'UserContentController@show');
 Route::resource('posts', 'PostController');
+Route::resource('shares', 'ShareController');
+Route::post('comments/store', 'CommentController@store')->name('comment.add');
 
 // API
 Route::put('api/cards', 'CardController@create');

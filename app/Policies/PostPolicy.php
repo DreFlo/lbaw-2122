@@ -24,20 +24,14 @@ class PostPolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Post  $post
+     * @param User|null $user
+     * @param \App\Models\Post $post
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Post $post)
+    public function view(?User $user, Post $post)
     {
-        if($user->priv_stat === 'Banned' || $user->priv_stat === 'Anonymous' ) return false;
-        if($post->content()->priv_stat === 'Public') return true;
-        elseif($post->content()->priv_stat === 'Private') {
-            if($user->isFriend($post->content()->creator())) return true;
-            elseif($post->content->inGroup() && $post->content()->group()->isMember($user)) return true;
-            return false;
-        }
-        return false;
+        $userContentPolicy = new UserContentPolicy();
+        return $userContentPolicy->view($user, $post->content);
     }
 
     /**

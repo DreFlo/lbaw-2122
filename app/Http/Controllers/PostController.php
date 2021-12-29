@@ -86,7 +86,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        if (!Gate::allows('view-content', $post->content)) {
+        if (!Gate::allows('view-post', $post)) {
             abort(403);
         }
         return view('pages.post', ['post' => $post]);

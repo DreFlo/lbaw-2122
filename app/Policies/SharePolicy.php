@@ -28,16 +28,11 @@ class SharePolicy
      * @param  \App\Models\Share  $share
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Share $share)
+    public function view(?User $user, Share $share)
     {
-        if($user->priv_stat === 'Banned' || $user->priv_stat === 'Anonymous') return false;
-        if($share->content()->priv_stat === 'Public') return true;
-        elseif($share->content()->priv_stat === 'Private') {
-            if($user->isFriend($share->content()->creator())) return true;
-            elseif($share->content->inGroup() && $share->content()->group()->isMember($user)) return true;
-            return false;
-        }
-        return false;
+        $userContentPolicy = new UserContentPolicy();
+        $postPolicy = new PostPolicy();
+        return $userContentPolicy->view($user, $share->content) && $postPolicy->view($user, $share->post);
     }
 
     /**
