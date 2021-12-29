@@ -75,10 +75,10 @@ paths:
               examples:
                   302Success:
                       description: 'Succesful authentication. Redirecting to homepage'
-                      value: '/homepage'
+                      value: '/home'
                   302Error:
-                      description: 'Failed auth. Redirecting to welcome'
-                      value: '/welcome'
+                      description: 'Failed auth. Redirecting to login page'
+                      value: '/login'
   /logout:
     post: 
       operationId: R103
@@ -96,7 +96,7 @@ paths:
               examples:
                 302Success:
                   description: 'Logout succesful. Redirect to welcome.'
-                  value: '/welcome'
+                  value: '/login'
   /register:
     get:
       operationId: R104
@@ -157,11 +157,11 @@ paths:
                 type: string
               examples:
                 302Success:
-                  description: 'Succesful registration. Redirect to groups.'
-                  value: '/register/groups'
+                  description: 'Succesful registration. Redirect to homepage.'
+                  value: '/home'
                 302Failure:
-                  description: 'Failed registration. Redirect to welcome.'
-                  value: '/welcome'
+                  description: 'Failed registration. Redirect to register.'
+                  value: '/register'
   /register/groups:
     get:
       operationId: R106
@@ -273,7 +273,7 @@ paths:
               examples:
                 302Success:
                   description: 'Success. Go to welcome'
-                  value: '/welcome'
+                  value: '/login'
                 302Failure:
                   description: 'Failed. Redirect to edit.'
                   value: '/profile/edit'

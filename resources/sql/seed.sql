@@ -498,6 +498,8 @@ insert into "user"(id, "name", birthdate, email, "password") values(19, 'Alice',
 insert into "user"(id, "name", birthdate, email, "password") values(20, 'Rui', '1999-09-19', 'r@ru.rui', '123321');
 insert into "user"(id, "name", birthdate, email, "password") values(21, 'Carolina', '2002-10-04', 'carol@c.car', 'numeros');
 
+SELECT setval('user_id_seq', max(id)) FROM "user";
+
 insert into "friendship"(user_1, user_2) values(2,8);
 insert into "friendship"(user_1, user_2) values(8,14);
 insert into "friendship"(user_1, user_2) values(1,3);

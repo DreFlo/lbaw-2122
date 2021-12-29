@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -52,9 +53,9 @@ class RegisterController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
             'password_confirmation' => 'required|min:6|same:password',
-            'birthdate' => 'required|date|before:today',
-            'profile_pic' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
-            'cover_pic' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048'
+            'birthdate' => 'required|date|before:2008-12-29|after:1900-01-01'
+            #'profile_pic' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+            #'cover_pic' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048'
         ]);
     }
 
@@ -64,8 +65,10 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
-    protected function create(array $data)
+    protected function create(Request $request)
     {
+        $data = $request->all();
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],

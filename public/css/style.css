@@ -153,16 +153,15 @@ header {
     font-size: 40px;
 }
 
-.login_page {
+.auth_page {
     margin: 0;
     padding: 0;
     font-family: "Microsoft YaHei", serif;
     background: linear-gradient(120deg,#2980b9,#8e44ad);
-    height: 100vh;
-    overflow: hidden;
+    height: 93.073vh;
 }
 
-.login_form {
+.auth_form {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -174,24 +173,24 @@ header {
     box-sizing: border-box;
 }
 
-.login_form h1 {
+.auth_form h1 {
     text-align: center;
     padding: 20px 0;
     border-bottom: 1px solid silver;
 }
 
-.login_form form {
+.auth_form form {
     padding: 0 40px;
     box-sizing: border-box;
 }
 
-form .login_txt {
+form .auth_txt {
     position: relative;
     border-bottom: 2px solid #adadad;
     margin: 30px 0;
 }
 
-.login_txt input {
+.auth_txt input {
     width: 100%;
     padding: 0 5px;
     height: 40px;
@@ -201,7 +200,7 @@ form .login_txt {
     outline: none;
 }
 
-.login_txt label {
+.auth_txt label {
     position: absolute;
     top: 50%;
     left: 5px;
@@ -210,9 +209,10 @@ form .login_txt {
     font-size: 16px;
     pointer-events: none;
     transition: .5s;
+    top:-5px;
 }
 
-.login_txt span::before{
+.auth_txt span::before{
     content: '';
     position: absolute;
     top: 40px;
@@ -223,18 +223,17 @@ form .login_txt {
     transition: .5s;
 }
 
-.login_txt input:focus ~ label,
-.login_txt input:valid ~ label{
-    top: -5px;
+.auth_txt input:focus ~ label,
+.auth_txt input:valid ~ label{
     color: #2691d9;
 }
 
-.login_txt input:focus ~ span::before,
-.login_txt input:valid ~ span::before{
+.auth_txt input:focus ~ span::before,
+.auth_txt input:valid ~ span::before{
     width: 100%;
 }
 
-.login_form input[type="submit"]{
+.auth_form input[type="submit"]{
     width: 100%;
     height: 50px;
     border: 1px solid;
@@ -247,24 +246,24 @@ form .login_txt {
     outline: none;
 }
 
-.login_form input[type="submit"]:hover{
+.auth_form input[type="submit"]:hover{
     border-color: #FF271E;
     transition: .5s;
 }
 
-.signup_link{
+.auth_link{
     margin: 30px 0;
     text-align: center;
     font-size: 16px;
     color: #666666;
 }
 
-.signup_link a{
+.auth_link a{
     color: #FF271E;
     text-decoration: none;
 }
 
-.signup_link a:hover{
+.auth_link a:hover{
     text-decoration: underline;
 }
 
