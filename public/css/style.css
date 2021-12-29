@@ -50,6 +50,10 @@ button {
     position: relative;
 }
 
+.hide {
+    display: none;
+}
+
 .post_prev_image, .post_next_image {
     cursor: pointer;
     position: absolute;

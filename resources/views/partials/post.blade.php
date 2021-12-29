@@ -16,6 +16,11 @@
             @method('DELETE')
             <button type="submit">D</button>
         </form>
+        <form action="{{route('posts.destroy', $post)}}" method="POST" class="post_control_form">
+            @csrf
+            @method('DELETE')
+            <button type="submit">L</button>
+        </form>
     </h2>
     <div class="post_content" id="post_content_{{$post->id}}">
         {{$post->content->text}}

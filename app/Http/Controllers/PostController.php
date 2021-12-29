@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
-use App\Models\UserContent;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -41,19 +40,29 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'image' => '|image|mimes:jpeg,png,jpg,gif,svg,webp',
-        ]);
+        $post_array = [
+            'pic_1' => null,
+            'pic_2' => null,
+            'pic_3' => null,
+            'pic_4' => null,
+            'pic_5' => null
+        ];
 
-        $image_id = null;
+        if ($request->hasFile('images')) {
+            $i = 1;
+            foreach ($request->file('images') as $image) {
+                if ($i > 5) break;
+                $imageName = time() . $i . '.' . $image->extension();
+                $image->move(public_path('storage/images'), $imageName);
 
-        if ($request->has('image')) {
-            $imageName = time().'.'.$request->image->extension();
-            $request->image->move(public_path('storage/images'), $imageName);
+                $image_id = DB::table('image')->insertGetId([
+                    'path' => 'storage\images' . '\\' . $imageName
+                ]);
 
-            $image_id = DB::table('image')->insertGetId([
-                'path' => 'storage\images'.'\\'.$imageName
-            ]);
+                $post_array['pic_'.$i] = $image_id;
+
+                $i++;
+            }
         }
 
         $user_content_id = DB::table('user_content')->insertGetId([
@@ -62,10 +71,9 @@ class PostController extends Controller
             'creator_id' => 1
         ]);
 
-        $post_id = DB::table('post')->insertGetId([
-            'id' => $user_content_id,
-            'pic_1' => $image_id
-        ]);
+        $post_array['id'] = $user_content_id;
+
+        $post_id = DB::table('post')->insertGetId($post_array);
 
         return redirect('posts/'.$post_id);
     }
@@ -115,6 +123,8 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        //TODO Auth
+
         $post->content->delete();
 
         return response('Deleted.');

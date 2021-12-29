@@ -201,4 +201,8 @@ class User extends Authenticatable
     public function isAdmin() {
         return $this->admin_flag;
     }
+
+    public function like(UserContent $userContent) {
+        Like::create(['user_id' => $this->id, 'content_id' => $userContent->id]);
+    }
 }

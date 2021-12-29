@@ -17,10 +17,10 @@ class Like extends Pivot
         'user_id', 'content_id'
     ];
 
-    public function content(): BelongsTo
+    public function content(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(UserContent::class, 'id', 'id');
+        return $this->belongsTo(UserContent::class, 'content_id', 'id');
     }
 
-    
+
 }
