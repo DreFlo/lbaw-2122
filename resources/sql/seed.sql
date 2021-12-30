@@ -45,6 +45,8 @@ create table "image"
     "path" text not null
 );
 
+insert into "image"(id, alt, path) values (3, 'Default profile picture','storage/images/blank-profile-picture.png');
+
 create table "user"
 (
     id serial,
@@ -53,7 +55,7 @@ create table "user"
     email text not null unique,
     "password" text not null,
     admin_flag boolean not null default 'false',
-    profile_pic integer,
+    profile_pic integer default 3,
     cover_pic integer,
     priv_stat privacy_status not null default 'Public',
     primary key(id),
@@ -276,11 +278,11 @@ drop index if exists "group_name_index";
 drop index if exists "user_content_text";
 drop index if exists "user_content_creator_index";
 
-create index "user_name_index" on "user" using hash ("name");
+create index "user_name_index" on "user" using gist (setweight(to_tsvector('english', "name"), 'A'));
 
-create index "group_name_index" on "group" using gist (setweight(to_tsvector('english', "name"), 'B'));
+create index "group_name_index" on "group" using gist (setweight(to_tsvector('english', "name"), 'C'));
 
-create index "user_content_text" on user_content using gist (setweight(to_tsvector('english', "text"), 'A'));
+create index "user_content_text" on user_content using gist (setweight(to_tsvector('english', "text"), 'B'));
 
 create index "user_content_creator_index" on user_content using hash(creator_id);
 
@@ -560,6 +562,7 @@ insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(1
 
 insert into "image"(id, path) values (1, 'storage/images/Wheel-of-Time-MyrddraalTeaser.webp');
 insert into "image"(id, path) values (2, 'storage/images/tumblr_nqza7zgUZc1tqgexdo1_1280.jpg');
+
 
 insert into "post"(id) values(1);
 insert into "post"(id, pic_1, pic_2) values(2, 1, 2);
