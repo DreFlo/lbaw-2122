@@ -204,4 +204,6 @@ function showPostSlides(n) {
     dots[postSlideIndex-1].className += " active";
 }
 
+let commentReplyButtons = document
+
 addEventListeners();

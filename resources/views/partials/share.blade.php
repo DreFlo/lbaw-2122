@@ -15,7 +15,7 @@
     <div class="post_content" id="share_content_{{$share->id}}">
         {{$share->content->text}}
     </div>
-    <div class="post" id="post_{{$share->post->id}}">
+    <div class="post" id="post_{{$share->post->id}}" style="width: 98%">
         <h2 class="post_header" id="post_title_{{$share->post->id}}">
             <div class="post_title">
                 <a class="link" href="/users/{{$share->post->content->creator_id}}">{{$share->post->content->creator->name}}</a>
@@ -27,6 +27,7 @@
                 @if($share->post->content->edited)
                     edited
                 @endif
+                <a href="/posts/{{$share->post->id}}">Post</a>
             </div>
         </h2>
         <div class="post_content" id="post_content_{{$share->post->id}}">
@@ -51,17 +52,7 @@
             </div>
         @endif
     </div>
-    <form action="{{route('comment.add')}}" method="POST" class="post_control_form">
-        @csrf
-        @method('POST')
-        <div class="form-group">
-            <input type="hidden" name="parent_id" value="{{$share->id}}">
-            <label>
-                <textarea class="form-control" name="text" placeholder="Enter Text" required></textarea>
-            </label>
-        </div>
-        <button type="submit">Reply</button>
-    </form>
+    @include('partials.reply_box', ['parent_id' => $share->id])
     @if($share->content->hasComments())
         <div class="post_comments" id="share_comments_{{$share->id}}">
             <div class="post_comments_banner">Comments</div>
