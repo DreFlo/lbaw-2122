@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Models\Group;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -43,6 +44,11 @@ class PostPolicy
     public function create(User $user)
     {
         return $user->priv_stat !== 'Banned' && $user->priv_stat !== 'Anonymous';
+    }
+
+    public function createInGroup(User $user, Group $group): bool
+    {
+        return $group->isMember($user);
     }
 
     /**

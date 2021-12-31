@@ -11,16 +11,20 @@
             edited
         @endif
         </div>
-        <form action="{{route('posts.destroy', $post)}}" method="POST" class="post_control_form">
-            @csrf
-            @method('DELETE')
-            <button type="submit">D</button>
-        </form>
-        <form action="{{route('posts.destroy', $post)}}" method="POST" class="post_control_form">
-            @csrf
-            @method('DELETE')
-            <button type="submit">L</button>
-        </form>
+        @if(Auth::check())
+            @if(auth()->user()->id === $post->content->creator_id)
+                <form action="{{route('posts.destroy', $post)}}" method="POST" class="post_control_form">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit">D</button>
+                </form>
+            @endif
+            <form action="{{route('posts.destroy', $post)}}" method="POST" class="post_control_form">
+                @csrf
+                @method('DELETE')
+                <button type="submit">L</button>
+            </form>
+        @endif
     </h2>
     <div class="post_content" id="post_content_{{$post->id}}">
         {{$post->content->text}}

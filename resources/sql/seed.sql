@@ -537,6 +537,8 @@ insert into "group"(id, "name", creator_id) values(8, '_ShareMusic_', 4);
 insert into "group"(id, "name", creator_id) values(9, 'MathGeniuses', 3);
 insert into "group"(id, "name", creator_id) values(10, 'AnimeAddicted', 1);
 
+SELECT setval('group_id_seq', max(id)) FROM "group";
+
 insert into "membership"(user_id, group_id) values(2,1);
 insert into "membership"(user_id, group_id) values(2,2);
 insert into "membership"(user_id, group_id) values(2,4);
@@ -560,9 +562,12 @@ insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(9
 insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(10, 'Thank you for repaying the favor when you didnt have to.', 1, 7, 'Public');
 insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(11, 'Share', 1, null, 'Public');
 
+SELECT setval('user_content_id_seq', max(id)) FROM "user_content";
+
 insert into "image"(id, path) values (1, 'storage/images/Wheel-of-Time-MyrddraalTeaser.webp');
 insert into "image"(id, path) values (2, 'storage/images/tumblr_nqza7zgUZc1tqgexdo1_1280.jpg');
 
+SELECT setval('image_id_seq', max(id)) FROM "image";
 
 insert into "post"(id) values(1);
 insert into "post"(id, pic_1, pic_2) values(2, 1, 2);

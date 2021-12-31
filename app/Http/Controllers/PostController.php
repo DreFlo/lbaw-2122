@@ -40,6 +40,10 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        if (!Gate::allows('create-post', $request->user())) {
+            abort(403);
+        }
+
         $post_array = [
             'pic_1' => null,
             'pic_2' => null,
@@ -68,7 +72,7 @@ class PostController extends Controller
         $user_content_id = DB::table('user_content')->insertGetId([
             'text' => $request->input('text'),
             'priv_stat' => 'Public',
-            'creator_id' => 1
+            'creator_id' => $request->user()->id
         ]);
 
         $post_array['id'] = $user_content_id;

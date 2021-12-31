@@ -36,12 +36,12 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        // TODO Auth and creator id User
+        // TODO Auth
 
         $user_content_id = DB::table('user_content')->insertGetId([
            'text' => $request->text,
             'priv_stat' => 'Public',
-            'creator_id' => 1
+            'creator_id' => $request->user()->id
         ]);
 
         DB::table('comment')->insert([
