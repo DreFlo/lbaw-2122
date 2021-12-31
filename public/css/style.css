@@ -6,7 +6,7 @@
     margin: 1%;
 }
 
-.post_content {
+.user_content_text {
     margin: 3px 5px;
 }
 
@@ -20,18 +20,24 @@
     margin: 5px 5px;
 }
 
-.post_header {
+.user_content_header {
     margin: 3px 5px;
     font-weight: normal;
     display: flex;
 }
 
-.post_title {
+.user_content_title {
     flex: auto;
 }
 
-.post_control_form {
+.user_content_control_form {
     flex: auto;
+}
+
+.user_content_interaction_block {
+    flex: auto;
+    display: flex;
+    color: #FF271E;
 }
 
 button {

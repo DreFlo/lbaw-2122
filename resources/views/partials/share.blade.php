@@ -1,6 +1,6 @@
 <div class="post" id="share_{{$share->id}}">
-    <h2 class="post_header" id="share_title_{{$share->id}}">
-        <div class="post_title">
+    <h2 class="user_content_header" id="share_title_{{$share->id}}">
+        <div class="user_content_title">
             <a class="link" href="/users/{{$share->content->creator_id}}">{{$share->content->creator->name}}</a>
             @if($share->content->inGroup())
                 in
@@ -12,12 +12,12 @@
             @endif
         </div>
     </h2>
-    <div class="post_content" id="share_content_{{$share->id}}">
+    <div class="user_content_text" id="share_content_{{$share->id}}">
         {{$share->content->text}}
     </div>
     <div class="post" id="post_{{$share->post->id}}" style="width: 98%">
-        <h2 class="post_header" id="post_title_{{$share->post->id}}">
-            <div class="post_title">
+        <h2 class="user_content_header" id="post_title_{{$share->post->id}}">
+            <div class="user_content_title">
                 <a class="link" href="/users/{{$share->post->content->creator_id}}">{{$share->post->content->creator->name}}</a>
                 @if($share->post->content->inGroup())
                     in
@@ -30,7 +30,7 @@
                 <a href="/posts/{{$share->post->id}}">Post</a>
             </div>
         </h2>
-        <div class="post_content" id="post_content_{{$share->post->id}}">
+        <div class="user_content_text" id="post_content_{{$share->post->id}}">
             {{$share->post->content->text}}
         </div>
         @if($share->post->hasImages())

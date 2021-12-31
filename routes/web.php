@@ -18,10 +18,12 @@ Route::get('home', 'HomeController@show');
 Route::get('cards', 'CardController@list');
 Route::get('cards/{id}', 'CardController@show');
 
-Route::get('user_content/{user_content}', 'UserContentController@show');
+Route::resource('user_content', 'UserContentController');
 Route::resource('posts', 'PostController');
 Route::resource('shares', 'ShareController');
-Route::post('comments/store', 'CommentController@store')->name('comment.add');
+Route::post('comments/store', 'CommentController@store')->name('comments.add');
+Route::post('likes/add', 'LikeController@store')->name('likes.add');
+Route::post('likes/remove', 'LikeController@remove')->name('likes.remove');
 
 // API
 Route::put('api/cards', 'CardController@create');

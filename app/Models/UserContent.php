@@ -47,7 +47,7 @@ class UserContent extends Model
                     ->using(Tag::class);
     }
 
-    public function likedBy(): BelongsToMany
+    public function likes(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'like', 'content_id', 'user_id')
                     ->using(Like::class);
@@ -99,5 +99,18 @@ class UserContent extends Model
     {
         $this->priv_stat = 'Anonymous';
         $this->save();
+    }
+
+    public function likeCount(): int
+    {
+        return $this->likes()->count();
+    }
+
+    public function likedByUser($id): bool
+    {
+        foreach ($this->likes as $user) {
+            if ($user->id === $id) return true;
+        }
+        return false;
     }
 }

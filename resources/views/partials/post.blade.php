@@ -1,34 +1,5 @@
 <div class="post" id="post_{{$post->id}}">
-    <h2 class="post_header" id="post_title_{{$post->id}}">
-        <div class="post_title">
-        <a class="link" href="/users/{{$post->content->creator_id}}">{{$post->content->creator->name}}</a>
-        @if($post->content->inGroup())
-            in
-            <a class="link" href="/groups/{{$post->content->group_id}}">{{$post->content->group->name}}</a>
-        @endif
-        at {{$post->content->timestamp}}
-        @if($post->content->edited)
-            edited
-        @endif
-        </div>
-        @if(Auth::check())
-            @if(auth()->user()->id === $post->content->creator_id)
-                <form action="{{route('posts.destroy', $post)}}" method="POST" class="post_control_form">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit">D</button>
-                </form>
-            @endif
-            <form action="{{route('posts.destroy', $post)}}" method="POST" class="post_control_form">
-                @csrf
-                @method('DELETE')
-                <button type="submit">L</button>
-            </form>
-        @endif
-    </h2>
-    <div class="post_content" id="post_content_{{$post->id}}">
-        {{$post->content->text}}
-    </div>
+    @include('partials.user_content', ['content' => $post->content])
     @if($post->hasImages())
         <div class="post_image_slideshow">
             @foreach($post->images() as $image)

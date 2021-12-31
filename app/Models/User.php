@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Policies\UserContentPolicy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -202,7 +203,11 @@ class User extends Authenticatable
         return $this->admin_flag;
     }
 
-    public function like(UserContent $userContent) {
-        Like::create(['user_id' => $this->id, 'content_id' => $userContent->id]);
+    public function hasLiked(UserContent $content): bool
+    {
+        foreach ($this->likes as $like) {
+            if ($like->content_id === $content->id) return true;
+        }
+        return false;
     }
 }

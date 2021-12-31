@@ -1,4 +1,4 @@
-<form action="{{route('comment.add')}}" method="POST" class="post_control_form">
+<form action="{{route('comments.add')}}" method="POST" class="user_content_control_form">
     @csrf
     @method('POST')
     <div class="form-group" style="display: flex">
