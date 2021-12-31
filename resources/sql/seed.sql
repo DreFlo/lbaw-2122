@@ -45,6 +45,8 @@ create table "image"
     "path" text not null
 );
 
+insert into "image"(id, alt, path) values (3, 'Default profile picture','storage/images/blank-profile-picture.png');
+
 create table "user"
 (
     id serial,
@@ -53,7 +55,7 @@ create table "user"
     email text not null unique,
     "password" text not null,
     admin_flag boolean not null default 'false',
-    profile_pic integer,
+    profile_pic integer default 3,
     cover_pic integer,
     priv_stat privacy_status not null default 'Public',
     primary key(id),
@@ -276,11 +278,11 @@ drop index if exists "group_name_index";
 drop index if exists "user_content_text";
 drop index if exists "user_content_creator_index";
 
-create index "user_name_index" on "user" using hash ("name");
+create index "user_name_index" on "user" using gist (setweight(to_tsvector('english', "name"), 'A'));
 
-create index "group_name_index" on "group" using gist (setweight(to_tsvector('english', "name"), 'B'));
+create index "group_name_index" on "group" using gist (setweight(to_tsvector('english', "name"), 'C'));
 
-create index "user_content_text" on user_content using gist (setweight(to_tsvector('english', "text"), 'A'));
+create index "user_content_text" on user_content using gist (setweight(to_tsvector('english', "text"), 'B'));
 
 create index "user_content_creator_index" on user_content using hash(creator_id);
 
@@ -476,27 +478,27 @@ create trigger add_membership_on_group_req_update
     after update on "group_request" for each row
 execute procedure  check_new_membership_fn();
 
-insert into "user"(id, "name", birthdate, email, "password") values(1, 'Andre', '2001-03-15', 'a@a.a', 'pass');
-insert into "user"(id, "name", birthdate, email, "password") values(2, 'Tiago', '2001-05-11', 't@t.t', 'pass');
-insert into "user"(id, "name", birthdate, email, "password") values(3, 'Diogo', '2001-11-30', 'd@d.d', 'pass');
-insert into "user"(id, "name", birthdate, email, "password") values(4, 'Mendes', '1998-10-21', 'm@m.m', 'pass');
-insert into "user"(id, "name", birthdate, email, "password") values(5, 'Ana', '2000-02-23', 'ana@a.a', '1234567');
-insert into "user"(id, "name", birthdate, email, "password") values(6, 'Miguel', '1997-01-01', 'miguel@mig.m', 'passe');
-insert into "user"(id, "name", birthdate, email, "password") values(7, 'Joao', '2003-07-05', 'j@j.j', 'passsss');
-insert into "user"(id, "name", birthdate, email, "password") values(8, 'Pedro', '1999-09-19', 'p@p.p', 'palavrapasse');
-insert into "user"(id, "name", birthdate, email, "password") values(9, 'Maria', '1998-12-23', 'maria@m.ma', 'sim123');
-insert into "user"(id, "name", birthdate, email, "password") values(10, 'Carlos', '2000-04-01', 'car@car.car', 'teste');
-insert into "user"(id, "name", birthdate, email, "password") values(11, 'Sara', '1999-03-20', 's@s.s', 'teste123');
-insert into "user"(id, "name", birthdate, email, "password") values(12, 'Manuel', '2002-01-13', 'man@man.m', 'exemplo');
-insert into "user"(id, "name", birthdate, email, "password") values(13, 'Sofia', '1996-08-11', 'sof@sof.s', 'example');
-insert into "user"(id, "name", birthdate, email, "password") values(14, 'Fernando', '1997-03-07', 'f@f.f', 'yup123');
-insert into "user"(id, "name", birthdate, email, "password") values(15, 'Ariana', '2000-09-22', 'ari@ari.ari', 'naosei');
-insert into "user"(id, "name", birthdate, email, "password") values(16, 'Julio', '1995-10-31', 'jul@jul.j', 'esqueci_me');
-insert into "user"(id, "name", birthdate, email, "password") values(17, 'Paula', '2000-06-25', 'pa@pa.pa', 'strongpass');
-insert into "user"(id, "name", birthdate, email, "password") values(18, 'Marco', '1998-03-18', 'mar@mar.mar', 'lockedin');
-insert into "user"(id, "name", birthdate, email, "password") values(19, 'Alice', '1999-09-23', 'ali@ali.a', '123exemplo');
-insert into "user"(id, "name", birthdate, email, "password") values(20, 'Rui', '1999-09-19', 'r@ru.rui', '123321');
-insert into "user"(id, "name", birthdate, email, "password") values(21, 'Carolina', '2002-10-04', 'carol@c.car', 'numeros');
+insert into "user"(id, "name", birthdate, email, "password") values(1, 'Andre', '2001-03-15', 'a@a.a', '$2a$12$rHC7sIE90OGsGyI9KWiNx.DCMHS2X6Z/hiHeH9D/Bi.zy6xDHoYbS'); /*pass*/
+insert into "user"(id, "name", birthdate, email, "password") values(2, 'Tiago', '2001-05-11', 't@t.t', '$2a$12$rHC7sIE90OGsGyI9KWiNx.DCMHS2X6Z/hiHeH9D/Bi.zy6xDHoYbS'); /*pass*/
+insert into "user"(id, "name", birthdate, email, "password") values(3, 'Diogo', '2001-11-30', 'd@d.d', '$2a$12$rHC7sIE90OGsGyI9KWiNx.DCMHS2X6Z/hiHeH9D/Bi.zy6xDHoYbS'); /*pass*/
+insert into "user"(id, "name", birthdate, email, "password") values(4, 'Mendes', '1998-10-21', 'm@m.m', '$2a$12$rHC7sIE90OGsGyI9KWiNx.DCMHS2X6Z/hiHeH9D/Bi.zy6xDHoYbS'); /*pass*/
+insert into "user"(id, "name", birthdate, email, "password") values(5, 'Ana', '2000-02-23', 'ana@a.a', '$2a$12$UUB35/ttUXOVxZwYtTLsQ.jVvKji4I4ueL3qE1w/pn7AUWqxd/PHu'); /*1234567*/
+insert into "user"(id, "name", birthdate, email, "password") values(6, 'Miguel', '1997-01-01', 'miguel@mig.m', '$2a$12$d0x8OyoGxUcrS6Vu6NJ8ROlpTxTdQFjdl2JISn0sCw8pQiBSrYy6m'); /*passe*/
+insert into "user"(id, "name", birthdate, email, "password") values(7, 'Joao', '2003-07-05', 'j@j.j', '$2a$12$.SYGqHyG8gs0UNeUJbwhwe/EFKYRJRDhlye.bAQhTTQNOM6DplM.m'); /*passsss*/
+insert into "user"(id, "name", birthdate, email, "password") values(8, 'Pedro', '1999-09-19', 'p@p.p', '$2a$12$iHNjhHEkBlfm9q6oSJ/WEOg1mNt9KgH4fGJzrqpFYg5xBdV9yNx/m'); /*palavrapasse*/
+insert into "user"(id, "name", birthdate, email, "password") values(9, 'Maria', '1998-12-23', 'maria@m.ma', '$2a$12$oNerZH7Pa0EcvtCQNgVW.uiqftZKBZmcrfTf/7EqyX8P06cDjg6Ni'); /*sim123*/
+insert into "user"(id, "name", birthdate, email, "password") values(10, 'Carlos', '2000-04-01', 'car@car.car', '$2a$12$Xeogp.buV4E5RmhaKBydNuz3SaO96ggcX.PMfOBD4QjEozu.po6Ou'); /*teste*/
+insert into "user"(id, "name", birthdate, email, "password") values(11, 'Sara', '1999-03-20', 's@s.s', '$2a$12$MZyAPxz48a848MFcEqYyNu0lx7wfvVAk/ufK4MWckHWgDkoTUp7YO'); /*teste123*/
+insert into "user"(id, "name", birthdate, email, "password") values(12, 'Manuel', '2002-01-13', 'man@man.m', '$2a$12$kBSIE.4JMFQIA5Z9wMIz5.PIVvUk4md0AGegbsS31EPFAdAEPCaYe'); /*exemplo*/
+insert into "user"(id, "name", birthdate, email, "password") values(13, 'Sofia', '1996-08-11', 'sof@sof.s', '$2a$12$aSi6rZsuJydROwxSd98Lx.9bk/YTJb27n18VFg.V29NgnyJotgPB.'); /*example*/
+insert into "user"(id, "name", birthdate, email, "password") values(14, 'Fernando', '1997-03-07', 'f@f.f', '$2a$12$ae3kN3.se5oC4M4MYbfbmOhMQeELXhzk5dBkkaSYtyvF0ArWgRdbe'); /*yup123*/
+insert into "user"(id, "name", birthdate, email, "password") values(15, 'Ariana', '2000-09-22', 'ari@ari.ari', '$2a$12$mrTndZiBN33dOJrMZ0LxI.78mnZds3tqkKM3PiZjgCzGY3k.pO19O'); /*naosei*/
+insert into "user"(id, "name", birthdate, email, "password") values(16, 'Julio', '1995-10-31', 'jul@jul.j', '$2a$12$DvFtkjVAF6dnj9vuY0cj7.OBEmoGqGMITQElXVsCJba8aQ9uMA9iC'); /*esqueci_me*/
+insert into "user"(id, "name", birthdate, email, "password") values(17, 'Paula', '2000-06-25', 'pa@pa.pa', '$2a$12$My0JbNsFiBVJu/YPVsz9/OLVaMP1sbYXiAGxiN..DFuk8HHM0GOSq'); /*strongpass*/
+insert into "user"(id, "name", birthdate, email, "password") values(18, 'Marco', '1998-03-18', 'mar@mar.mar', '$2a$12$Nep.hmPjNmcuU6ahc2IC4O95eDma74K7oX4WZH66IRw/dpfXfRXNa'); /*lockedin*/
+insert into "user"(id, "name", birthdate, email, "password") values(19, 'Alice', '1999-09-23', 'ali@ali.a', '$2a$12$gpGye1OmY.fPnxx5qco2YuipcuXbE5Ao.T13oqC52f7831SqrunSK'); /*123exemplo*/
+insert into "user"(id, "name", birthdate, email, "password") values(20, 'Rui', '1999-09-19', 'r@ru.rui', '$2a$12$vAiztVROfNs4OdL8Vv/uLeUQxLNnos0cI13w76C2MFHaFmicxrs5q'); /*123321*/
+insert into "user"(id, "name", birthdate, email, "password") values(21, 'Carolina', '2002-10-04', 'carol@c.car', '$2a$12$hvw.bXjDkYAWYHdt7WXAGem8dABqK3aaTHaz/2MTjT3kiqFf1LIgW'); /*numeros*/
 
 SELECT setval('user_id_seq', max(id)) FROM "user";
 
@@ -560,6 +562,7 @@ insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(1
 
 insert into "image"(id, path) values (1, 'storage/images/Wheel-of-Time-MyrddraalTeaser.webp');
 insert into "image"(id, path) values (2, 'storage/images/tumblr_nqza7zgUZc1tqgexdo1_1280.jpg');
+
 
 insert into "post"(id) values(1);
 insert into "post"(id, pic_1, pic_2) values(2, 1, 2);
