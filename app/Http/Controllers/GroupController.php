@@ -46,7 +46,21 @@ class GroupController extends Controller
      */
     public function show(Group $group)
     {
-        //
+        if(isset($group)) {
+            $posts = $group->posts()->simplePaginate(5);
+            $members = $group->members()->simplePaginate(5);
+            return view('pages.group', ['group' => $group, 'posts' => $posts, 'members' => $members]);
+        }
+
+        return redirect('/');
+    }
+
+    public function showMembers(Group $group) {
+        if(isset($group)) {
+            $members = $group->members();
+            return view('pages.members_group', ['members' => $members]);
+        }
+        return redirect('/');
     }
 
     /**
