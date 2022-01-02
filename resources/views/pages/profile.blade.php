@@ -44,7 +44,11 @@
 </div>
 
 <div class="profile-posts">
-    @each('partials.post', $posts, 'post')
+    @foreach(Auth::user()->ownPosts() as $post)
+        @if(\Illuminate\Support\Facades\Gate::allows('view-content', $post->content))
+            @include('partials.post', ['post' => $post, 'style' => 'width:70%;'])
+        @endif
+    @endforeach
 </div>
 <div class="profile-friends">
     <h1 class="profile-friends-title">Friends</h1>

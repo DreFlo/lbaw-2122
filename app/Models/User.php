@@ -97,6 +97,22 @@ class User extends Authenticatable
         return $posts;
     }
 
+    public function ownPosts()
+    {
+        $posts = collect();
+
+        foreach($this->posts as $post) {
+            $posts[] = $post;
+        }
+
+        $posts->sort(function ($a, $b) {
+            if ($a->content->timestamp === $b->content->timestamp) return 0;
+            return $a->content->timestamp < $b->content->timestamp ? 1 : -1;
+        });
+        
+        return $posts;
+    }
+
     public function moderatedGroups(): BelongsToMany
     {
         return $this->belongsToMany(Group::class, 'membership', 'user_id', 'group_id')
