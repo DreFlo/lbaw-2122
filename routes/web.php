@@ -50,3 +50,7 @@ Route::get('profile', 'UserController@profile')->name('profile');
 Route::get('users/{id}', 'UserController@show');
 Route::get('profile/edit', 'UserController@showEdit')->name('profile/edit');
 Route::patch('profile/edit', 'UserController@edit');
+
+
+// Group
+Route::resource('groups', 'GroupController');

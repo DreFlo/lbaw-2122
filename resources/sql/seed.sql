@@ -45,7 +45,7 @@ create table "image"
     "path" text not null
 );
 
-insert into "image"(id, alt, path) values (3, 'Default profile picture','storage/images/blank-profile-picture.png');
+
 
 create table "user"
 (
@@ -69,7 +69,7 @@ create table "group"
     id serial primary key,
     "name" text not null,
     creation_date date not null default current_date,
-    cover_pic integer,
+    cover_pic integer default 4,
     creator_id integer not null,
     priv_stat privacy_status not null default 'Public',
     constraint fk_cover_pic foreign key(cover_pic) references image(id) on delete set null,
@@ -478,13 +478,20 @@ create trigger add_membership_on_group_req_update
     after update on "group_request" for each row
 execute procedure  check_new_membership_fn();
 
-insert into "user"(id, "name", birthdate, email, "password") values(1, 'Andre', '2001-03-15', 'a@a.a', '$2a$12$rHC7sIE90OGsGyI9KWiNx.DCMHS2X6Z/hiHeH9D/Bi.zy6xDHoYbS'); /*pass*/
-insert into "user"(id, "name", birthdate, email, "password") values(2, 'Tiago', '2001-05-11', 't@t.t', '$2a$12$rHC7sIE90OGsGyI9KWiNx.DCMHS2X6Z/hiHeH9D/Bi.zy6xDHoYbS'); /*pass*/
-insert into "user"(id, "name", birthdate, email, "password") values(3, 'Diogo', '2001-11-30', 'd@d.d', '$2a$12$rHC7sIE90OGsGyI9KWiNx.DCMHS2X6Z/hiHeH9D/Bi.zy6xDHoYbS'); /*pass*/
+
+insert into "image"(id, path) values (1, 'storage/images/Wheel-of-Time-MyrddraalTeaser.webp');
+insert into "image"(id, path) values (2, 'storage/images/tumblr_nqza7zgUZc1tqgexdo1_1280.jpg');
+insert into "image"(id, path) values (4, 'storage/images/coverpic.png');
+insert into "image"(id, alt, path) values (3, 'Default profile picture','storage/images/blank-profile-picture.png');
+SELECT setval('image_id_seq', max(id)) FROM "image";
+
+insert into "user"(id, "name", birthdate, email, "password", priv_stat) values(1, 'Andre', '2001-03-15', 'a@a.a', '$2a$12$rHC7sIE90OGsGyI9KWiNx.DCMHS2X6Z/hiHeH9D/Bi.zy6xDHoYbS', 'Private'); /*pass*/
+insert into "user"(id, "name", birthdate, email, "password", priv_stat) values(2, 'Tiago', '2001-05-11', 't@t.t', '$2a$12$rHC7sIE90OGsGyI9KWiNx.DCMHS2X6Z/hiHeH9D/Bi.zy6xDHoYbS', 'Private'); /*pass*/
+insert into "user"(id, "name", birthdate, email, "password", priv_stat) values(3, 'Diogo', '2001-11-30', 'd@d.d', '$2a$12$rHC7sIE90OGsGyI9KWiNx.DCMHS2X6Z/hiHeH9D/Bi.zy6xDHoYbS', 'Private'); /*pass*/
 insert into "user"(id, "name", birthdate, email, "password") values(4, 'Mendes', '1998-10-21', 'm@m.m', '$2a$12$rHC7sIE90OGsGyI9KWiNx.DCMHS2X6Z/hiHeH9D/Bi.zy6xDHoYbS'); /*pass*/
 insert into "user"(id, "name", birthdate, email, "password") values(5, 'Ana', '2000-02-23', 'ana@a.a', '$2a$12$UUB35/ttUXOVxZwYtTLsQ.jVvKji4I4ueL3qE1w/pn7AUWqxd/PHu'); /*1234567*/
 insert into "user"(id, "name", birthdate, email, "password") values(6, 'Miguel', '1997-01-01', 'miguel@mig.m', '$2a$12$d0x8OyoGxUcrS6Vu6NJ8ROlpTxTdQFjdl2JISn0sCw8pQiBSrYy6m'); /*passe*/
-insert into "user"(id, "name", birthdate, email, "password") values(7, 'Joao', '2003-07-05', 'j@j.j', '$2a$12$.SYGqHyG8gs0UNeUJbwhwe/EFKYRJRDhlye.bAQhTTQNOM6DplM.m'); /*passsss*/
+insert into "user"(id, "name", birthdate, email, "password") values(7, 'Joao Diogo', '2003-07-05', 'j@j.j', '$2a$12$.SYGqHyG8gs0UNeUJbwhwe/EFKYRJRDhlye.bAQhTTQNOM6DplM.m'); /*passsss*/
 insert into "user"(id, "name", birthdate, email, "password") values(8, 'Pedro', '1999-09-19', 'p@p.p', '$2a$12$iHNjhHEkBlfm9q6oSJ/WEOg1mNt9KgH4fGJzrqpFYg5xBdV9yNx/m'); /*palavrapasse*/
 insert into "user"(id, "name", birthdate, email, "password") values(9, 'Maria', '1998-12-23', 'maria@m.ma', '$2a$12$oNerZH7Pa0EcvtCQNgVW.uiqftZKBZmcrfTf/7EqyX8P06cDjg6Ni'); /*sim123*/
 insert into "user"(id, "name", birthdate, email, "password") values(10, 'Carlos', '2000-04-01', 'car@car.car', '$2a$12$Xeogp.buV4E5RmhaKBydNuz3SaO96ggcX.PMfOBD4QjEozu.po6Ou'); /*teste*/
@@ -564,10 +571,7 @@ insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(1
 
 SELECT setval('user_content_id_seq', max(id)) FROM "user_content";
 
-insert into "image"(id, path) values (1, 'storage/images/Wheel-of-Time-MyrddraalTeaser.webp');
-insert into "image"(id, path) values (2, 'storage/images/tumblr_nqza7zgUZc1tqgexdo1_1280.jpg');
 
-SELECT setval('image_id_seq', max(id)) FROM "image";
 
 insert into "post"(id) values(1);
 insert into "post"(id, pic_1, pic_2) values(2, 1, 2);

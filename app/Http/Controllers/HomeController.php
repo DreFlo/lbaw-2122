@@ -12,10 +12,6 @@ use Illuminate\Support\Facades\DB;
 class HomeController extends Controller
 {
     public function show() {
-        if (Auth::check()) {
-            //get posts and return posts view
-            return view('pages.home'); //for now
-        }
-        return redirect('login');
+        return view('pages.home'); //for now
     }
 }

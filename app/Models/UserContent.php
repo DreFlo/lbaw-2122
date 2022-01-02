@@ -89,7 +89,7 @@ class UserContent extends Model
 
         $comments->sort(function ($a, $b) {
             if ($a->content->timestamp === $b->content->timestamp) return 0;
-            return $a->content->timestamp > $b->content->timestamp ? 1 : -1;
+            return $a->content->timestamp < $b->content->timestamp ? 1 : -1;
         });
 
         return $comments;
