@@ -1,13 +1,14 @@
 <div class="post">
-    <form method="POST" action="{{route('posts.store')}}" enctype="multipart/form-data">
+    <form method="POST" action="{{route('user_content.update', $content)}}" enctype="multipart/form-data">
         @csrf
+        @method('PATCH')
         <div class="form-group">
             <label>
-                <textarea class="form-control" name="text" placeholder="Enter Text" required></textarea>
+                <textarea class="form-control" name="text" required>{{$content->text}}</textarea>
             </label>
         </div>
         <lable for="visibility">Visibility</lable>
-        @if (auth()->user()->priv_stat === 'Public')
+        @if ($content->priv_stat === 'Public')
             <select name="visibility" id="visibility_selector">
                 <option value="Public" selected>Public</option>
                 <option value="Private">Private</option>
@@ -18,8 +19,6 @@
                 <option value="Private" selected>Private</option>
             </select>
         @endif
-        <label>Images</label>
-        <input type="file" name="images[]" class="form-control" multiple>
-        <button type="submit" class="btn btn-primary">Create</button>
+        <button type="submit" class="btn btn-primary">Edit</button>
     </form>
 </div>

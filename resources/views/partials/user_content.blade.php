@@ -18,6 +18,7 @@
                 @method('DELETE')
                 <button type="submit"><img src="{{asset('storage/graphics/delete.png')}}"></button>
             </form>
+            <a href="{{route('user_content.edit', $content->id)}}"><img src="{{asset('storage/graphics/edit.png')}}"></a>
         @endif
         <!-- TODO Add stuff for any user interaction, Like/Unlike may not be best practice -->
         <div class="user_content_interaction_block">

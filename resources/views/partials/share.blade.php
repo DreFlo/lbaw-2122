@@ -1,38 +1,7 @@
 <div class="post" id="share_{{$share->id}}">
-    <h2 class="user_content_header" id="share_title_{{$share->id}}">
-        <div class="user_content_title">
-            <a class="link" href="/users/{{$share->content->creator_id}}">{{$share->content->creator->name}}</a>
-            @if($share->content->inGroup())
-                in
-                <a class="link" href="/groups/{{$share->content->group_id}}">{{$share->content->group->name}}</a>
-            @endif
-            at {{$share->content->timestamp}}
-            @if($share->content->edited)
-                edited
-            @endif
-        </div>
-    </h2>
-    <div class="user_content_text" id="share_content_{{$share->id}}">
-        {{$share->content->text}}
-    </div>
+    @include('partials.user_content', ['content' => $share->content])
     <div class="post" id="post_{{$share->post->id}}" style="width: 98%">
-        <h2 class="user_content_header" id="post_title_{{$share->post->id}}">
-            <div class="user_content_title">
-                <a class="link" href="/users/{{$share->post->content->creator_id}}">{{$share->post->content->creator->name}}</a>
-                @if($share->post->content->inGroup())
-                    in
-                    <a class="link" href="/groups/{{$share->post->content->group_id}}">{{$share->post->content->group->name}}</a>
-                @endif
-                at {{$share->post->content->timestamp}}
-                @if($share->post->content->edited)
-                    edited
-                @endif
-                <a href="/posts/{{$share->post->id}}">Post</a>
-            </div>
-        </h2>
-        <div class="user_content_text" id="post_content_{{$share->post->id}}">
-            {{$share->post->content->text}}
-        </div>
+        @include('partials.user_content', ['content' => $share->post->content])
         @if($share->post->hasImages())
             <div class="post_image_slideshow">
                 @foreach($share->post->images() as $image)

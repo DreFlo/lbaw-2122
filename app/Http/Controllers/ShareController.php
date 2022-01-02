@@ -48,44 +48,11 @@ class ShareController extends Controller
      */
     public function show(Share $share)
     {
-        if(!Gate::allows('view-share', $share)) {
+        if(!Gate::allows('view-content', $share->content ||
+            !Gate::allows('view-content', $share->post->content))) {
             abort(403);
         }
 
         return view('pages.share', ['share' => $share]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Share  $share
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Share $share)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Share  $share
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Share $share)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Share  $share
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Share $share)
-    {
-        //
     }
 }

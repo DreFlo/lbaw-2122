@@ -67,9 +67,9 @@ class UserContentController extends Controller
      * @param UserContent $userContent
      * @return \Illuminate\Http\Response
      */
-    public function edit(UserContent $userContent)
+    public function edit(UserContent $userContent): \Illuminate\Http\Response
     {
-        //
+        return view('pages.edit_user_content', ['content' => $userContent]);
     }
 
     /**
@@ -81,7 +81,15 @@ class UserContentController extends Controller
      */
     public function update(Request $request, UserContent $userContent)
     {
-        //
+        $userContent->text = $request->text;
+
+        $userContent->priv_stat = $request->visibility;
+
+        $userContent->edited = true;
+
+        $userContent->save();
+
+        return redirect('user_content/'.$userContent->id);
     }
 
     /**
@@ -95,6 +103,6 @@ class UserContentController extends Controller
         $userContent->priv_stat = 'Anonymous';
         $userContent->save();
 
-        return response('Deleted');
+        return back();
     }
 }

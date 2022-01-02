@@ -22,6 +22,7 @@ Route::resource('user_content', 'UserContentController');
 Route::resource('posts', 'PostController');
 Route::resource('shares', 'ShareController');
 Route::post('comments/store', 'CommentController@store')->name('comments.add');
+Route::get('comments/{comment}', 'CommentController@show');
 Route::post('likes/add', 'LikeController@store')->name('likes.add');
 Route::post('likes/remove', 'LikeController@remove')->name('likes.remove');
 

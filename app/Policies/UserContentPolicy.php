@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Models\Group;
 use App\Models\User;
 use App\Models\UserContent;
 use Illuminate\Auth\Access\Response;
@@ -31,9 +32,12 @@ class UserContentPolicy
      */
     public function view(?User $user, UserContent $userContent): Response
     {
-        if ($userContent->priv_stat === 'Public') return Response::allow();
+        if ($userContent->priv_stat === 'Public') {
+            return Response::allow();
+        }
         elseif ($userContent->priv_stat === 'Private') {
-            if (optional($user)->isFriend($userContent->creator))  return Response::allow();
+            if (optional($user)->id === $userContent->creator_id) return Response::allow();
+            elseif (optional($user)->isFriend($userContent->creator)) return Response::allow();
             elseif ($userContent->inGroup() && optional($user, function($user, $userContent) {return $userContent->group->isMember($user);}))
                 return Response::allow();
         }
@@ -49,6 +53,11 @@ class UserContentPolicy
     public function create(User $user): bool
     {
         return $user->priv_stat !== 'Banned' && $user->priv_stat !== 'Anonymous';
+    }
+
+    public function createInGroup(User $user, Group $group): bool
+    {
+        return $group->isMember($user) && $this->create($user);
     }
 
     /**
@@ -86,17 +95,5 @@ class UserContentPolicy
     {
         return ($user->isAdmin() && $userContent->priv_stat === 'Banned') ||
             ($user->id === $userContent->creator_id && $userContent->priv_stat === 'Anonymous');
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param User $user
-     * @param UserContent $userContent
-     * @return bool
-     */
-    public function forceDelete(User $user, UserContent $userContent): bool
-    {
-        return false;
     }
 }

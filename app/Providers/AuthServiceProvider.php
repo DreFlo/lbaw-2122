@@ -31,8 +31,6 @@ class AuthServiceProvider extends ServiceProvider
         Tag::class => TagPolicy::class,
         TagNotification::class => TagNotificationPolicy::class,
         ShareNotification::class => ShareNotificationPolicy::class,
-        Post::class => PostPolicy::class,
-        Share::class => SharePolicy::class
     ];
 
     /**
@@ -45,8 +43,10 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::define('view-content', [UserContentPolicy::class, 'view']);
-        Gate::define('view-post', [PostPolicy::class, 'view']);
-        Gate::define('view-share', [SharePolicy::class, 'view']);
-        Gate::define('create-post', [PostPolicy::class, 'create']);
+        Gate::define('create-content', [UserContentPolicy::class, 'create']);
+        Gate::define('delete-content', [UserContentPolicy::class, 'delete']);
+        Gate::define('update-content', [UserContentPolicy::class, 'update']);
+        Gate::define('restore-content', [UserContentPolicy::class, 'restore']);
+        Gate::define('viewAny-content', [UserContentPolicy::class, 'viewAny']);
     }
 }

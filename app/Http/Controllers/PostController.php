@@ -30,6 +30,10 @@ class PostController extends Controller
      */
     public function create()
     {
+        if (!Gate::allows('create-content')) {
+            abort(403);
+        }
+
         return view('pages.create_post');
     }
 
@@ -41,7 +45,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        if (!Gate::allows('create-post', $request->user())) {
+        if (!Gate::allows('create-content')) {
             abort(403);
         }
 
@@ -72,7 +76,7 @@ class PostController extends Controller
 
         $user_content_id = DB::table('user_content')->insertGetId([
             'text' => $request->input('text'),
-            'priv_stat' => 'Public',
+            'priv_stat' => $request->visibility,
             'creator_id' => $request->user()->id
         ]);
 
@@ -91,49 +95,9 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        if (!Gate::allows('view-post', $post)) {
+        if (!Gate::allows('view-content', $post->content)) {
             abort(403);
         }
         return view('pages.post', ['post' => $post]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Post  $post
-     * @return Response
-     */
-    public function edit(Post $post)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Post  $post
-     * @return Response
-     */
-    public function update(Request $request, Post $post)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Post  $post
-     * @return Response
-     */
-    public function destroy(Post $post): Response
-    {
-        if (!Gate::allows('delete-post', $post)) {
-            abort(403);
-        }
-
-        $post->content->delete();
-
-        return response('Deleted.');
     }
 }
