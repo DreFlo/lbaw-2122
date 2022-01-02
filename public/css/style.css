@@ -156,17 +156,31 @@ button {
 
 header {
     background-color: #FF271E;
-    height: 7vh;
+    height: 8vh;
 }
 
 .banner_title {
     display: flex;
     justify-content: flex-start;
-    margin: 0px 10px;
+    margin: -10px 10px;
     font-family: "Microsoft YaHei", serif;
     color: white;
     font-weight: bold;
     font-size: 40px;
+}
+
+.logout_button:link, .logout_button:visited {
+    background-color: #FF271E;
+    color: white;
+    padding: 12px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-family: "Microsoft YaHei", serif;
+}
+  
+.logout_button:hover, .logout_button:active {
+    background-color: rgb(238, 12, 12);
 }
 
 .auth_page {
@@ -298,3 +312,33 @@ form .auth_txt {
     margin-left: 2%;
     font-size: large;
 }
+
+.container {
+    margin: 0 auto;
+}
+
+.profile-picture {
+    width: 10em;
+    height: 10em;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 4em;
+    margin-right: 10px;
+}
+
+.post-options {
+    border: none;
+    background-color: black;
+}
+
+.dropdown-item:active {
+    background-color: black;
+}
+
+#posts{
+    margin-left: 120px;
+}
+
+
+

@@ -42,3 +42,9 @@ Route::post('register', 'Auth\RegisterController@create');
 
 // Search
 Route::get('/search', 'SearchController@search');
+
+//Profile
+Route::get('profile', 'UserController@profile');
+Route::get('users/{id}', 'UserController@show');
+Route::get('profile/edit', 'UserController@showEdit');
+Route::patch('profile/edit', 'UserController@edit');

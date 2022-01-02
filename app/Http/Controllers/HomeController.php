@@ -13,7 +13,7 @@ class HomeController extends Controller
 {
     public function show() {
         if (Auth::check()) {
-            //get user posts and return posts view
+            //get posts and return posts view
             return view('pages.home'); //for now
         }
         return redirect('login');
