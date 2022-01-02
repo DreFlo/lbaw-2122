@@ -69,4 +69,36 @@ class UserController extends Controller
 
         return redirect("/profile/edit");
     }
+
+    public static function search(String $input){
+        $users = User::query()
+            ->select('sub.*')
+            ->selectRaw("ts_rank_cd(to_tsvector(sub.name), plainto_tsquery('english', ?)) as rank", [$input])
+            ->from(
+                DB::raw('(select "user".id as id, "user".name as name, "user".profile_pic as profile_pic
+                                from "user"
+                                where priv_stat = \'Public\'
+                                group by id ) AS sub'))
+            ->whereRaw("(sub.name) @@ plainto_tsquery('english', ?)", [$input])
+            ->get();
+
+        if(Auth::check()){
+            $id = Auth::id();
+            $private_users = User::query()
+                ->select('sub.*')
+                ->distinct()
+                ->selectRaw("ts_rank_cd(to_tsvector(sub.name), plainto_tsquery('english', ?)) as rank", [$input])
+                ->from(
+                    DB::raw("(select id, name, profile_pic
+                                from (select user_2
+                                      from friendship
+                                      where user_1 = '$id') as friends left join \"user\" on (friends.user_2 = \"user\".id)) as sub"))
+                ->whereRaw("(sub.name) @@ plainto_tsquery('english', ?)", [$input])
+                ->get();
+            $users = $private_users->merge($users);
+        }
+        $users = $users->sortByDesc("rank");
+
+        return $users;
+    }
 }

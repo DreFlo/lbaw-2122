@@ -478,13 +478,13 @@ create trigger add_membership_on_group_req_update
     after update on "group_request" for each row
 execute procedure  check_new_membership_fn();
 
-insert into "user"(id, "name", birthdate, email, "password") values(1, 'Andre', '2001-03-15', 'a@a.a', '$2a$12$rHC7sIE90OGsGyI9KWiNx.DCMHS2X6Z/hiHeH9D/Bi.zy6xDHoYbS'); /*pass*/
-insert into "user"(id, "name", birthdate, email, "password") values(2, 'Tiago', '2001-05-11', 't@t.t', '$2a$12$rHC7sIE90OGsGyI9KWiNx.DCMHS2X6Z/hiHeH9D/Bi.zy6xDHoYbS'); /*pass*/
-insert into "user"(id, "name", birthdate, email, "password") values(3, 'Diogo', '2001-11-30', 'd@d.d', '$2a$12$rHC7sIE90OGsGyI9KWiNx.DCMHS2X6Z/hiHeH9D/Bi.zy6xDHoYbS'); /*pass*/
+insert into "user"(id, "name", birthdate, email, "password", priv_stat) values(1, 'Andre', '2001-03-15', 'a@a.a', '$2a$12$rHC7sIE90OGsGyI9KWiNx.DCMHS2X6Z/hiHeH9D/Bi.zy6xDHoYbS', 'Private'); /*pass*/
+insert into "user"(id, "name", birthdate, email, "password", priv_stat) values(2, 'Tiago', '2001-05-11', 't@t.t', '$2a$12$rHC7sIE90OGsGyI9KWiNx.DCMHS2X6Z/hiHeH9D/Bi.zy6xDHoYbS', 'Private'); /*pass*/
+insert into "user"(id, "name", birthdate, email, "password", priv_stat) values(3, 'Diogo', '2001-11-30', 'd@d.d', '$2a$12$rHC7sIE90OGsGyI9KWiNx.DCMHS2X6Z/hiHeH9D/Bi.zy6xDHoYbS', 'Private'); /*pass*/
 insert into "user"(id, "name", birthdate, email, "password") values(4, 'Mendes', '1998-10-21', 'm@m.m', '$2a$12$rHC7sIE90OGsGyI9KWiNx.DCMHS2X6Z/hiHeH9D/Bi.zy6xDHoYbS'); /*pass*/
 insert into "user"(id, "name", birthdate, email, "password") values(5, 'Ana', '2000-02-23', 'ana@a.a', '$2a$12$UUB35/ttUXOVxZwYtTLsQ.jVvKji4I4ueL3qE1w/pn7AUWqxd/PHu'); /*1234567*/
 insert into "user"(id, "name", birthdate, email, "password") values(6, 'Miguel', '1997-01-01', 'miguel@mig.m', '$2a$12$d0x8OyoGxUcrS6Vu6NJ8ROlpTxTdQFjdl2JISn0sCw8pQiBSrYy6m'); /*passe*/
-insert into "user"(id, "name", birthdate, email, "password") values(7, 'Joao', '2003-07-05', 'j@j.j', '$2a$12$.SYGqHyG8gs0UNeUJbwhwe/EFKYRJRDhlye.bAQhTTQNOM6DplM.m'); /*passsss*/
+insert into "user"(id, "name", birthdate, email, "password") values(7, 'Joao Diogo', '2003-07-05', 'j@j.j', '$2a$12$.SYGqHyG8gs0UNeUJbwhwe/EFKYRJRDhlye.bAQhTTQNOM6DplM.m'); /*passsss*/
 insert into "user"(id, "name", birthdate, email, "password") values(8, 'Pedro', '1999-09-19', 'p@p.p', '$2a$12$iHNjhHEkBlfm9q6oSJ/WEOg1mNt9KgH4fGJzrqpFYg5xBdV9yNx/m'); /*palavrapasse*/
 insert into "user"(id, "name", birthdate, email, "password") values(9, 'Maria', '1998-12-23', 'maria@m.ma', '$2a$12$oNerZH7Pa0EcvtCQNgVW.uiqftZKBZmcrfTf/7EqyX8P06cDjg6Ni'); /*sim123*/
 insert into "user"(id, "name", birthdate, email, "password") values(10, 'Carlos', '2000-04-01', 'car@car.car', '$2a$12$Xeogp.buV4E5RmhaKBydNuz3SaO96ggcX.PMfOBD4QjEozu.po6Ou'); /*teste*/
