@@ -73,6 +73,30 @@ class User extends Authenticatable
                     ->withPivot('moderator')->using(Membership::class);
     }
 
+    public function friendsAndGroupsPost()
+    {
+        $posts = collect();
+
+        foreach($this->friends as $friend) {
+            foreach($friend->posts as $post) {
+                $posts[] = $post;
+            }
+        }
+
+        foreach($this->groups as $group) {
+            foreach($group->posts as $post) {
+                $posts[] = $post;
+            }
+        }
+
+        $posts->sort(function ($a, $b) {
+            if ($a->content->timestamp === $b->content->timestamp) return 0;
+            return $a->content->timestamp < $b->content->timestamp ? 1 : -1;
+        });
+        
+        return $posts;
+    }
+
     public function moderatedGroups(): BelongsToMany
     {
         return $this->belongsToMany(Group::class, 'membership', 'user_id', 'group_id')

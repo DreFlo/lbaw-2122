@@ -1,4 +1,4 @@
-<div class="post" id="post_{{$post->id}}">
+<div style="{{ $style }}" class="post" id="post_{{$post->id}}">
     @include('partials.user_content', ['content' => $post->content])
     @if($post->hasImages())
         <div class="post_image_slideshow">
@@ -24,7 +24,7 @@
         <div class="post_comments_banner">Comments</div>
         @foreach($post->content->sortedComments() as $comment)
             @if(\Illuminate\Support\Facades\Gate::allows('view-content', $comment->content))
-                @include('partials.comment', ['comment', $comment])
+                @include('partials.comment', ['comment' => $comment])
             @endif
         @endforeach
     </div>
