@@ -12,7 +12,7 @@
 */
 // Home
 Route::get('/', 'Auth\LoginController@home');
-Route::get('home', 'HomeController@show');
+Route::get('home', 'HomeController@show')->name('home');
 
 // Cards
 Route::get('cards', 'CardController@list');
@@ -46,7 +46,7 @@ Route::post('register', 'Auth\RegisterController@create');
 Route::get('/search', 'SearchController@search');
 
 //Profile
-Route::get('profile', 'UserController@profile');
+Route::get('profile', 'UserController@profile')->name('profile');
 Route::get('users/{id}', 'UserController@show');
-Route::get('profile/edit', 'UserController@showEdit');
+Route::get('profile/edit', 'UserController@showEdit')->name('profile/edit');
 Route::patch('profile/edit', 'UserController@edit');
