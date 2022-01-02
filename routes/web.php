@@ -20,8 +20,10 @@ Route::get('cards/{id}', 'CardController@show');
 
 Route::resource('user_content', 'UserContentController');
 Route::resource('posts', 'PostController');
-Route::resource('shares', 'ShareController');
-Route::post('comments/store', 'CommentController@store')->name('comments.add');
+Route::get('posts/{post}/share', 'PostController@share')->name('posts.share');
+Route::get('shares/{share}', 'ShareController@show');
+Route::post('shares', 'ShareController@store')->name('shares.store');
+Route::post('comments', 'CommentController@store')->name('comments.add');
 Route::get('comments/{comment}', 'CommentController@show');
 Route::post('likes/add', 'LikeController@store')->name('likes.add');
 Route::post('likes/remove', 'LikeController@remove')->name('likes.remove');

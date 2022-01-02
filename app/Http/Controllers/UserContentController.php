@@ -22,27 +22,6 @@ class UserContentController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param UserContent $userContent
@@ -65,10 +44,14 @@ class UserContentController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param UserContent $userContent
-     * @return \Illuminate\Http\Response
+     * @return Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function edit(UserContent $userContent): \Illuminate\Http\Response
+    public function edit(UserContent $userContent)
     {
+        if (!Gate::allows('update-content', $userContent)) {
+            abort(403);
+        }
+
         return view('pages.edit_user_content', ['content' => $userContent]);
     }
 
@@ -81,6 +64,9 @@ class UserContentController extends Controller
      */
     public function update(Request $request, UserContent $userContent)
     {
+        if (!Gate::allows('update-content', $userContent)) {
+            abort(403);
+        }
         $userContent->text = $request->text;
 
         $userContent->priv_stat = $request->visibility;
@@ -96,10 +82,13 @@ class UserContentController extends Controller
      * Remove the specified resource from storage.
      *
      * @param UserContent $userContent
-     * @return string
+     * @return RedirectResponse
      */
     public function destroy(UserContent $userContent)
     {
+        if (!Gate::allows('delete-content', $userContent)) {
+            abort(403);
+        }
         $userContent->priv_stat = 'Anonymous';
         $userContent->save();
 

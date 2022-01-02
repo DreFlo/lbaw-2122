@@ -100,4 +100,9 @@ class PostController extends Controller
         }
         return view('pages.post', ['post' => $post]);
     }
+
+    public function share(Post $post)
+    {
+        return view('pages.share_post', ['post' => $post]);
+    }
 }

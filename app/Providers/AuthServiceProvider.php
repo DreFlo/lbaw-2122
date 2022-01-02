@@ -27,6 +27,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         UserContent::class => UserContentPolicy::class,
+        Post::class => PostPolicy::class,
         User::class => UserPolicy::class,
         Tag::class => TagPolicy::class,
         TagNotification::class => TagNotificationPolicy::class,
@@ -48,5 +49,6 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('update-content', [UserContentPolicy::class, 'update']);
         Gate::define('restore-content', [UserContentPolicy::class, 'restore']);
         Gate::define('viewAny-content', [UserContentPolicy::class, 'viewAny']);
+        Gate::define('share-post', [PostPolicy::class, 'share']);
     }
 }

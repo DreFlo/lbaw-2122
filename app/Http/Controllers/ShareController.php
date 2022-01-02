@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use App\Models\Share;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 
 class ShareController extends Controller
@@ -20,24 +22,29 @@ class ShareController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
      */
     public function store(Request $request)
     {
-        //
+        if (!Gate::allows('share-post', Post::find($request->post_id))) {
+            abort(403);
+        }
+
+        $user_content_id = DB::table('user_content')->insertGetId([
+            'text' => $request->input('text'),
+            'priv_stat' => $request->visibility,
+            'creator_id' => $request->user()->id
+        ]);
+
+        $share_id = DB::table('share')->insertGetId([
+            'id' => $user_content_id,
+            'post_id' => $request->post_id
+        ]);
+
+        return redirect('shares/'.$share_id);
     }
 
     /**
@@ -48,8 +55,8 @@ class ShareController extends Controller
      */
     public function show(Share $share)
     {
-        if(!Gate::allows('view-content', $share->content ||
-            !Gate::allows('view-content', $share->post->content))) {
+        if(!Gate::allows('view-content', $share->content) ||
+            !Gate::allows('view-content', $share->post->content)) {
             abort(403);
         }
 

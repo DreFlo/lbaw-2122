@@ -23,7 +23,9 @@
     <div class="post_comments" id="post_comments_{{$post->id}}">
         <div class="post_comments_banner">Comments</div>
         @foreach($post->content->sortedComments() as $comment)
-            @include('partials.comment', ['comment', $comment])
+            @if(\Illuminate\Support\Facades\Gate::allows('view-content', $comment->content))
+                @include('partials.comment', ['comment', $comment])
+            @endif
         @endforeach
     </div>
     @endif
