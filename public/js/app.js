@@ -56,13 +56,13 @@ function toggleLike() {
     if(!liked) {
         sendAjaxRequest('post', '/api/likes', {user_id: user_id, content_id: content_id}, null);
         likeButton.setAttribute('liked', '1');
-        likeImage.setAttribute('src', 'storage/graphics/full_heart.png');
+        likeImage.setAttribute('src', '/storage/graphics/full_heart.png');
         this.getElementsByTagName('div')[1].innerHTML = parseInt(this.getElementsByTagName('div')[1].innerHTML) + 1;
     }
     else {
         sendAjaxRequest('post', '/api/likes', {user_id: user_id, content_id: content_id, '_method': 'DELETE'}, null);
         likeButton.setAttribute('liked', '');
-        likeImage.setAttribute('src', 'storage/graphics/empty_heart.png');
+        likeImage.setAttribute('src', '/storage/graphics/empty_heart.png');
         this.getElementsByTagName('div')[1].innerHTML = parseInt(this.getElementsByTagName('div')[1].innerHTML) - 1;
     }
 }
