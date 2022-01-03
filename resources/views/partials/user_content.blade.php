@@ -13,14 +13,14 @@
     @if(Auth::check())
         @if(auth()->user()->id === $content->creator_id)
             <!-- TODO Add stuff for post owner -->
-            <div class="user_content_interaction_block">
+            <div class="user_content_interaction_block" style="flex: auto; justify-self: center">
                 <form action="{{route('user_content.destroy', $content)}}" method="POST" class="user_content_control_form">
                     @csrf
                     @method('DELETE')
                     <button type="submit" title="Delete"><img src="{{asset('storage/graphics/delete.png')}}" alt="Delete"></button>
                 </form>
             </div>
-            <div class="user_content_interaction_block">
+            <div class="user_content_interaction_block" style="flex: auto; justify-self: center">
                 <button title="Edit">
                     <a href="{{route('user_content.edit', $content->id)}}">
                         <img src="{{asset('storage/graphics/edit.png')}}" alt="Edit">
@@ -30,7 +30,7 @@
         @endif
         <!-- TODO Add stuff for any user interaction, Like/Unlike may not be best practice -->
         @if($content->isPost() && $content->priv_stat === 'Public')
-            <div class="user_content_interaction_block">
+            <div class="user_content_interaction_block" style="flex: auto; justify-self: center">
                 <button title="Share">
                     <a href="{{route('posts.share', \App\Models\Post::find($content->id))}}">
                         <img src="{{asset('storage/graphics/share.png')}}" alt="share">
@@ -39,23 +39,25 @@
             </div>
         @endif
         <div class="user_content_interaction_block like" user_id="{{auth()->user()->id}}" content_id="{{$content->id}}" liked="{{$content->likedByUser(auth()->user()->id)}}">
-            <div style="flex: auto; justify-content: center">
+            <div style="flex: auto; justify-self: center">
                 @if(!$content->likedByUser(auth()->user()->id))
-                    <img src="{{asset('storage/graphics/empty_heart.png')}}" alt="Like">
+                    <img src="{{asset('storage/graphics/empty_heart.png')}}" alt="Like" style="margin: 0">
                 @else
-                    <img src="{{asset('storage/graphics/full_heart.png')}}" alt="Like">
+                    <img src="{{asset('storage/graphics/full_heart.png')}}" alt="Like" style="margin: 0">
                 @endif
             </div>
-            <div style="flex: auto; justify-content: center">{{$content->likeCount()}}</div>
+            <div style="flex: auto;">{{$content->likeCount()}}</div>
         </div>
     @endif
 </h2>
 <div class="user_content_text" id="user_content_text_{{$content->id}}">
     {{$content->text}}
 </div>
-<div id="user_content_tags_{{$content->id}}">
-    <h5>Tagged</h5>
-    @foreach($content->tagged as $tag)
-        <a href="/users/{{$tag->id}}">{{$tag->name}}</a>
-    @endforeach
+<div class="user_content_text" id="user_content_tags_{{$content->id}}">
+    @if($content->hasTags())
+        <h5>Tagged</h5>
+        @foreach($content->tagged as $tag)
+            <a href="/users/{{$tag->id}}">{{$tag->name}}</a>
+        @endforeach
+    @endif
 </div>

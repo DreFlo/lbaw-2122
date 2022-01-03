@@ -44,6 +44,13 @@ class ShareController extends Controller
             'post_id' => $request->post_id
         ]);
 
+        foreach ($request->tags as $tag) {
+            DB::table('tag')->insert([
+                'user_id' => $tag,
+                'content_id' => $share_id
+            ]);
+        }
+
         return redirect('shares/'.$share_id);
     }
 

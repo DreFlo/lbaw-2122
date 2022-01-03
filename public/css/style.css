@@ -27,7 +27,7 @@
 }
 
 .user_content_title {
-    flex: auto;
+    flex: 8;
 }
 
 .user_content_control_form {
@@ -38,6 +38,35 @@
     flex: auto;
     display: flex;
     color: #FF271E;
+}
+
+.create_post_form {
+    width: 98%;
+    margin: 1%;
+}
+
+.search_results_table {
+    position: relative;
+    left: 4%;
+    width: 24%;
+}
+
+.search_results_row {
+    border-bottom: 3px solid #828282;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding: 5px;
+}
+
+.search_results_row_name {
+    flex: 2;
+    justify-self: left;
+}
+
+.search_results_row_tag {
+    flex: 1;
+    justify-self: left;
 }
 
 button {
@@ -51,71 +80,6 @@ button {
     height: 100%;
 }
 
-.post_image_slideshow {
-    max-width: 100%;
-    position: relative;
-}
-
-.hide {
-    display: none;
-}
-
-.post_prev_image, .post_next_image {
-    cursor: pointer;
-    position: absolute;
-    top: 50%;
-    width: auto;
-    margin-top: -22px;
-    padding: 16px;
-    color: white;
-    font-weight: bold;
-    font-size: 18px;
-    transition: 0.6s ease;
-    border-radius: 0 3px 3px 0;
-    user-select: none;
-}
-
-.post_next_image {
-    right: 0;
-    border-radius: 3px 0 0 3px;
-}
-
-.post_prev_image:hover, .post_next_image:hover {
-    background-color: rgba(0,0,0,0.8);
-}
-
-.post_image_transition_fade {
-    -webkit-animation-name: fade;
-    -webkit-animation-duration: 1.5s;
-    animation-name: fade;
-    animation-duration: 1.5s;
-}
-
-@-webkit-keyframes fade {
-    from {opacity: .4}
-    to {opacity: 1}
-}
-
-@keyframes fade {
-    from {opacity: .4}
-    to {opacity: 1}
-}
-
-.dot {
-    cursor: pointer;
-    height: 15px;
-    width: 15px;
-    margin: 0 2px;
-    background-color: #bbb;
-    border-radius: 50%;
-    display: inline-block;
-    transition: background-color 0.6s ease;
-}
-
-.active, .dot:hover {
-    background-color: #717171;
-}
-
 .reply_box {
     margin: 5px 5px;
     flex: auto;
@@ -123,8 +87,9 @@ button {
 }
 
 .comment {
-    width: 75%;
-    left: 25%;
+    width: 99%;
+    position: relative;
+    left: 1%;
 }
 
 .comment + .comment {
@@ -359,7 +324,7 @@ form .auth_txt {
     padding: 12px 16px;
     text-decoration: none;
     display: block;
-} 
+}
 
 .dropdown-content a:hover {background-color: #ddd;}
 
@@ -422,7 +387,7 @@ form .auth_txt {
 .groups_timeline {
 
     float: right;
-    width: 30%;   
+    width: 30%;
     background-color: #F2F2F2;
     border: 2px solid #828282;
     border-radius: 10px;
@@ -439,7 +404,7 @@ form .auth_txt {
 }
 
 table, th, td {
-    
+
     border-bottom: 2px solid #F2F2F2;
     border-spacing: 10px;
 }
@@ -452,7 +417,7 @@ table, th, td {
     max-height: 100%;
     background-size: 100% 150px;
     text-align: center;
-    
+
 }
 
 .font_timeline {

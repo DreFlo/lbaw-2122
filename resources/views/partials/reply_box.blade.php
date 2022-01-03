@@ -7,5 +7,5 @@
             <textarea class="form-control" name="text" placeholder="Enter Text" required></textarea>
         </label>
     </div>
-    <input type="submit" value="Reply">
+    <input type="submit" value="Reply" style="margin: 1%">
 </form>

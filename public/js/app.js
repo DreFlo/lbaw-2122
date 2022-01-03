@@ -86,26 +86,27 @@ function searchHandler() {
     let searchResults = document.createElement('table');
 
     searchResults.setAttribute('id', 'tag_search_results');
+    searchResults.classList.add('search_results_table');
 
     users.forEach(function (user) {
         let row = document.createElement('tr');
-
-        let rowInner = document.createElement('td');
+        row.classList.add('search_results_row');
 
         let anchor = document.createElement('a');
         anchor.innerHTML = user.name;
         anchor.setAttribute('href', '/users/' + user.id);
+        anchor.classList.add('search_results_row_name');
 
         let addTagButton = document.createElement('button');
         addTagButton.setAttribute('class', 'btn btn-primary');
         addTagButton.setAttribute('type', 'button');
+        addTagButton.classList.add('search_results_row_tag');
         addTagButton.innerHTML = 'Tag';
         addTagButton.setAttribute('user_id', user.id);
         addTagButton.addEventListener('click', addTag);
 
-        rowInner.appendChild(anchor);
-        rowInner.appendChild(addTagButton);
-        row.appendChild(rowInner);
+        row.appendChild(anchor);
+        row.appendChild(addTagButton);
         searchResults.appendChild(row);
     })
 
@@ -120,9 +121,14 @@ function addTag() {
     let newTag = document.createElement('input');
     newTag.setAttribute('type', 'hidden');
     newTag.setAttribute('name', 'tags[]');
+    newTag.setAttribute('id', 'tag_' + this.getAttribute('user_id'));
     newTag.setAttribute('value', this.getAttribute('user_id'));
 
-    document.getElementById('create_post_form').appendChild(newTag);
+    if (!document.getElementById('tag_' + this.getAttribute('user_id')))
+        document.getElementById('create_post_form').appendChild(newTag);
+
+    this.style.backgroundColor = 'grey';
+    this.removeEventListener('click', addTag);
 }
 
 function sendItemUpdateRequest() {

@@ -85,11 +85,13 @@ class PostController extends Controller
 
         $post_id = DB::table('post')->insertGetId($post_array);
 
-        foreach ($request->tags as $tag) {
-            DB::table('tag')->insert([
-                'user_id' => $tag,
-                'content_id' => $post_id
-            ]);
+        if ($request->has('tags')) {
+            foreach ($request->tags as $tag) {
+                DB::table('tag')->insert([
+                    'user_id' => $tag,
+                    'content_id' => $post_id
+                ]);
+            }
         }
 
         return redirect('posts/'.$post_id);

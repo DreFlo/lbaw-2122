@@ -47,6 +47,10 @@ class UserContent extends Model
                     ->using(Tag::class);
     }
 
+    public function hasTags() {
+        return !$this->tagged->isEmpty();
+    }
+
     public function likes(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'like', 'content_id', 'user_id')
