@@ -25,8 +25,8 @@ Route::get('shares/{share}', 'ShareController@show');
 Route::post('shares', 'ShareController@store')->name('shares.store');
 Route::post('comments', 'CommentController@store')->name('comments.add');
 Route::get('comments/{comment}', 'CommentController@show');
-Route::post('likes/add', 'LikeController@store')->name('likes.add');
-Route::post('likes/remove', 'LikeController@remove')->name('likes.remove');
+Route::post('api/likes', 'LikeController@store');
+Route::delete('api/likes', 'LikeController@remove');
 
 // API
 Route::put('api/cards', 'CardController@create');

@@ -12,23 +12,23 @@ class LikeController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
-    public function store(Request $request): \Illuminate\Http\RedirectResponse
+    public function store(Request $request)
     {
         DB::table('like')->insert([
             'user_id' => $request->user_id,
             'content_id' => $request->content_id
         ]);
 
-        return back();
+        return response('Like registered');
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Like  $like
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
     public function remove(Request $request)
     {
@@ -37,6 +37,6 @@ class LikeController extends Controller
             ->where('content_id', $request->content_id)
             ->delete();
 
-        return back();
+        return response('Unlike registered');
     }
 }

@@ -38,23 +38,11 @@
                 </button>
             </div>
         @endif
-        <div class="user_content_interaction_block">
+        <div class="user_content_interaction_block like" user_id="{{auth()->user()->id}}" content_id="{{$content->id}}" liked="{{$content->likedByUser(auth()->user()->id)}}">
             @if(!$content->likedByUser(auth()->user()->id))
-                <form action="{{route('likes.add')}}" method="POST" class="user_content_control_form">
-                    @csrf
-                    @method('POST')
-                    <input type="hidden" value="{{$content->id}}" name="content_id">
-                    <input type="hidden" value="{{auth()->user()->id}}" name="user_id">
-                    <button type="submit" title="Like"><img src="{{asset('storage/graphics/empty_heart.png')}}" alt="Like"></button>
-                </form>
+                <img src="{{asset('storage/graphics/empty_heart.png')}}" alt="Like">
             @else
-                <form action="{{route('likes.remove')}}" method="POST" class="user_content_control_form">
-                    @csrf
-                    @method('POST')
-                    <input type="hidden" value="{{$content->id}}" name="content_id">
-                    <input type="hidden" value="{{auth()->user()->id}}" name="user_id">
-                    <button type="submit" title="Unlike"><img src="{{asset('storage/graphics/full_heart.png')}}" alt="Unlike"></button>
-                </form>
+                <img src="{{asset('storage/graphics/full_heart.png')}}" alt="Like">
             @endif
             <div style="flex: auto; justify-content: center">{{$content->likeCount()}}</div>
         </div>
