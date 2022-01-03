@@ -39,11 +39,13 @@
             </div>
         @endif
         <div class="user_content_interaction_block like" user_id="{{auth()->user()->id}}" content_id="{{$content->id}}" liked="{{$content->likedByUser(auth()->user()->id)}}">
-            @if(!$content->likedByUser(auth()->user()->id))
-                <img src="{{asset('storage/graphics/empty_heart.png')}}" alt="Like">
-            @else
-                <img src="{{asset('storage/graphics/full_heart.png')}}" alt="Like">
-            @endif
+            <div style="flex: auto; justify-content: center">
+                @if(!$content->likedByUser(auth()->user()->id))
+                    <img src="{{asset('storage/graphics/empty_heart.png')}}" alt="Like">
+                @else
+                    <img src="{{asset('storage/graphics/full_heart.png')}}" alt="Like">
+                @endif
+            </div>
             <div style="flex: auto; justify-content: center">{{$content->likeCount()}}</div>
         </div>
     @endif

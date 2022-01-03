@@ -48,7 +48,7 @@ function sendAjaxRequest(method, url, data, handler) {
 
 function toggleLike() {
     let likeButton = this.closest('div.like');
-    let likeImage = this.getElementsByTagName('img')[0];
+    let likeImage = this.getElementsByTagName('div')[0].getElementsByTagName('img')[0];
     let user_id = likeButton.getAttribute('user_id');
     let content_id = likeButton.getAttribute('content_id');
     let liked = likeButton.getAttribute('liked');
@@ -57,13 +57,13 @@ function toggleLike() {
         sendAjaxRequest('post', '/api/likes', {user_id: user_id, content_id: content_id}, null);
         likeButton.setAttribute('liked', '1');
         likeImage.setAttribute('src', 'storage/graphics/full_heart.png');
-        this.getElementsByTagName('div')[0].innerHTML = parseInt(this.getElementsByTagName('div')[0].innerHTML) + 1;
+        this.getElementsByTagName('div')[1].innerHTML = parseInt(this.getElementsByTagName('div')[1].innerHTML) + 1;
     }
     else {
         sendAjaxRequest('post', '/api/likes', {user_id: user_id, content_id: content_id, '_method': 'DELETE'}, null);
         likeButton.setAttribute('liked', '');
         likeImage.setAttribute('src', 'storage/graphics/empty_heart.png');
-        this.getElementsByTagName('div')[0].innerHTML = parseInt(this.getElementsByTagName('div')[0].innerHTML) - 1;
+        this.getElementsByTagName('div')[1].innerHTML = parseInt(this.getElementsByTagName('div')[1].innerHTML) - 1;
     }
 }
 
