@@ -22,6 +22,11 @@ function addEventListeners() {
   let cardCreator = document.querySelector('article.card form.new_card');
   if (cardCreator != null)
     cardCreator.addEventListener('submit', sendCreateCardRequest);
+
+    let likes = document.querySelectorAll('div.like');
+    [].forEach.call(likes, function(like) {
+        like.addEventListener('click', likeRequest);
+    });
 }
 
 function encodeForAjax(data) {
@@ -39,6 +44,16 @@ function sendAjaxRequest(method, url, data, handler) {
   request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
   request.addEventListener('load', handler);
   request.send(encodeForAjax(data));
+}
+
+function likeRequest() {
+    let likeButton = this.closest('div.like');
+    let user_id_val = likeButton.getAttribute('user_id');
+    let content_id_val = likeButton.getAttribute('content_id');
+
+    console.log(user_id_val, content_id_val);
+
+    sendAjaxRequest('post', 'api/likes', {user_id: user_id_val, content_id: content_id_val});
 }
 
 function sendItemUpdateRequest() {
@@ -177,33 +192,5 @@ function createItem(item) {
   return new_item;
 }
 
-let postSlideIndex = 1;
-showPostSlides(postSlideIndex);
-
-function plusPostSlides(n) {
-    showPostSlides(postSlideIndex += n);
-}
-
-function currentPostSlide(n) {
-    showPostSlides(postSlideIndex = n);
-}
-
-function showPostSlides(n) {
-    let i;
-    const slides = document.getElementsByClassName("post_image");
-    const dots = document.getElementsByClassName("dot");
-    if (n > slides.length) {postSlideIndex = 1}
-    if (n < 1) {postSlideIndex = slides.length}
-    for (i = 0; i < slides.length; i++) {
-        slides[i].style.display = "none";
-    }
-    for (i = 0; i < dots.length; i++) {
-        dots[i].className = dots[i].className.replace(" active", "");
-    }
-    slides[postSlideIndex-1].style.display = "block";
-    dots[postSlideIndex-1].className += " active";
-}
-
-let commentReplyButtons = document
 
 addEventListeners();

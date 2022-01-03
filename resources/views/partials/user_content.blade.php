@@ -5,7 +5,7 @@
             in
             <a class="link" href="/groups/{{$content->group_id}}">{{$content->group->name}}</a>
         @endif
-        at {{$content->timestamp}}
+        at {{date('g:i a d/m/y',strtotime($content->timestamp))}}
         @if($content->edited)
             edited
         @endif
