@@ -53,3 +53,9 @@
 <div class="user_content_text" id="user_content_text_{{$content->id}}">
     {{$content->text}}
 </div>
+<div id="user_content_tags_{{$content->id}}">
+    <h5>Tagged</h5>
+    @foreach($content->tagged as $tag)
+        <a href="/users/{{$tag->id}}">{{$tag->name}}</a>
+    @endforeach
+</div>

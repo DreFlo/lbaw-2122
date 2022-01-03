@@ -70,7 +70,9 @@ class UserController extends Controller
         return redirect("/profile/edit");
     }
 
-    public static function search(String $input){
+    public static function search(Request $request){
+        $input = $request->searchString;
+
         $users = User::query()
             ->select('sub.*')
             ->selectRaw("ts_rank_cd(to_tsvector(sub.name), plainto_tsquery('english', ?)) as rank", [$input])

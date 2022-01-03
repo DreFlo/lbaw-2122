@@ -45,6 +45,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        //TODO Validation of request
         if (!Gate::allows('create-content')) {
             abort(403);
         }
@@ -83,6 +84,13 @@ class PostController extends Controller
         $post_array['id'] = $user_content_id;
 
         $post_id = DB::table('post')->insertGetId($post_array);
+
+        foreach ($request->tags as $tag) {
+            DB::table('tag')->insert([
+                'user_id' => $tag,
+                'content_id' => $post_id
+            ]);
+        }
 
         return redirect('posts/'.$post_id);
     }

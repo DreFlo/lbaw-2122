@@ -1,32 +1,36 @@
 function addEventListeners() {
-  let itemCheckers = document.querySelectorAll('article.card li.item input[type=checkbox]');
-  [].forEach.call(itemCheckers, function(checker) {
+    let itemCheckers = document.querySelectorAll('article.card li.item input[type=checkbox]');
+    [].forEach.call(itemCheckers, function(checker) {
     checker.addEventListener('change', sendItemUpdateRequest);
-  });
+    });
 
-  let itemCreators = document.querySelectorAll('article.card form.new_item');
-  [].forEach.call(itemCreators, function(creator) {
+    let itemCreators = document.querySelectorAll('article.card form.new_item');
+    [].forEach.call(itemCreators, function(creator) {
     creator.addEventListener('submit', sendCreateItemRequest);
-  });
+    });
 
-  let itemDeleters = document.querySelectorAll('article.card li a.delete');
-  [].forEach.call(itemDeleters, function(deleter) {
+    let itemDeleters = document.querySelectorAll('article.card li a.delete');
+    [].forEach.call(itemDeleters, function(deleter) {
     deleter.addEventListener('click', sendDeleteItemRequest);
-  });
+    });
 
-  let cardDeleters = document.querySelectorAll('article.card header a.delete');
-  [].forEach.call(cardDeleters, function(deleter) {
+    let cardDeleters = document.querySelectorAll('article.card header a.delete');
+    [].forEach.call(cardDeleters, function(deleter) {
     deleter.addEventListener('click', sendDeleteCardRequest);
-  });
+    });
 
-  let cardCreator = document.querySelector('article.card form.new_card');
-  if (cardCreator != null)
+    let cardCreator = document.querySelector('article.card form.new_card');
+    if (cardCreator != null)
     cardCreator.addEventListener('submit', sendCreateCardRequest);
 
     let likeToggles = document.querySelectorAll('div.like');
     [].forEach.call(likeToggles, function(like) {
         like.addEventListener('click', toggleLike);
     });
+
+    let tagSearchButton = document.querySelector("button.tag_search_button");
+    if (tagSearchButton != null)
+        tagSearchButton.addEventListener('click', searchUser);
 }
 
 function encodeForAjax(data) {
@@ -65,6 +69,60 @@ function toggleLike() {
         likeImage.setAttribute('src', '/storage/graphics/empty_heart.png');
         this.getElementsByTagName('div')[1].innerHTML = parseInt(this.getElementsByTagName('div')[1].innerHTML) - 1;
     }
+}
+
+function searchUser() {
+    let searchBoxes = document.getElementsByClassName('tag_search_field');
+    let searchValue = searchBoxes[searchBoxes.length - 1].value;
+
+    sendAjaxRequest('post', '/api/search/users', {searchString: searchValue}, searchHandler);
+}
+
+function searchHandler() {
+    let users = JSON.parse(this.responseText);
+
+    let tagLabel = document.getElementById('tag_label');
+
+    let searchResults = document.createElement('table');
+
+    searchResults.setAttribute('id', 'tag_search_results');
+
+    users.forEach(function (user) {
+        let row = document.createElement('tr');
+
+        let rowInner = document.createElement('td');
+
+        let anchor = document.createElement('a');
+        anchor.innerHTML = user.name;
+        anchor.setAttribute('href', '/users/' + user.id);
+
+        let addTagButton = document.createElement('button');
+        addTagButton.setAttribute('class', 'btn btn-primary');
+        addTagButton.setAttribute('type', 'button');
+        addTagButton.innerHTML = 'Tag';
+        addTagButton.setAttribute('user_id', user.id);
+        addTagButton.addEventListener('click', addTag);
+
+        rowInner.appendChild(anchor);
+        rowInner.appendChild(addTagButton);
+        row.appendChild(rowInner);
+        searchResults.appendChild(row);
+    })
+
+    let previousResults = document.getElementById('tag_search_results');
+
+    if (previousResults != null) tagLabel.removeChild(previousResults);
+
+    tagLabel.appendChild(searchResults);
+}
+
+function addTag() {
+    let newTag = document.createElement('input');
+    newTag.setAttribute('type', 'hidden');
+    newTag.setAttribute('name', 'tags[]');
+    newTag.setAttribute('value', this.getAttribute('user_id'));
+
+    document.getElementById('create_post_form').appendChild(newTag);
 }
 
 function sendItemUpdateRequest() {

@@ -1,5 +1,5 @@
 <div class="post">
-    <form method="POST" action="{{route('posts.store')}}" enctype="multipart/form-data">
+    <form method="POST" action="{{route('posts.store')}}" enctype="multipart/form-data" id="create_post_form">
         @csrf
         <div class="form-group">
             <label>
@@ -20,6 +20,11 @@
         @endif
         <label>Images</label>
         <input type="file" name="images[]" class="form-control" multiple>
+        <label id="tag_label">
+            Tags
+            <input type="text" class="tag_search_field">
+            <button type="button" class="btn btn-primary tag_search_button">Search</button>
+        </label>
         <button type="submit" class="btn btn-primary">Create</button>
     </form>
 </div>

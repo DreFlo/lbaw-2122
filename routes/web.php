@@ -34,6 +34,7 @@ Route::post('api/item/{id}', 'ItemController@update');
 Route::delete('api/item/{id}', 'ItemController@delete');
 Route::post('api/likes', 'LikeController@store');
 Route::delete('api/likes', 'LikeController@remove');
+Route::post('api/search/users', 'UserController@search');
 
 // Authentication
 Route::get('login', 'Auth\LoginController@showLoginForm');
