@@ -14,10 +14,6 @@
 Route::get('/', 'Auth\LoginController@home');
 Route::get('home', 'HomeController@show')->name('home');
 
-// Cards
-Route::get('cards', 'CardController@list');
-Route::get('cards/{id}', 'CardController@show');
-
 Route::resource('user_content', 'UserContentController');
 Route::resource('posts', 'PostController');
 Route::get('posts/{post}/share', 'PostController@share')->name('posts.share');
@@ -27,11 +23,6 @@ Route::post('comments', 'CommentController@store')->name('comments.add');
 Route::get('comments/{comment}', 'CommentController@show');
 
 // API
-Route::put('api/cards', 'CardController@create');
-Route::delete('api/cards/{card_id}', 'CardController@delete');
-Route::put('api/cards/{card_id}/', 'ItemController@create');
-Route::post('api/item/{id}', 'ItemController@update');
-Route::delete('api/item/{id}', 'ItemController@delete');
 Route::post('api/likes', 'LikeController@store');
 Route::delete('api/likes', 'LikeController@remove');
 Route::post('api/search/users', 'UserController@search');

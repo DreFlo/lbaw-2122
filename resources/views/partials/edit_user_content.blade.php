@@ -1,5 +1,5 @@
 <div class="post">
-    <form method="POST" action="{{route('user_content.update', $content)}}" enctype="multipart/form-data">
+    <form method="POST" action="{{route('user_content.update', $content)}}" enctype="application/x-www-form-urlencoded">
         @csrf
         @method('PATCH')
         <div class="form-group">

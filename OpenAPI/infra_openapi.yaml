@@ -7,7 +7,7 @@ info:
 
 servers:
     -   url : http://lbaw2192.lbaw.fe.up.pt
-        description : Server #Mudar
+        description : Server
 
 
 externalDocs:
@@ -20,35 +20,35 @@ tags:
     -   name: 'M03: User Content'
     -   name: 'M04: Notifications'
     -   name: 'M05: Administration and Static Pages'
+    -   name: 'M06: Search'
 
 paths:
   /:
     get:
       operationId: R100
       summary: 'R100: Landing page'
-      description: 'Provide Welcome or Timeline. Access: PUB'
+      description: 'Provide login or home page. Access: PUB'
       tags:
         - 'M01: Authentication and User Profile'
       responses:
-        '200':
+        302:
           description: 'OK. Show page.'
-  /welcome:
+  /login:
     get:
       operationId: R101
-      summary: 'R101: Welcome Page'
-      description: 'Provide login (Welcome) and register page. Access: PUB'
-      tags:
-        - 'M01: Authentication and User Profile'
-      responses:
-        '200':
-          description: 'OK. Show welcome page.'
-  /login:
-    post:
-      operationId: R102
       summary: 'R102: Login Form'
       description: 'Provide login form. Access: PUB'
       tags:
-        -   'M01: Authentication and User Profile'
+        - 'M01: Authentication and User Profile'
+      responses:
+        200:
+          description: 'OK. Show page.'
+    patch:
+      operationId: R102
+      summary: 'R102: Post login information'
+      description: 'Post login form. Access: PUB'
+      tags:
+        - 'M01: Authentication and User Profile'
       requestBody:
         required: true
         content:
@@ -71,16 +71,16 @@ paths:
           headers:
             Location:
               schema:
-                  type: string
+                type: string
               examples:
-                  302Success:
-                      description: 'Succesful authentication. Redirecting to homepage'
-                      value: '/home'
-                  302Error:
-                      description: 'Failed auth. Redirecting to login page'
-                      value: '/login'
+                302Success:
+                  description: 'Succesful authentication. Redirecting to homepage'
+                  value: '/home'
+                302Error:
+                  description: 'Failed auth. Redirecting to login page'
+                  value: '/login'
   /logout:
-    post: 
+    post:
       operationId: R103
       summary: 'R103: Logout'
       description: 'Logout the user. Access: USR, ADM'
@@ -172,9 +172,27 @@ paths:
       responses:
         '200':
           description: 'OK.'
+    post:
+      operationId: R107
+      summary: 'R107: Post Groups to join'
+      description: 'R107: Post groups to join'
+      tags:
+        - 'M01: Authentication and User Profile'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: array
+              items:
+                type: integer
+                description: 'Group ID'
+      responses:
+        '200':
+          description: 'OK.'
   /users/{id}:
     get:
-      operationId: R107
+      operationId: R108
       summary: 'R107: View user profile.'
       description: 'Show a user''s profile. Access: USR'
       tags:
@@ -188,10 +206,10 @@ paths:
           required: true
       responses:
         '200':
-          description: 'OK. Show user profile.'  
+          description: 'OK. Show user profile.'
   /profile:
     get:
-      operationId: R108
+      operationId: R109
       summary: 'R108: User''s own profile page'
       description: 'Provide own profile page. Access: USR'
       tags:
@@ -201,7 +219,7 @@ paths:
           description: 'Redirect to current user page'
   /profile/edit:
     get:
-      operationId: R109
+      operationId: R110
       summary: 'R109: Edit Profile'
       description: 'Show edit profile page. Access: OWN'
       tags:
@@ -210,7 +228,7 @@ paths:
         '200':
           description: 'OK. Show edit page.'
     patch:
-      operationId: R110
+      operationId: R111
       summary: 'R110: Edit User Profile Action'
       description: 'Process the edition of user information. Access: OWN.'
       tags:
@@ -249,7 +267,7 @@ paths:
                   value: '/profile/edit'
   /profile/edit/delete:
     get:
-      operationId: R111
+      operationId: R112
       summary: 'R111: Delete Account'
       description: 'Show deletion page. Access: OWN'
       tags:
@@ -258,7 +276,7 @@ paths:
         '200':
           description: 'OK. Sow deletion page.'
     post:
-      operationId: R112
+      operationId: R113
       summary: 'R112: Delete Account Action'
       description: 'Process account deletion. Access: OWN'
       tags:
@@ -279,7 +297,7 @@ paths:
                   value: '/profile/edit'
   /profile/groups:
     get:
-      operationId: R112
+      operationId: R114
       summary: 'R112: Get users groups.'
       description: 'Get a user''s groups.'
       tags:
@@ -287,8 +305,8 @@ paths:
       parameters:
         - in : query
           name: uid
-          schema: 
-            type: integer 
+          schema:
+            type: integer
           description: User ID
       responses:
         '200':
@@ -301,7 +319,7 @@ paths:
                   $ref: '#/components/schemas/Membership'
   /profile/friends:
     get:
-      operationId: R113
+      operationId: R115
       summary: 'R113: Get user''s friends.'
       description: 'Get user''s friends.'
       tags:
@@ -309,8 +327,8 @@ paths:
       parameters:
         - in : query
           name: uid
-          schema: 
-            type: integer 
+          schema:
+            type: integer
           description: User ID
       responses:
         '200':
@@ -321,11 +339,11 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Friendship'
-  /timeline:
+  /home:
     get:
-      operationId: R114
-      summary: 'R114: Timeline'
-      description: 'Show a User''s timeline. Access: USR'
+      operationId: R116
+      summary: 'R114: Home'
+      description: 'Show a User''s timeline or the public one. Access: USR PUB'
       tags:
         - 'M01: Authentication and User Profile'
       responses:
@@ -333,7 +351,7 @@ paths:
           description: 'OK. Show page.'
   /profile/friend_requests:
     get:
-      operationId: R115
+      operationId: R117
       summary: 'R115: Friend Requests'
       description: 'Show User''s friend requests'
       tags:
@@ -343,7 +361,7 @@ paths:
           description: 'OK. Show page.'
   /profile/group_requests:
     get:
-      operationId: R116
+      operationId: R118
       summary: 'R116: Friend Requests'
       description: 'Show User''s group requests'
       tags:
@@ -351,10 +369,7 @@ paths:
       responses:
         '200':
           description: 'OK. Show page.'
-
-
-          
-  /group/create:
+  /groups/create:
     get:
       operationId: R201
       summary: 'R201: Create Group'
@@ -387,7 +402,7 @@ paths:
               required:
               - name
               - cover_pic
-              - priv_stat        
+              - priv_stat
       responses:
         '302':
           description: 'Redirect after creating new group.'
@@ -402,7 +417,7 @@ paths:
                 302Error:
                   description: 'Failed group creation. Redirect to group creation page.'
                   value: '/group/create'
-  /group/{id}:
+  /groups/{id}:
     get:
       operationId: R203
       summary: 'R203: View Group'
@@ -419,7 +434,7 @@ paths:
       responses:
         '200':
           description: 'OK. Show group page.'
-  /group/{id}/info:
+  /groups/{id}/info:
       get:
         operationId: R204
         summary: 'R204: View group information page'
@@ -436,7 +451,7 @@ paths:
         responses:
           '200':
             description: 'Ok. Show group information page.'
-  /group/{id}/edit:
+  /groups/{id}/edit:
     parameters:
         - in: path
           name: id
@@ -506,7 +521,7 @@ paths:
                 302Error:
                   description: 'Failed group deletion. Redirect to information page.'
                   value: '/group/{id}/edit'
-  /group/{id}/members:
+  /groups/{id}/members:
     get:
       operationId: R208
       summary: 'R208: Get group members.'
@@ -529,7 +544,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Membership'
-  /group/{id}/members/{user_id}:
+  /groups/{id}/members/{user_id}:
     parameters:
         - in: path
           name: id
@@ -569,7 +584,7 @@ paths:
             schema:
               type: object
               properties:
-                moderator: 
+                moderator:
                   type: boolean
               required:
                   - moderator
@@ -607,12 +622,12 @@ paths:
                 303failure:
                   description: 'Failed member deletion. Redirect to group member page.'
                   value: 'group/{id}/members/{user_id}'
-  /group/{id}/requests:
+  /groups/{id}/requests:
     parameters:
         - in : path
           name: id
           description: 'Group ID'
-          schema: 
+          schema:
             type: integer
           required: true
     get:
@@ -650,7 +665,7 @@ paths:
                 302Error:
                   description: 'Failed request added. Redirect to group requests page.'
                   value: '/group/{id}/requests'
-  /group/{id}/requests/{user_id}:
+  /groups/{id}/requests/{user_id}:
     parameters:
         - in: path
           name: id
@@ -690,7 +705,7 @@ paths:
             schema:
               type: object
               properties:
-                status: 
+                status:
                   type: string
                   enum: [Accepted, Declined]
               required:
@@ -709,24 +724,223 @@ paths:
                 302Error:
                   description: 'Failed request added. Redirect to specific group request page.'
                   value: '/group/{id}/requests/{user_id}'
-        
   /user_content/{id}:
-        get:
-            operationId: R301
-            summary: 'R301: View User Content Page'
-            description: 'Show user content page. Access: USR'
-            tags:
-                - 'M03: User Content'
-            parameters:
-                - in: path
-                  name: id
-                  description: User content ID
-                  schema:
-                    type: integer
-                  required: true
-            responses:
-                '200':
-                    description: 'OK'
+    get:
+      operationId: R301
+      summary: 'R301: View User Content Page'
+      description: 'Show user content page. Access: USR'
+      tags:
+        - 'M03: User Content'
+      parameters:
+        - in: path
+          name: id
+          description: User content ID
+          schema:
+            type: integer
+          required: true
+      responses:
+        '302':
+          description: 'OK'
+  /posts/{id}:
+    get:
+      operationId: R302
+      summary: 'R302: View Post Page'
+      description: 'Show post page. Access: USR'
+      tags:
+        - 'M03: User Content'
+      parameters:
+        - in: path
+          name: id
+          description: Post ID
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: 'OK'
+  /comments/{id}:
+    get:
+      operationId: R303
+      summary: 'R303: View Comment Page'
+      description: 'Show comment page. Access: USR'
+      tags:
+        - 'M03: User Content'
+      parameters:
+        - in: path
+          name: id
+          description: Comment ID
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: 'OK'
+  /shares/{id}:
+    get:
+      operationId: R304
+      summary: 'R304: View shares Page'
+      description: 'Show shares page. Access: USR'
+      tags:
+        - 'M03: User Content'
+      parameters:
+        - in: path
+          name: id
+          description: Share ID
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: 'OK'
+  /posts/create:
+    get:
+      operationId: R305
+      summary: 'R305: View Post Creation Page'
+      description: 'Access: USR'
+      tags:
+        - 'M03: User Content'
+      responses:
+        '200':
+          description: 'OK'
+  /posts:
+    post:
+      operationId: R306
+      summary: 'R306: Create Post'
+      description: 'Access: USR'
+      tags:
+        - 'M03: User Content'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                group:
+                  type: integer
+                images:
+                  type: array
+                tags:
+                  type: array
+                priv_stat:
+                  type: string
+                  enum: [ Public, Private ]
+              required:
+                - text
+                - priv_stat
+      responses:
+        '302':
+          description: 'OK'
+  /comments:
+    post:
+      operationId: R307
+      summary: 'R307: Create Comment'
+      description: 'Access: USR'
+      tags:
+        - 'M03: User Content'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                tags:
+                  type: array
+                priv_stat:
+                  type: string
+                  enum: [ Public, Private ]
+              required:
+                - text
+                - priv_stat
+      responses:
+        '302':
+          description: 'OK'
+  /shares:
+    post:
+      operationId: R307
+      summary: 'R307: Create Post'
+      description: 'Show post page. Access: USR'
+      tags:
+        - 'M03: User Content'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                group:
+                  type: integer
+                images:
+                  type: array
+                tags:
+                  type: array
+                priv_stat:
+                  type: string
+                  enum: [ Public, Private ]
+              required:
+                - text
+                - priv_stat
+      responses:
+        '302':
+          description: 'OK'
+  /posts/{post}/share:
+    get:
+      operationId: R308
+      summary: 'R308: View Share Creation Page'
+      description: 'Access: USR'
+      tags:
+        - 'M03: User Content'
+      responses:
+        '200':
+          description: 'OK'
+  /api/likes:
+    post:
+      operationId: R309
+      summary: 'R309: Create like'
+      description: 'Access: USR'
+      tags:
+        - 'M03: User Content'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                user_id:
+                  type: integer
+                content_id:
+                  type: integer
+      responses:
+        '200':
+          description: 'OK'
+    delete:
+      operationId: R310
+      summary: 'R309: Remove like'
+      description: 'Access: USR'
+      tags:
+        - 'M03: User Content'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                user_id:
+                  type: integer
+                content_id:
+                  type: integer
+      responses:
+        '200':
+          description: 'OK'
+
   /api/user_content:
         get:
             operationId: R302
@@ -1288,7 +1502,7 @@ paths:
                     - content_id
                     - user_id
                   example:
-                    content_id: 3 
+                    content_id: 3
                     user_id: 8
           responses:
             '201':
@@ -1406,7 +1620,7 @@ paths:
       description: ' Delete Request Notifications such as Friend or Group Request Notifications'
       tags:
         - 'M04: Notifications'
-      responses: 
+      responses:
         '200':
           description: 'Success'
         '404':
@@ -1433,7 +1647,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/GroupInviteNotification'
-    delete: 
+    delete:
       operationId: R406
       summary: 'R406: Delete Invite Notifications'
       description: 'Delete Invite Notifications from Groups'
@@ -1444,17 +1658,17 @@ paths:
           description: 'Not Found!'
 
   /about:
-    get: 
+    get:
       operationId: R501
       summary: 'R501: About Us Page'
       description: 'Provide About Us page. Access: PUB'
       tags:
         - 'M05: Administration and Static Pages'
       responses:
-        '200': 
+        '200':
           description: 'Ok. Show About Us page.'
   /contact:
-    get: 
+    get:
       operationId: R502
       summary: 'R502: Contact Us Page'
       description: 'Provide Constact US page. Access: PUB'
@@ -1474,7 +1688,44 @@ paths:
         '200':
           description: 'Ok. Show Admin Dashboard'
 
-      
+  /search:
+    get:
+      operationId: R601
+      summary: 'Search'
+      description: 'Access USR PUB'
+      tags:
+        - 'M06: Search'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                search:
+                  type: string
+      responses:
+        200:
+          description: 'Ok'
+  /api/search/users:
+    post:
+      operationId: R602
+      summary: 'Search for a user'
+      description: 'Access USR PUB'
+      tags:
+        - 'M06: Search'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                search:
+                  type: string
+      responses:
+        200:
+          description: 'Ok'
+
+
 
 
 
@@ -1532,23 +1783,23 @@ components:
     Image:
       type: object
       properties:
-        id: 
+        id:
           type: integer
         alt:
           type: string
-        path: 
+        path:
           type: string
       required:
         - id
         - path
-      example: 
+      example:
         - id: 1
           alt: Various fishes
           path: ./fishes.png
     User:
       type: object
       properties:
-        id: 
+        id:
           type: integer
         name:
           type: string
@@ -1572,7 +1823,7 @@ components:
         - birthdate
         - email
         - priv_stat
-      example: 
+      example:
         - id: 1
           name: Ada Lovelace
           birthdate: '1970-01-01'
@@ -1607,7 +1858,7 @@ components:
           text: 'Lorem Ipsum'
           timestamp: '2021-12-15 10:35'
           likes: 7
-    
+
     UserContent:
       type: object
       properties:
@@ -1651,7 +1902,7 @@ components:
         - creation_date
         - creator
         - priv_stat
-                
+
     Membership:
       type: object
       properties:
@@ -1667,7 +1918,7 @@ components:
         - moderator
       example:
         - moderator: true
-    
+
     GroupRequest:
       type: object
       properties:
@@ -1708,7 +1959,7 @@ components:
     CommentNotifications:
       type: object
       properties:
-        id: 
+        id:
           type: integer
         "timestamp":
           type: string
@@ -1721,7 +1972,7 @@ components:
         "timestamp": '2021-12-10 11:41'
         seen: false
         comment_id: 1
-    
+
     Tag:
       type: object
       properties:
@@ -1731,7 +1982,7 @@ components:
           type: integer
         content_id:
           type: integer
-    
+
     TagNotifications:
       type: object
       properties:
@@ -1739,7 +1990,7 @@ components:
           type: integer
         "timestamp":
           type: string
-        seen: 
+        seen:
           type: boolean
         content_id:
           type: integer
@@ -1796,7 +2047,7 @@ components:
         seen: false
         sender_id: 18
         target_id: 2
-    
+
     GroupRequestNotification:
       type: object
       properties:
@@ -1816,7 +2067,7 @@ components:
         seen: false
         group_id: 6
         "user_id": 3
-    
+
     GroupInviteNotification:
       type: object
       properties:
