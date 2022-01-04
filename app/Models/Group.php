@@ -71,7 +71,7 @@ class Group extends Model
     }
 
     public function posts(): HasManyThrough
-    {
+    {   
         return $this->hasManyThrough(Post::class, UserContent::class, 'group_id', 'id', 'id', 'id');
     }
 
