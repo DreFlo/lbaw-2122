@@ -50,5 +50,6 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('restore-content', [UserContentPolicy::class, 'restore']);
         Gate::define('viewAny-content', [UserContentPolicy::class, 'viewAny']);
         Gate::define('share-post', [PostPolicy::class, 'share']);
+        Gate::define('view-user', [UserPolicy::class, 'view']);
     }
 }

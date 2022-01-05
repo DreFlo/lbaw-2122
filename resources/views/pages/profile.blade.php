@@ -3,7 +3,7 @@
 @section('page-title', $user->name . ' | ')
 
 
-@if($user->id == Auth::user()->id)
+@if($user->id == optional(Auth::user())->id)
 @section('profile-tab', 'selected')
 @endif
 
@@ -12,19 +12,19 @@
     <div class="profile-pics">
         <div class="cover-picture">
             @foreach($user->getCoverPic() as $pic)
-                <img src="{{asset($pic->path)}}" alt={{$pic->alt}}>
+                <img src="{{url($pic->path)}}" alt={{$pic->alt}}>
             @endforeach
         </div>
         <div class="profile-picture">
             @foreach($user->getProfilePic() as $pic)
-                <img src="{{asset($pic->path)}}" alt={{$pic->alt}}>
+                <img src="{{url($pic->path)}}" alt={{$pic->alt}}>
             @endforeach
         </div>
         <div class="profile-name">
                 {{ $user->name }}
         </div>
     </div>
-    @if (Auth::user()->id == $user->id)
+    @if (optional(Auth::user())->id == $user->id)
     <div class="profile-newpost">
         <h1 class="h3">New Post</h1>
         <!-- Include stylesheet -->

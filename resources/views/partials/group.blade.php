@@ -1,6 +1,6 @@
 
 <div class="cover_group">
-    <img style="width:100%; height:100%" src="{{ asset($group->coverPic->path) }}" class="cover_pic_profile" alt="{{ $group->coverPic->alt }}"> </img>
+    <img style="width:100%; height:100%" src="{{ url($group->coverPic->path) }}" class="cover_pic_profile" alt="{{ $group->coverPic->alt }}"> </img>
     <div class="name_group">
         <a href="/groups/{{ $group->id }} " class="font_group">
             {{ $group->name }}
@@ -9,7 +9,7 @@
 </div>
 
 <div class="cont_group">
-    <div class="posts_group"> 
+    <div class="posts_group">
         @foreach($group->posts as $post)
             @include('partials.post', ['post' => $post, 'style' => 'width:98%;'])
         @endforeach
@@ -20,7 +20,7 @@
             <table class="table_group_members">
                 @foreach($group->members as $member)
                 <tr>
-                    <td class="row_group" background="{{$member->profilePic->path}}">
+                    <td class="row_group" background="{{url($member->profilePic->path)}}">
                         <a class="font_group" href='/users/{{ $member->id }}'>
                             {{ $member->name }}
                         </a>

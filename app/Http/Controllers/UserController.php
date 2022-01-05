@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Image;
 use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -20,8 +21,9 @@ class UserController extends Controller
     }
 
     public function show(int $id) {
-        if (!Auth::check())
-            return redirect('/');
+        if (!Gate::allows('view-user', User::find($id))) {
+            abort(403);
+        }
 
         $user = User::find($id);
         if (isset($user)) {
@@ -47,18 +49,18 @@ class UserController extends Controller
         $user->birthdate = $request->input('birthdate');
 
         if ($request->file('profile-image') != null) {
-            $path = $request->file('profile-image')->store('images');
+            $path = $request->file('profile-image')->store('images', 'public');
             $image = new Image();
-            $image->path = $path;
+            $image->path = '/storage/'.$path;
             $image->save();
 
             $user->profile_pic = $image->id;
         }
 
         if ($request->file('cover-image') != null) {
-            $path = $request->file('cover-image')->store('images');
+            $path = $request->file('cover-image')->store('images', 'public');
             $image = new Image();
-            $image->path = $path;
+            $image->path = '/storage/'.$path;
             $image->save();
 
             $user->cover_pic = $image->id;

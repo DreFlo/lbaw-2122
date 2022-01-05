@@ -103,14 +103,14 @@ class RegisterController extends Controller
     {
         $data = $request->all();
 
-        $path = $request->file('profile_pic')->store('images');
+        $path = $request->file('profile_pic')->store('images', 'public');
         $save_profile_pic = new Image();
-        $save_profile_pic->path = $path;
+        $save_profile_pic->path = '/storage/'.$path;
         $save_profile_pic->save();
 
-        $path = $request->file('cover_pic')->store('images');
+        $path = $request->file('cover_pic')->store('images', 'public');
         $save_cover_pic = new Image();
-        $save_cover_pic->path = $path;
+        $save_cover_pic->path = '/storage/'.$path;
         $save_cover_pic->save();
 
         return User::create([
