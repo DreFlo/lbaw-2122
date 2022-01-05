@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Group;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class GroupController extends Controller
 {
@@ -95,5 +97,46 @@ class GroupController extends Controller
     public function destroy(Group $group)
     {
         //
+    }
+
+    public static function search(Request $request){
+        $input = $request->input('search');
+
+        $groups = Group::query()
+            ->select('sub.*')
+            ->selectRaw("ts_rank_cd(to_tsvector(sub.name), plainto_tsquery('english', ?)) as rank", [$input])
+            ->from(
+                DB::raw('(select "group".id as id, "group".name as name, "group".cover_pic as cover_pic, "group".priv_stat as priv_stat, False as belonging
+                                from "group"
+                                where priv_stat = \'Public\'
+                                group by id ) AS sub'))
+            ->whereRaw("(sub.name) @@ plainto_tsquery('english', ?)", [$input])
+            ->get();
+
+        if(Auth::check()){
+            $id = Auth::id();
+            $private_groups = Group::query()
+                ->select('sub.*')
+                ->selectRaw("ts_rank_cd(to_tsvector(sub.name), plainto_tsquery('english', ?)) as rank", [$input])
+                ->from(
+                    DB::raw("(select \"group\".id as id, \"group\".name as name, \"group\".cover_pic as cover_pic, \"group\".priv_stat as priv_stat, False as belonging
+                                from \"group\"
+                                where priv_stat = 'Private'
+                                group by id ) AS sub"))
+                ->whereRaw("(sub.name) @@ plainto_tsquery('english', ?)", [$input])
+                ->get();
+
+            $auth_user = Auth::user();
+            foreach ($private_groups as $group){
+                if($auth_user->groups->contains($group)){
+                    $group->belonging = True;
+                }
+            }
+
+            $groups = $private_groups->merge($groups);
+        }
+        $groups = $groups->sortByDesc("rank");
+
+        return $groups;
     }
 }

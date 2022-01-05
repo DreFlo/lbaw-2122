@@ -19,7 +19,9 @@
         <div class="tab-pane fade show active bg-transparent" id="pills-users" role="tabpanel" aria-labelledby="pills-users-tab">
             @each('partials.user_search_result', $users, 'user')
         </div>
-        <div class="tab-pane fade bg-transparent" id="pills-groups" role="tabpanel" aria-labelledby="pills-groups-tab">Groups</div>
+        <div class="tab-pane fade bg-transparent" id="pills-groups" role="tabpanel" aria-labelledby="pills-groups-tab">
+            @each('partials.group_search_result', $groups, 'group')
+        </div>
         <div class="tab-pane fade bg-transparent" id="pills-posts" role="tabpanel" aria-labelledby="pills-posts-tab">Posts</div>
         <div class="tab-pane fade bg-transparent" id="pills-comments" role="tabpanel" aria-labelledby="pills-comments-tab">Comments</div>
     </div>

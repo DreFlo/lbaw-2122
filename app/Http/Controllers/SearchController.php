@@ -2,19 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class SearchController extends Controller
 {
     public function search(Request $request)
     {
-        $input = $request->input('search');
+        $users = UserController::search($request);
 
-        $users = UserController::search($input);
+        $groups = GroupController::search($request);
 
-        return view('pages.searchResults', ['users' => $users]);
+        return view('pages.searchResults', ['users' => $users, 'groups' => $groups]);
     }
 }

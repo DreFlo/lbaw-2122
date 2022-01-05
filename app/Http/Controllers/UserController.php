@@ -4,9 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Image;
 use App\Models\User;
-use App\Models\Group;
-use App\Models\Post;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -72,6 +69,23 @@ class UserController extends Controller
         return redirect("/profile/edit");
     }
 
+    private static function search_public_users(Request $request){
+        $input = $request->input('search');
+
+        $users = User::query()
+            ->select('sub.*')
+            ->selectRaw("ts_rank_cd(to_tsvector(sub.name), plainto_tsquery('english', ?)) as rank", [$input])
+            ->from(
+                DB::raw('(select "user".id as id, "user".name as name, "user".profile_pic as profile_pic
+                                from "user"
+                                where priv_stat = \'Public\'
+                                group by id ) AS sub'))
+            ->whereRaw("(sub.name) @@ plainto_tsquery('english', ?)", [$input])
+            ->get();
+
+        return $users;
+    }
+
     public static function searchAux(Request $request){
         $input = $request->searchString;
 
@@ -97,6 +111,29 @@ class UserController extends Controller
                                 from (select user_2
                                       from friendship
                                       where user_1 = '$id') as friends left join \"user\" on (friends.user_2 = \"user\".id)) as sub"))
+                ->whereRaw("(sub.name) @@ plainto_tsquery('english', ?)", [$input])
+                ->get();
+            $users = $private_users->merge($users);
+        }
+        $users = $users->sortByDesc("rank");
+
+        return $users;
+    }
+
+    public static function search(Request $request){
+        $users = self::search_public_users($request);
+
+        if(Auth::check()){
+            $input = $request->input('search');
+
+            $private_users = User::query()
+                ->select('sub.*')
+                ->selectRaw("ts_rank_cd(to_tsvector(sub.name), plainto_tsquery('english', ?)) as rank", [$input])
+                ->from(
+                    DB::raw('(select "user".id as id, "user".name as name, "user".profile_pic as profile_pic
+                                from "user"
+                                where priv_stat = \'Private\'
+                                group by id ) AS sub'))
                 ->whereRaw("(sub.name) @@ plainto_tsquery('english', ?)", [$input])
                 ->get();
             $users = $private_users->merge($users);
