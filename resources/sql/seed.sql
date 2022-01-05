@@ -533,7 +533,7 @@ insert into "friendship"(user_1, user_2) values(18,12);
 insert into "friendship"(user_1, user_2) values(5,3);
 --
 
-insert into "group"(id, "name", creator_id) values(1, 'FEUP', 1);
+insert into "group"(id, "name", creator_id, cover_pic) values(1, 'FEUP', 1, 2);
 insert into "group"(id, "name", creator_id) values(2, 'TechNerds', 1);
 insert into "group"(id, "name", creator_id) values(3, 'HarryPotter Fans', 2);
 insert into "group"(id, "name", creator_id) values(4, 'Book Geeks', 3);
