@@ -379,6 +379,7 @@ paths:
       responses:
         '200':
           description: 'OK. Show group creation page'
+  /groups:
     post:
       operationId: R202
       summary: 'R202: Create Group'
@@ -862,8 +863,8 @@ paths:
           description: 'OK'
   /shares:
     post:
-      operationId: R307
-      summary: 'R307: Create Post'
+      operationId: R308
+      summary: 'R308: Create Post'
       description: 'Show post page. Access: USR'
       tags:
         - 'M03: User Content'
@@ -893,8 +894,8 @@ paths:
           description: 'OK'
   /posts/{post}/share:
     get:
-      operationId: R308
-      summary: 'R308: View Share Creation Page'
+      operationId: R309
+      summary: 'R309: View Share Creation Page'
       description: 'Access: USR'
       tags:
         - 'M03: User Content'
@@ -903,8 +904,8 @@ paths:
           description: 'OK'
   /api/likes:
     post:
-      operationId: R309
-      summary: 'R309: Create like'
+      operationId: R310
+      summary: 'R310: Create like'
       description: 'Access: USR'
       tags:
         - 'M03: User Content'
@@ -922,8 +923,8 @@ paths:
         '200':
           description: 'OK'
     delete:
-      operationId: R310
-      summary: 'R309: Remove like'
+      operationId: R311
+      summary: 'R311: Remove like'
       description: 'Access: USR'
       tags:
         - 'M03: User Content'
@@ -943,8 +944,8 @@ paths:
 
   /api/user_content:
         get:
-            operationId: R302
-            summary: 'R302: Get All User Content'
+            operationId: R312
+            summary: 'R312: Get All User Content'
             description: 'Get All User Content. Access: USR'
             tags:
                 - 'M03: User Content'
@@ -975,7 +976,7 @@ paths:
                               items:
                                 $ref: '#/components/schemas/UserContent'
         put:
-            operationId: R303
+            operationId: R313
             summary: 'R303: Add new User Content'
             description: 'Add new User Content. Access: USR'
             tags:
@@ -1007,7 +1008,7 @@ paths:
                     description: 'Access Forbidden'
   /api/user_content/{id}:
         get:
-            operationId: R304
+            operationId: R314
             summary: 'R304: Get User Content'
             description: 'Get User Content. Access: USR'
             tags:
@@ -1029,7 +1030,7 @@ paths:
                 '404':
                     description: Failure
         delete:
-            operationId: R305
+            operationId: R315
             summary: 'R305: Delete User Content'
             description: 'Delete User Content. Access: OWN MOD ADM'
             tags:
@@ -1047,7 +1048,7 @@ paths:
                 '404':
                     $ref: '#/components/responses/not_found'
         patch:
-            operationId: R306
+            operationId: R316
             summary: 'R306: Update User Content'
             description: 'Update User Content. Access: USR'
             tags:
@@ -1086,7 +1087,7 @@ paths:
                     $ref: '#/components/responses/not_found'
   /api/user_content/posts/{id}:
         get:
-            operationId: R307
+            operationId: R317
             summary: 'R307: Get User Content Post'
             description: 'Get User Content Post. Access: USR'
             tags:
@@ -1110,7 +1111,7 @@ paths:
                 '404':
                     $ref: '#/components/responses/not_found'
         delete:
-          operationId: R308
+          operationId: R318
           summary: 'R308: Delete User Content Post'
           description: 'Delete User Content Post. Access: OWN MOD ADM'
           tags:
@@ -1128,7 +1129,7 @@ paths:
             '404':
               $ref: '#/components/responses/not_found'
         patch:
-          operationId: R309
+          operationId: R319
           summary: 'R309: Update User Content Post'
           description: 'Update User Content Post. Access: USR'
           tags:
@@ -1168,7 +1169,7 @@ paths:
               $ref: '#/components/responses/not_found'
   /api/user_content/{id}/comments:
         get:
-            operationId: R310
+            operationId: R320
             summary: 'R310: Get User Content Comments'
             description: 'Get User Content Comments. Access: USR'
             tags:
@@ -1192,7 +1193,7 @@ paths:
                 '404':
                     $ref: '#/components/responses/not_found'
         put:
-          operationId: R311
+          operationId: R321
           summary: 'R311: Add User Content Comment'
           description: 'Add User Content Comment. Access: USR'
           tags:
@@ -1224,7 +1225,7 @@ paths:
               $ref: '#/components/responses/not_found'
   /api/user_content/{id}/comments/{id_comment}:
     get:
-      operationId: R312
+      operationId: R322
       summary: 'R312: Get User Content Comment'
       description: 'Get User Content Comment. Access: USR'
       tags:
@@ -1252,7 +1253,7 @@ paths:
         '404':
           description: Failure
     delete:
-      operationId: R313
+      operationId: R323
       summary: 'R313: Delete User Content Comment'
       description: 'Delete User Content Comment. Access: OWN MOD ADM'
       tags:
@@ -1277,7 +1278,7 @@ paths:
           $ref: '#/components/responses/not_found'
   /api/user_content/{id}/likes:
         get:
-            operationId: R314
+            operationId: R324
             summary: 'R314: Get User Content Likes'
             description: 'Get User Content Likes. Access: USR'
             tags:
@@ -1304,7 +1305,7 @@ paths:
                 '404':
                     description: User Content Not Found.
         put:
-          operationId: R315
+          operationId: R325
           summary: 'R315: Add User Content Like'
           description: 'Add User Content Like. Access: USR'
           tags:
@@ -1366,7 +1367,7 @@ paths:
               $ref: '#/components/responses/not_found'
   /api/user_content/{id}/shares:
         get:
-            operationId: R317
+            operationId: R327
             summary: 'R317: Get User Content Shares'
             description: 'Get User Content Shares. Access: USR'
             tags:
@@ -1390,7 +1391,7 @@ paths:
                 '404':
                     $ref: '#/components/responses/not_found'
         put:
-          operationId: R318
+          operationId: R328
           summary: 'R318: Add User Content Share'
           description: 'Add User Content Share. Access: USR'
           tags:
@@ -1426,7 +1427,7 @@ paths:
               $ref: '#/components/responses/not_found'
   /api/user_content/{id}/shares/{id_share}:
         delete:
-            operationId: R319
+            operationId: R329
             summary: 'R319: Delete User Content Share'
             description: 'Delete User Content Share. Access: OWN MOD ADM'
             tags:
@@ -1451,7 +1452,7 @@ paths:
                     $ref: '#/components/responses/not_found'
   /api/user_content/{id}/tags:
         get:
-            operationId: R320
+            operationId: R330
             summary: 'R320: Get User Content Tags'
             description: 'Get User Content Tags. Access: USR'
             tags:
@@ -1475,7 +1476,7 @@ paths:
                 '404':
                     $ref: '#/components/responses/not_found'
         put:
-          operationId: R321
+          operationId: R331
           summary: 'R321: Add User Content Tag'
           description: 'Add User Content Tag. Access: USR'
           tags:
@@ -1511,7 +1512,7 @@ paths:
               $ref: '#/components/responses/not_found'
   /api/user_content/{id}/tags/{id_tag}:
     delete:
-            operationId: R322
+            operationId: R332
             summary: 'R322: Delete User Content Tag'
             description: 'Delete User Content Tag. Access: OWN ADM'
             tags:
