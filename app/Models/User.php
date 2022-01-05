@@ -113,6 +113,24 @@ class User extends Authenticatable
         return $posts;
     }
 
+    public function getProfilePic()
+    {
+        $profile_pic = [];
+        if($this->profile_pic !== null) {
+            $profile_pic[] = $this->profilePic;
+        }
+        return $profile_pic;
+    }
+
+    public function getCoverPic()
+    {
+        $cover_pic = [];
+        if($this->cover_pic !== null) {
+            $cover_pic[] = $this->coverPic;
+        }
+        return $cover_pic;
+    }
+
     public function moderatedGroups(): BelongsToMany
     {
         return $this->belongsToMany(Group::class, 'membership', 'user_id', 'group_id')

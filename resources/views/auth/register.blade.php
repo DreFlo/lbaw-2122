@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="auth_page">
-  <div class="auth_form">
-    <h1>Registration</h1>
-    <form method="POST" action="{{ route('register') }}">
+<div class="reg_page">
+  <div class="reg_form">
+    <h2>Registration</h2>
+    <form method="POST" enctype="multipart/form-data" action="{{ route('register') }}">
         {{ csrf_field() }}
 
-        <div class="auth_txt">
+        <div class="reg_txt">
           <input id="name" type="text" name="name" value="{{ old('name') }}" required autofocus>
           @if ($errors->has('name'))
             <span class="error">
@@ -17,7 +17,7 @@
           <label for="name">Name</label>
         </div>
 
-        <div class="auth_txt">
+        <div class="reg_txt">
           <input id="email" type="email" name="email" value="{{ old('email') }}" required>
           @if ($errors->has('email'))
             <span class="error">
@@ -27,7 +27,7 @@
           <label for="email">E-Mail Address</label>
         </div>
 
-        <div class="auth_txt">
+        <div class="reg_txt">
           <input id="password" type="password" name="password" required>
           @if ($errors->has('password'))
             <span class="error">
@@ -37,19 +37,62 @@
           <label for="password">Password</label>
         </div>
 
-        <div class="auth_txt">
-          <input id="password-confirm" type="password" name="password_confirmation" required>
-          <label for="password-confirm">Confirm Password</label>
+        <div class="reg_txt">
+          <input id="password_confirmation" type="password" name="password_confirmation" required>
+          @if ($errors->has('password_confirmation'))
+            <span class="error">
+                {{ $errors->first('password_confirmation') }}
+            </span>
+          @endif
+          <label for="password_confirmation">Confirm Password</label>
         </div>
 
-        <div class="auth_txt">
+        <div class="reg_txt">
           <input id="birthdate" type="date" name="birthdate" required>
+          @if ($errors->has('birthdate'))
+          <span class="error">
+                {{ $errors->first('birthdate') }}
+            </span>
+          @endif
           <label for="birthdate">Birthdate</label>
+        </div>
+
+        <div class="reg_txt">
+          <select id="priv_stat" name="priv_stat" required>
+            <option value="Public">Public</option>
+            <option value="Private">Private</option>
+          </select>
+          @if ($errors->has('priv_stat'))
+          <span class="error">
+                {{ $errors->first('priv_stat') }}
+            </span>
+          @endif
+          <label for="priv_stat">Privacy Status</label>
+        </div>
+
+        <div class="reg_txt">
+          <input type="file" id="profile_pic" name="profile_pic" accept=".jpg,.png,.jpeg,.gif,.svg" required>
+          @if ($errors->has('profile_pic'))
+          <span class="error">
+                {{ $errors->first('profile_pic') }}
+            </span>
+          @endif
+          <label for="profile_pic">Profile Picture</label>
+        </div>
+
+        <div class="reg_txt">
+          <input type="file" id="cover_pic" name="cover_pic" accept=".jpg,.png,.jpeg,.gif,.svg" required>
+          @if ($errors->has('cover_pic'))
+          <span class="error">
+                {{ $errors->first('cover_pic') }}
+            </span>
+          @endif
+          <label for="cover_pic">Cover Picture</label>
         </div>
 
         <input type="submit" value="Sign-Up">
     
-        <div class="auth_link">
+        <div class="reg_link">
           <a class="button button-outline" href="{{ route('login') }}">Go Back</a>
         </div>
     </form>

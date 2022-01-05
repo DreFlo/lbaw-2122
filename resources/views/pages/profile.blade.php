@@ -11,10 +11,14 @@
 <div class="container mb-3 p-4 profile">
     <div class="profile-pics">
         <div class="cover-picture">
-            <img src="storage/images/blank-profile-picture.png" />
+            @foreach($user->getCoverPic() as $pic)
+                <img src="{{asset($pic->path)}}" alt={{$pic->alt}}>
+            @endforeach
         </div>
         <div class="profile-picture">
-            <img src="storage/images/blank-profile-picture.png" />
+            @foreach($user->getProfilePic() as $pic)
+                <img src="{{asset($pic->path)}}" alt={{$pic->alt}}>
+            @endforeach
         </div>
         <div class="profile-name">
                 {{ $user->name }}
@@ -44,7 +48,7 @@
 </div>
 
 <div class="profile-posts">
-    @foreach(Auth::user()->ownPosts() as $post)
+    @foreach($user->ownPosts() as $post)
         @if(\Illuminate\Support\Facades\Gate::allows('view-content', $post->content))
             @include('partials.post', ['post' => $post, 'style' => 'width:70%;'])
         @endif

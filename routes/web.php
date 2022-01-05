@@ -32,7 +32,7 @@ Route::get('login', 'Auth\LoginController@showLoginForm');
 Route::post('login', 'Auth\LoginController@login')->name('login');
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
-Route::post('register', 'Auth\RegisterController@create');
+Route::post('register', 'Auth\RegisterController@register');
 
 // Search
 Route::get('/search', 'SearchController@search');
@@ -42,7 +42,6 @@ Route::get('profile', 'UserController@profile')->name('profile');
 Route::get('users/{id}', 'UserController@show');
 Route::get('profile/edit', 'UserController@showEdit')->name('profile/edit');
 Route::patch('profile/edit', 'UserController@edit');
-
 
 // Group
 Route::resource('groups', 'GroupController');
