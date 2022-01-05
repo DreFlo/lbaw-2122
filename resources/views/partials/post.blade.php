@@ -3,7 +3,7 @@
     @if($post->hasImages())
         <div class="post_image_slideshow">
             @foreach($post->images() as $image)
-                <img src="{{asset($image->path)}}" class="post_image post_image_transition_fade" alt={{$image->alt}}>
+                <img src="{{ URL::asset($image->path) }}" class="post_image post_image_transition_fade" alt={{$image->alt}}>
             @endforeach
         </div>
     @endif

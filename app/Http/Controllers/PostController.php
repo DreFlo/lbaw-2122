@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -62,11 +63,10 @@ class PostController extends Controller
             $i = 1;
             foreach ($request->file('images') as $image) {
                 if ($i > 5) break;
-                $imageName = time() . $i . '.' . $image->extension();
-                $image->move(public_path('storage/images'), $imageName);
+                $path = $image->store('images','public');
 
                 $image_id = DB::table('image')->insertGetId([
-                    'path' => 'storage\images' . '\\' . $imageName
+                    'path' => '/storage/'.$path
                 ]);
 
                 $post_array['pic_'.$i] = $image_id;

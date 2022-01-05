@@ -72,7 +72,7 @@ class UserController extends Controller
         return redirect("/profile/edit");
     }
 
-    public static function search(Request $request){
+    public static function searchAux(Request $request){
         $input = $request->searchString;
 
         $users = User::query()

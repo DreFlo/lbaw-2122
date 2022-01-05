@@ -25,7 +25,7 @@ Route::get('comments/{comment}', 'CommentController@show');
 // API
 Route::post('api/likes', 'LikeController@store');
 Route::delete('api/likes', 'LikeController@remove');
-Route::post('api/search/users', 'UserController@search');
+Route::post('api/search/users', 'UserController@searchAux');
 
 // Authentication
 Route::get('login', 'Auth\LoginController@showLoginForm');
