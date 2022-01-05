@@ -13,6 +13,8 @@ class Image extends Model
 
     public $table = 'image';
 
+    protected $primaryKey = 'id';
+
     protected $fillable = [
         'alt', 'path'
     ];

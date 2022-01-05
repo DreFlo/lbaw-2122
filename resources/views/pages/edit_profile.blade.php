@@ -42,22 +42,17 @@
                     </div>
                     <div class="my-3 mx-auto d-flex">
                         <div id="profile-picture-box" class="col-md-4 align-self-center m-auto">
-                            <div id="image-input" class="image-input mb-3">
-                                <input name="image" type="file" class="form-control-file" accept="image/*" id="profile-picture">
+                            <div id="profile-image-input" class="profile-image-input mb-3">
+                                <input name="profile-image" type="file" class="form-control-file" accept="image/*" id="profile-picture">
+                                <label for="profile-image">Profile Picture</label>
                             </div>
                         </div>
-                        <script>
-                            document.getElementById('profile-picture').addEventListener('input', (e) => {
-                                let file = e.target.files[0];
-                                let reader = new FileReader();
-                                reader.onloadend = function () {
-                                    document.getElementById('image-input').style.backgroundImage = "url('" + reader.result + "')"
-                                }
-                                if (file) {
-                                    reader.readAsDataURL(file);
-                                }
-                            })
-                        </script>
+                        <div id="cover-picture-box" class="col-md-4 align-self-center m-auto">
+                            <div id="cover-image-input" class="cover-image-input mb-3">
+                                <input name="cover-image" type="file" class="form-control-file" accept="image/*" id="cover-picture">
+                                <label for="cover-image">Cover Picture</label>
+                            </div>
+                        </div>
                     </div>
                     <div class="row px-3">
                         <input type="submit" value="Confirm">

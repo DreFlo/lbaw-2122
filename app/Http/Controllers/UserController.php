@@ -16,29 +16,21 @@ class UserController extends Controller
 {
     public function profile() {
         if (!Auth::check()) {
-            return redirect('/login');
+            return redirect('/');
         }
 
-        $user = Auth::user();
-
-        if (isset($user)) {
-            $posts = $user->posts()->simplePaginate(7);
-
-            return view('pages.profile', ['user' => $user, 'posts' => $posts]);
-        }
+        return redirect('users/' . Auth::id());
     }
 
     public function show(int $id) {
         if (!Auth::check())
-            return redirect('/login');
+            return redirect('/');
 
         $user = User::find($id);
         if (isset($user)) {
-            $posts = $user->posts()->simplePaginate(7);
-
-            return view('pages.profile', ['user' => $user, 'posts' => $posts]);
+            return view('pages.profile', ['user' => $user]);
         }
-        return redirect('/login');
+        return redirect('/');
     }
 
     public function showEdit() {
@@ -54,15 +46,25 @@ class UserController extends Controller
         $user = Auth::user();
 
         $user->name = $request->input('name');
+        $user->email = $request->input('email');
         $user->birthdate = $request->input('birthdate');
 
-        if ($request->file('image') != null) {
-            $path = $request->file('image')->store('images/profile');
+        if ($request->file('profile-image') != null) {
+            $path = $request->file('profile-image')->store('images');
             $image = new Image();
             $image->path = $path;
             $image->save();
 
             $user->profile_pic = $image->id;
+        }
+
+        if ($request->file('cover-image') != null) {
+            $path = $request->file('cover-image')->store('images');
+            $image = new Image();
+            $image->path = $path;
+            $image->save();
+
+            $user->cover_pic = $image->id;
         }
 
         $user->save();
