@@ -30,7 +30,8 @@ class UserPolicy
      */
     public function view(?User $user, User $model): Response
     {
-        if ($model->priv_stat === 'Public' || $user->id===$model->id) return Response::allow();
+        if($user==null) return Response::deny();
+        elseif ($model->priv_stat === 'Public' || $user->id===$model->id) return Response::allow();
         elseif (optional($user)->isFriend($model)) return Response::allow();
         return Response::deny();
     }
