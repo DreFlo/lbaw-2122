@@ -54,11 +54,5 @@
         @endif
     @endforeach
 </div>
-<div class="profile-friends">
-    <h1 class="profile-friends-title">Friends</h1>
-</div>
-<div class="profile-groups">
-    <h1 class="profile-groups-title">Groups</h1>
-</div>
 
 @endsection
