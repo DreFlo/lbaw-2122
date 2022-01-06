@@ -10,7 +10,9 @@
     @if (Auth::check())
         <div class="dropdown">
             <a href="{{ route('profile') }}">
-                <img id="bannerpic" class="dropbtn" src="../storage/images/blank-profile-picture.png" />
+                @foreach(Auth::User()->getProfilePic() as $pic)
+                    <img id="bannerpic" class="dropbtn" src="{{ url($pic->path) }}" />
+                @endforeach
             </a>
             <div class="dropdown-content">
                 <a href="{{ route('profile/edit') }}">Edit Profile</a>
