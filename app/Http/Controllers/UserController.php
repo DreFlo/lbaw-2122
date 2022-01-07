@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Image;
 use App\Models\User;
+use App\Policies\UserPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -154,24 +155,30 @@ class UserController extends Controller
     }
 
     public function ban(Request $request) {
-        if (!Gate::allows('handleBan', ['admin' => $request->admin, 'user' => $request->user])) {
+        $policy = new UserPolicy();
+        $admin = User::find($request->admin_id);
+        $user = User::find($request->user_id);
+        if (!$policy->handleBan($admin, $user)) {
             abort(403);
         }
 
-        $request->user->priv_stat = 'Banned';
-        $request->user->save();
+        $user->priv_stat = 'Banned';
+        $user->save();
 
-        return response();
+        return response('Banned');
     }
 
     public function unban(Request $request) {
-        if (!Gate::allows('handleBan', ['admin' => $request->admin, 'user' => $request->user])) {
+        $policy = new UserPolicy();
+        $admin = User::find($request->admin_id);
+        $user = User::find($request->user_id);
+        if (!$policy->handleBan($admin, $user)) {
             abort(403);
         }
 
-        $request->user->priv_stat = 'Private';
-        $request->user->save();
+        $user->priv_stat = 'Private';
+        $user->save();
 
-        return response();
+        return response('Unbanned');
     }
 }

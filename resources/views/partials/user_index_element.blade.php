@@ -4,7 +4,7 @@
     @endif
     <a href="users/{{$user->id}}" class="text-dark">{{$user->name}}</a>
     @if($user->id !== auth()->user()->id)
-        <button class="btn btn-primary ban" style="background-color: red" user="{{$user}}" admin="{{auth()->user()}}">
+        <button class="btn btn-primary ban" style="background-color: red" user_id="{{$user->id}}" admin_id="{{auth()->user()->id}}">
             @if($user->priv_stat !== 'Banned')
                 Ban
             @else

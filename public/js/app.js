@@ -137,18 +137,18 @@ function addTag() {
 }
 
 function toggleBan() {
-    let user = this.getAttribute('user');
-    let admin = this.getAttribute('admin');
+    let user_id = this.getAttribute('user_id');
+    let admin_id = this.getAttribute('admin_id');
     let banned = this.innerHTML === 'Unban';
 
-    console.log(banned);
+    console.log(banned, admin_id, user_id);
 
     if(!banned) {
-        sendAjaxRequest('post', '/api/users/ban', {user: user, admin: admin}, null);
+        sendAjaxRequest('post', '/api/users/ban', {user_id: user_id, admin_id: admin_id}, null);
         this.innerHTML = 'Unban';
     }
     else {
-        sendAjaxRequest('post', '/api/users/unban', {user: user, admin: admin}, null);
+        sendAjaxRequest('post', '/api/users/unban', {user_id: user_id, admin_id: admin_id}, null);
         this.innerHTML = 'Ban';
     }
 }
