@@ -26,6 +26,8 @@ Route::get('comments/{comment}', 'CommentController@show');
 Route::post('api/likes', 'LikeController@store');
 Route::delete('api/likes', 'LikeController@remove');
 Route::post('api/search/users', 'UserController@searchAux');
+Route::post('api/users/ban', 'UserController@ban');
+Route::post('api/users/unban', 'UserController@unban');
 
 // Authentication
 Route::get('login', 'Auth\LoginController@showLoginForm');
@@ -38,6 +40,7 @@ Route::post('register', 'Auth\RegisterController@register');
 Route::get('/search', 'SearchController@search');
 
 //Profile
+Route::get('users', 'UserController@index');
 Route::get('profile', 'UserController@profile')->name('profile');
 Route::get('users/{id}', 'UserController@show');
 Route::get('profile/edit', 'UserController@showEdit')->name('profile/edit');

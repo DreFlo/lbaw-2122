@@ -18,7 +18,7 @@ class GroupPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->admin_flag;
+        return $user->isAdmin();
     }
 
     /**
@@ -65,7 +65,7 @@ class GroupPolicy
      */
     public function delete(User $user, Group $group)
     {
-        return $user == $group->creator || $user->admin_flag;
+        return $user->isAdmin() || $user == $group->creator || $user->admin_flag;
     }
 
     /**

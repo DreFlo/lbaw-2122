@@ -12,6 +12,14 @@ use Session;
 
 class UserController extends Controller
 {
+    public function index() {
+        if(!Gate::allows('viewAny-user')) {
+            abort(403);
+        }
+
+        return view('pages.index_users');
+    }
+
     public function profile() {
         if (!Auth::check()) {
             return redirect('/');
@@ -143,5 +151,27 @@ class UserController extends Controller
         $users = $users->sortByDesc("rank");
 
         return $users;
+    }
+
+    public function ban(Request $request) {
+        if (!Gate::allows('handleBan', ['admin' => $request->admin, 'user' => $request->user])) {
+            abort(403);
+        }
+
+        $request->user->priv_stat = 'Banned';
+        $request->user->save();
+
+        return response();
+    }
+
+    public function unban(Request $request) {
+        if (!Gate::allows('handleBan', ['admin' => $request->admin, 'user' => $request->user])) {
+            abort(403);
+        }
+
+        $request->user->priv_stat = 'Private';
+        $request->user->save();
+
+        return response();
     }
 }

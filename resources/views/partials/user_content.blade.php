@@ -9,10 +9,14 @@
         @if($content->edited)
             edited
         @endif
+        @if($content->priv_stat === 'Anonymous')
+            deleted
+        @elseif($content->priv_stat === 'Banned')
+            banned
+        @endif
     </div>
     @if(Auth::check())
-        @if(auth()->user()->id === $content->creator_id)
-            <!-- TODO Add stuff for post owner -->
+        @if(auth()->user()->id === $content->creator_id || auth()->user()->isAdmin())
             <div class="user_content_interaction_block" style="flex: auto; justify-self: center">
                 <form action="{{route('user_content.destroy', $content)}}" method="POST" class="user_content_control_form">
                     @csrf
@@ -20,6 +24,8 @@
                     <button type="submit" title="Delete"><img src="{{asset('storage/graphics/delete.png')}}" alt="Delete"></button>
                 </form>
             </div>
+        @endif
+        @if(auth()->user()->id === $content->creator_id)
             <div class="user_content_interaction_block" style="flex: auto; justify-self: center">
                 <button title="Edit">
                     <a href="{{route('user_content.edit', $content->id)}}">
@@ -28,7 +34,6 @@
                 </button>
             </div>
         @endif
-        <!-- TODO Add stuff for any user interaction, Like/Unlike may not be best practice -->
         @if($content->isPost() && $content->priv_stat === 'Public')
             <div class="user_content_interaction_block" style="flex: auto; justify-self: center">
                 <button title="Share">

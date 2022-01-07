@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Group;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -16,7 +17,11 @@ class GroupController extends Controller
      */
     public function index()
     {
-        //
+        if (!Gate::allows('viewAny-group')) {
+            abort(403);
+        }
+
+        return view('pages.index_groups');
     }
 
     /**
@@ -96,7 +101,14 @@ class GroupController extends Controller
      */
     public function destroy(Group $group)
     {
-        //
+        if(!Gate::allows('delete-group', $group)) {
+            abort(403);
+        }
+
+        $group->priv_stat = 'Anonymous';
+        $group->save();
+
+        return back();
     }
 
     public static function search(Request $request){

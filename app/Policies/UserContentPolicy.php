@@ -32,7 +32,10 @@ class UserContentPolicy
      */
     public function view(?User $user, UserContent $userContent): Response
     {
-        if ($userContent->priv_stat === 'Public') {
+        if (optional($user)->isAdmin()) {
+            return Response::allow();
+        }
+        elseif ($userContent->priv_stat === 'Public') {
             return Response::allow();
         }
         elseif ($userContent->priv_stat === 'Private') {

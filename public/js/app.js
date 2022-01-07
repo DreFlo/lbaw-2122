@@ -31,6 +31,11 @@ function addEventListeners() {
     let tagSearchButton = document.querySelector("button.tag_search_button");
     if (tagSearchButton != null)
         tagSearchButton.addEventListener('click', searchUser);
+
+    let banToggles = document.querySelectorAll('button.ban');
+    [].forEach.call(banToggles, function (banToggle) {
+       banToggle.addEventListener('click', toggleBan);
+    });
 }
 
 function encodeForAjax(data) {
@@ -129,6 +134,23 @@ function addTag() {
 
     this.style.backgroundColor = 'grey';
     this.removeEventListener('click', addTag);
+}
+
+function toggleBan() {
+    let user = this.getAttribute('user');
+    let admin = this.getAttribute('admin');
+    let banned = this.innerHTML === 'Unban';
+
+    console.log(banned);
+
+    if(!banned) {
+        sendAjaxRequest('post', '/api/users/ban', {user: user, admin: admin}, null);
+        this.innerHTML = 'Unban';
+    }
+    else {
+        sendAjaxRequest('post', '/api/users/unban', {user: user, admin: admin}, null);
+        this.innerHTML = 'Ban';
+    }
 }
 
 function sendItemUpdateRequest() {

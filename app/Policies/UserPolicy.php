@@ -93,4 +93,9 @@ class UserPolicy
     {
         return false;
     }
+
+    public function handleBan(User $admin, User $user): bool
+    {
+        return $admin->isAdmin() && !$user->isAdmin();
+    }
 }

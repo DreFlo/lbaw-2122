@@ -21,7 +21,11 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        if (!Gate::allows('viewAny-content')) {
+            abort(403);
+        }
+
+        return view('pages.index_posts');
     }
 
     /**
