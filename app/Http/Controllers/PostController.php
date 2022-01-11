@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Image;
 use App\Models\Post;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -67,13 +68,8 @@ class PostController extends Controller
             $i = 1;
             foreach ($request->file('images') as $image) {
                 if ($i > 5) break;
-                $path = $image->store('images','public');
 
-                $image_id = DB::table('image')->insertGetId([
-                    'path' => '/storage/'.$path
-                ]);
-
-                $post_array['pic_'.$i] = $image_id;
+                $post_array['pic_'.$i] = Image::storeAndRegister($image);
 
                 $i++;
             }
