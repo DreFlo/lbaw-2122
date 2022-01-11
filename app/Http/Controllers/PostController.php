@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Group;
 use App\Models\Image;
 use App\Models\Post;
 use Illuminate\Contracts\Foundation\Application;
@@ -78,7 +79,8 @@ class PostController extends Controller
         $user_content_id = DB::table('user_content')->insertGetId([
             'text' => $request->input('text'),
             'priv_stat' => $request->visibility,
-            'creator_id' => $request->user()->id
+            'creator_id' => $request->user()->id,
+            'group_id' => $request->group_id
         ]);
 
         $post_array['id'] = $user_content_id;
@@ -114,5 +116,9 @@ class PostController extends Controller
     public function share(Post $post)
     {
         return view('pages.share_post', ['post' => $post]);
+    }
+
+    public function createInGroup(Group $group) {
+        return view('pages.create_post_group', ['group' => $group]);
     }
 }

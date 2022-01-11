@@ -1,5 +1,5 @@
 @extends('layouts.app')
 
 @section('content')
-    @include('partials.create_post')
+    @include('partials.create_post', ['group' => null])
 @endsection

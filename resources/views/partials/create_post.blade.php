@@ -27,6 +27,11 @@
             <input type="text" class="tag_search_field">
             <button type="button" class="btn btn-primary tag_search_button">Search</button>
         </label>
+        @if($group !== null)
+            <input type="hidden" value="{{$group->id}}" name="group_id">
+        @else
+            <input type="hidden" value="{{null}}" name="group_id">
+        @endif
         <button type="submit" class="btn btn-primary" style="margin: 1%">Create</button>
     </form>
 </div>

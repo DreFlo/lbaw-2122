@@ -10,17 +10,18 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 // Home
 Route::get('/', 'Auth\LoginController@home');
 Route::get('home', 'HomeController@show')->name('home');
 
-Route::resource('user_content', 'UserContentController');
-Route::resource('posts', 'PostController');
-Route::get('posts/{post}/share', 'PostController@share')->name('posts.share');
-Route::get('shares/{share}', 'ShareController@show');
-Route::post('shares', 'ShareController@store')->name('shares.store');
+Route::resource('user_content', 'UserContentController')->whereNumber('user_content');
+Route::resource('posts', 'PostController')->whereNumber('post');
+Route::get('posts/{post}/share', 'PostController@share')->whereNumber('post')->name('posts.share');
+Route::get('shares/{share}', 'ShareController@show')->whereNumber('share');
+Route::post('shares', 'ShareController@store')->name('shares.store')->whereNumber('share');
 Route::post('comments', 'CommentController@store')->name('comments.add');
-Route::get('comments/{comment}', 'CommentController@show');
+Route::get('comments/{comment}', 'CommentController@show')->whereNumber('comment');
 
 // API
 Route::post('api/likes', 'LikeController@store');
@@ -42,9 +43,10 @@ Route::get('/search', 'SearchController@search');
 //Profile
 Route::get('users', 'UserController@index');
 Route::get('profile', 'UserController@profile')->name('profile');
-Route::get('users/{id}', 'UserController@show');
+Route::get('users/{id}', 'UserController@show')->whereNumber('id');
 Route::get('profile/edit', 'UserController@showEdit')->name('profile/edit');
 Route::patch('profile/edit', 'UserController@edit');
 
 // Group
-Route::resource('groups', 'GroupController');
+Route::resource('groups', 'GroupController')->whereNumber('group');
+Route::get('groups/{group}/create_post', 'PostController@createInGroup')->whereNumber('group');
