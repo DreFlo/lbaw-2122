@@ -7,7 +7,13 @@
             @endforeach
         </div>
     @endif
-    @include('partials.reply_box', ['parent_id' => $post->id])
+    @if(Auth::check())
+        @if($post->content->inGroup() && \Illuminate\Support\Facades\Gate::allows('createIn-group', $post->content->group))
+            @include('partials.reply_box', ['parent' => $post->content])
+        @elseif(!$post->content->inGroup())
+            @include('partials.reply_box', ['parent' => $post->content])
+        @endif
+    @endif
     @if($post->content->hasComments())
     <div class="post_comments" id="post_comments_{{$post->id}}">
         <div class="post_comments_banner">Comments</div>

@@ -24,7 +24,8 @@ class CommentController extends Controller
         $user_content_id = DB::table('user_content')->insertGetId([
            'text' => $request->text,
             'priv_stat' => 'Public',
-            'creator_id' => $request->user()->id
+            'creator_id' => $request->user()->id,
+            'group_id' => $request->group_id
         ]);
 
         DB::table('comment')->insert([
