@@ -44,6 +44,7 @@ Route::get('/search', 'SearchController@search');
 Route::get('users', 'UserController@index');
 Route::get('profile', 'UserController@profile')->name('profile');
 Route::get('users/{id}', 'UserController@show')->whereNumber('id');
+Route::delete('users/{user}', 'UserController@destroy')->whereNumber('id')->name('users.destroy');
 Route::get('profile/edit', 'UserController@showEdit')->name('profile/edit');
 Route::patch('profile/edit', 'UserController@edit');
 

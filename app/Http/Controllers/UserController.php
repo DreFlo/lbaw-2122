@@ -171,4 +171,15 @@ class UserController extends Controller
 
         return response('Unbanned');
     }
+
+    public function destroy(User $user)
+    {
+        if (!Gate::allows('delete-user', $user)) {
+            abort(403);
+        }
+        $user->priv_stat = 'Anonymous';
+        $user->save();
+
+        return back();
+    }
 }
