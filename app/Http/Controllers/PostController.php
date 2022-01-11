@@ -119,6 +119,10 @@ class PostController extends Controller
     }
 
     public function createInGroup(Group $group) {
+        if (!Gate::allows('createIn-group', $group)) {
+            abort(403);
+        }
+
         return view('pages.create_post_group', ['group' => $group]);
     }
 }

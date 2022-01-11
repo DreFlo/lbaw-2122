@@ -44,6 +44,11 @@ class GroupPolicy
         return true;
     }
 
+    public function createInGroup(User $user, Group $group): bool
+    {
+        return $group->isMember($user);
+    }
+
     /**
      * Determine whether the user can update the model.
      *
@@ -89,6 +94,6 @@ class GroupPolicy
      */
     public function forceDelete(User $user, Group $group)
     {
-        return $user->admin_flag;
+        return false;
     }
 }
