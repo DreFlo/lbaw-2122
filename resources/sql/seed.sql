@@ -568,21 +568,47 @@ insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(8
 insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(9, 'I finally got a new bike!', 7, null, 'Private');
 insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(10, 'Thank you for repaying the favor when you didnt have to.', 1, 7, 'Public');
 insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(11, 'Share', 1, null, 'Public');
+insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(12, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ultricies molestie ligula nec dignissim. Sed dignissim sapien sit amet lectus interdum vestibulum. Cras placerat et sapien in vulputate. Aliquam orci dolor, euismod ut volutpat id, efficitur eget magna. Morbi at lobortis nisl. Donec gravida tempor bibendum. Sed a convallis lacus. Sed ac tempus mauris. Suspendisse laoreet nulla sit amet ex maximus, eget tempor nunc feugiat. Maecenas et ligula id ante bibendum dapibus. Ut rhoncus gravida libero, venenatis ullamcorper sapien semper sed. Nullam efficitur dolor sed cursus sagittis. Cras a tellus eu nibh eleifend tempor.', 7, null, 'Public');
+insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(13, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla massa risus, congue non molestie vitae, interdum a lorem. Aliquam fringilla ex a felis pretium ornare. Proin in rhoncus mi. Etiam eget diam ac urna viverra malesuada eget non ligula. Nulla dignissim scelerisque cursus. Donec at dui sit amet sapien consectetur scelerisque. Etiam eu sem odio. Fusce velit ipsum, pellentesque sit amet ullamcorper id, bibendum non sapien. Mauris consectetur augue quis vehicula faucibus.', 4, null, 'Public');
+insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(26, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean pulvinar varius erat, sit amet porttitor urna. Aliquam erat volutpat. Nulla dignissim libero massa, vitae ornare sem tincidunt tincidunt. Nullam feugiat, orci non cursus placerat, dui orci tincidunt diam, eu fermentum tortor velit vitae quam. Aenean et tellus posuere, tincidunt turpis vel, euismod dolor. Phasellus eu dui et ex scelerisque pharetra. Phasellus dignissim dapibus lacus ac vulputate. Donec interdum nulla quam, vitae scelerisque ligula feugiat quis. Suspendisse aliquet vitae dui et tempor. Ut non sodales augue. Maecenas tincidunt consectetur tellus aliquam bibendum.', 2, null, 'Private');
+insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(15, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean maximus mauris dolor, nec scelerisque nibh mollis in. Etiam at dui id velit eleifend dignissim fringilla id nisi. Quisque vel molestie quam, vel placerat ante. Nam rhoncus sagittis ligula, in pulvinar elit accumsan ac. Vestibulum at ipsum euismod, aliquam tellus at, placerat nibh. Nulla tempor ullamcorper volutpat. Nam elit nulla, euismod nec nibh vel, ornare volutpat nibh. Duis dapibus nunc eleifend mauris pulvinar, condimentum malesuada erat mattis. Donec a cursus massa, a mattis ipsum. In hac habitasse platea dictumst. Cras sodales, dui sed sodales varius, nunc nulla laoreet ipsum, in tempus ipsum ipsum in ante. Vivamus et libero vitae metus gravida scelerisque. Donec tristique lobortis lacus a sagittis. Vivamus molestie orci at diam tristique tincidunt. Integer vel libero eget massa pharetra tempor. Sed ac facilisis purus.', 8, null, 'Private');
+insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(16, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque feugiat velit nec sapien porttitor condimentum. Nulla faucibus pharetra est, quis consequat lorem aliquet a. Phasellus a vulputate felis. In pellentesque lacus sed nulla pharetra molestie. Etiam sit amet suscipit magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer gravida leo sed erat pellentesque porttitor. Maecenas at interdum leo. Suspendisse venenatis urna ut condimentum imperdiet. Vestibulum neque lectus, viverra eu vehicula eget, placerat ut mi.', 16, null, 'Private');
+insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(17, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eu pellentesque turpis, eget pharetra diam. Suspendisse ut neque eu dolor dignissim venenatis. Donec volutpat tincidunt nulla nec eleifend. Mauris rhoncus neque eu ante aliquet rutrum. Vestibulum eleifend placerat velit at scelerisque. In felis mauris, accumsan eget nulla sit amet, rutrum tincidunt magna. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nunc non pretium ante. Donec diam orci, condimentum faucibus malesuada at, commodo in lectus. Praesent congue dolor ac ex finibus, id molestie orci gravida. Nullam quis magna sodales, dapibus ipsum et, suscipit mi. Proin consectetur, justo ac sodales euismod, purus massa aliquam massa, eu dapibus ligula est vitae lacus. Integer magna enim, facilisis non laoreet aliquet, convallis nec felis.', 3, null, 'Private');
+insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(18, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed et congue purus, tincidunt varius magna. Curabitur venenatis at turpis ac fermentum.', 3, null, 'Public');
+insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(19, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent nisi ante, tempor convallis molestie sit amet, luctus quis turpis. Sed sit amet sagittis enim.', 5, null, 'Public');
+insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(20, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a turpis posuere libero rutrum mollis ut nec quam. Vivamus eget consequat erat, ac aliquam leo.', 2, null, 'Public');
+insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(21, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sed ullamcorper nulla, sit amet convallis mauris. Praesent at sem lobortis, tincidunt nibh ut, iaculis urna.', 8, null, 'Private');
+insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(22, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque lacinia aliquet fermentum. Aliquam vel porttitor nibh. Pellentesque cursus lobortis interdum.', 4, null, 'Private');
+insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(23, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum cursus, tortor at ornare sagittis, mauris justo rhoncus elit, at malesuada lorem arcu id arcu.', 6, null, 'Private');
+insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(24, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer rutrum enim feugiat enim venenatis tempus. Pellentesque tempor magna sit amet viverra convallis.', 7, null, 'Private');
+insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(25, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum vel quam nec magna pharetra laoreet vitae ac nisi. Phasellus ut sapien et nisl tincidunt fringilla condimentum non ex.', 10, null, 'Private');
+insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(14, 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum sem elit, sodales ut felis vel, eleifend ultricies felis. Donec imperdiet efficitur est, non laoreet diam iaculis nec. Integer at consequat nulla. Nullam nec ultricies tellus, eleifend dignissim lectus. Nullam tincidunt ornare odio vel scelerisque. Mauris quis tellus arcu. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In interdum, justo vitae ultrices tristique, felis nisl interdum enim, pellentesque luctus mauris quam sit amet ex. Sed eget rhoncus tortor.', 5, null, 'Private');
+
 
 SELECT setval('user_content_id_seq', max(id)) FROM "user_content";
-
-
 
 insert into "post"(id) values(1);
 insert into "post"(id, pic_1, pic_2) values(2, 1, 2);
 insert into "post"(id) values(3);
 insert into "post"(id) values(4);
 insert into "post"(id) values(5);
+insert into "post"(id) values(12);
+insert into "post"(id) values(13);
+insert into "post"(id) values(14);
+insert into "post"(id) values(15);
+insert into "post"(id) values(16);
+insert into "post"(id) values(26);
 
 insert into "comment"(id, parent_id) values(6, 2);
 insert into "comment"(id, parent_id) values(8, 3);
 insert into "comment"(id, parent_id) values(9, 6);
 insert into "comment"(id, parent_id) values(3, 6);
+insert into "comment"(id, parent_id) values(17, 12);
+insert into "comment"(id, parent_id) values(18, 13);
+insert into "comment"(id, parent_id) values(19, 14);
+insert into "comment"(id, parent_id) values(20, 15);
+insert into "comment"(id, parent_id) values(21, 16);
+insert into "comment"(id, parent_id) values(22, 12);
 
 insert into "share"(id, post_id) values(10,2);
 

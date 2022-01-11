@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Group;
 use App\Models\Image;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -12,7 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -124,5 +125,36 @@ class PostController extends Controller
         }
 
         return view('pages.create_post_group', ['group' => $group]);
+    }
+
+    public static function search(Request $request){
+        $input = $request->input('search');
+
+        $posts = Post::query()
+            ->select('sub.*')
+            ->selectRaw("ts_rank_cd(to_tsvector(sub.\"text\"), plainto_tsquery('english', ?)) as rank", [$input])
+            ->from(
+                DB::raw("(select *
+                                from (select id
+                                      from post) as posts left join user_content ON (posts.id = user_content.id)) as sub"))
+            ->whereRaw("(sub.\"text\") @@ plainto_tsquery('english', ?)", [$input])
+            ->orderByDesc('rank')
+            ->get();
+        
+        if(Auth::check()){
+            $auth_user = Auth::user();
+            foreach ($posts as $key => $post){
+                if ($post->priv_stat == 'Private'){
+                    if($post->creator_id == Auth::id()) continue;
+                    elseif (User::find($post->creator_id)->friends->contains($auth_user)) continue;
+                    else{
+                        $posts->pull($key);
+                    }
+                }
+
+            }
+        }
+
+        return $posts;
     }
 }

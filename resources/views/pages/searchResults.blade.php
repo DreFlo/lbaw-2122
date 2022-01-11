@@ -22,7 +22,9 @@
         <div class="tab-pane fade bg-transparent" id="pills-groups" role="tabpanel" aria-labelledby="pills-groups-tab">
             @each('partials.group_search_result', $groups, 'group')
         </div>
-        <div class="tab-pane fade bg-transparent" id="pills-posts" role="tabpanel" aria-labelledby="pills-posts-tab">Posts</div>
+        <div class="tab-pane fade bg-transparent" id="pills-posts" role="tabpanel" aria-labelledby="pills-posts-tab">
+            @each('partials.post_search_result', $posts, 'post')
+        </div>
         <div class="tab-pane fade bg-transparent" id="pills-comments" role="tabpanel" aria-labelledby="pills-comments-tab">Comments</div>
     </div>
 @endsection

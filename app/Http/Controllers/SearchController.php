@@ -12,6 +12,8 @@ class SearchController extends Controller
 
         $groups = GroupController::search($request);
 
-        return view('pages.searchResults', ['users' => $users, 'groups' => $groups]);
+        $posts = PostController::search($request);
+
+        return view('pages.searchResults', ['users' => $users, 'groups' => $groups, 'posts' => $posts]);
     }
 }
