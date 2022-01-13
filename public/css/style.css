@@ -595,3 +595,162 @@ table, th, td {
     width: 100%;
     margin:0 auto 0 auto;
 }
+
+.about-column {
+    float: left;
+    width: 25%;
+    margin-bottom: 16px;
+    padding: 0 8px;
+  }
+  
+  .about-card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    margin: 8px;
+  }
+  
+  .about-section {
+    padding: 50px;
+    text-align: center;
+    background-color: #474e5d;
+    color: white;
+  }
+  
+  .about-container {
+    padding: 0 16px;
+  }
+  
+  .about-container::after, .about-row::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+  
+  .about-title {
+    color: grey;
+  }
+  
+  .about-button {
+    border: none;
+    outline: 0;
+    display: inline-block;
+    padding: 8px;
+    color: white;
+    background-color: #FF271E;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+  }
+  
+  .about-button:hover {
+    background-color: #ee342d;
+  }
+  
+  @media screen and (max-width: 650px) {
+    .about-column {
+      width: 100%;
+      display: block;
+    }
+  }
+
+  .contacts-container {
+    box-sizing: border-box;
+  }
+  
+  /* Style inputs */
+  .contacts-input-text, .contacts-select, .contacts-textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    resize: vertical;
+  }
+  
+  .contacts-input-submit {
+    background-color: #FF271E;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .contacts-input-submit:hover {
+    background-color: #ee342d;
+  }
+  
+  .contacts-container {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 10px;
+  }
+
+  .contacts-column {
+    float: left;
+    width: 50%;
+    margin-top: 6px;
+    padding: 20px;
+  }
+
+  .contacts-row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  
+  @media screen and (max-width: 600px) {
+    .contacts-column, .contacts-input-submit {
+      width: 100%;
+      margin-top: 0;
+    }
+  }
+
+  .login-about-button, .login-contacts-button {
+    border-radius: 4px;
+    background-color: #FF271E;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 22px;
+    padding: 14px;
+    width: 180px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+  }
+
+  .login-about-button {
+    position: absolute;
+    left:    0;
+    bottom:   0;
+  }
+  
+  .login-contacts-button {
+    position: absolute;
+    right:    0;
+    bottom:   0;
+  }
+
+  .login-about-button span, .login-contacts-button span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+  }
+  
+  .login-about-button span:after, .login-contacts-button span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+  }
+  
+  .login-about-button:hover span, .login-contacts-button:hover span {
+    padding-right: 25px;
+  }
+  
+  .login-about-button:hover span:after, .login-contacts-button:hover span:after {
+    opacity: 1;
+    right: 0;
+  }

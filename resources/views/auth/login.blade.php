@@ -34,5 +34,13 @@
             </div>
         </form>
     </div>
+
+    <a href="{{ route('about') }}">
+        <button class="login-about-button"><span>About Us </span></button>
+    </a>
+
+    <a href="{{ route('contacts') }}">
+        <button class="login-contacts-button"><span>Contact Us </span></button>
+    </a>
 </div>
 @endsection

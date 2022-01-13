@@ -12,6 +12,14 @@ use Illuminate\Support\Facades\DB;
 class HomeController extends Controller
 {
     public function show() {
-        return view('pages.home'); //for now
+        return view('pages.home');
+    }
+
+    public function showContacts() {
+        return view('pages.contacts');
+    }
+
+    public function showAbout() {
+        return view('pages.about');
     }
 }

@@ -14,6 +14,8 @@
 // Home
 Route::get('/', 'Auth\LoginController@home');
 Route::get('home', 'HomeController@show')->name('home');
+Route::get('contacts', 'HomeController@showContacts')->name('contacts');
+Route::get('about', 'HomeController@showAbout')->name('about');
 
 Route::resource('user_content', 'UserContentController')->whereNumber('user_content');
 Route::resource('posts', 'PostController')->whereNumber('post');
