@@ -54,8 +54,14 @@ class GroupController extends Controller
     public function show(Group $group)
     {
         if(isset($group)) {
-            $posts = $group->posts()->simplePaginate(5);
-            $members = $group->members()->simplePaginate(5);
+            $posts = $group->posts();
+            
+            $members = [];
+            foreach($group->members as $member) {
+                array_push($members, $member);
+                if(count($members) >= 4) break;
+            }
+            
             return view('pages.group', ['group' => $group, 'posts' => $posts, 'members' => $members]);
         }
 
@@ -65,6 +71,7 @@ class GroupController extends Controller
     public function showMembers(Group $group) {
         if(isset($group)) {
             $members = $group->members();
+            ddd($members);
             return view('pages.members_group', ['members' => $members]);
         }
         return redirect('/');

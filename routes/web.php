@@ -53,3 +53,4 @@ Route::patch('profile/edit', 'UserController@edit');
 // Group
 Route::resource('groups', 'GroupController')->whereNumber('group');
 Route::get('groups/{group}/create_post', 'PostController@createInGroup')->whereNumber('group');
+Route::get('group/members', 'GroupController@showMembers');

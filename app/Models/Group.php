@@ -30,6 +30,7 @@ class Group extends Model
                     ->using(Membership::class);
     }
 
+
     public function moderators(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'membership', 'group_id', 'user_id')
