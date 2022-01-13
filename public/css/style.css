@@ -515,6 +515,8 @@ form .reg_txt {
 
     float: right;
     width: 30%;
+    height:100%;
+
     background-color: #F2F2F2;
     border: 2px solid #828282;
     border-radius: 10px;
@@ -526,22 +528,23 @@ form .reg_txt {
 
 .table_group, .table_group_members {
     width: 100%;
+    
     max-width: 100%;
     margin-top: 1%;
 }
 
-table, th, td {
+table, tr, th, td {
 
-    border-bottom: 2px solid #F2F2F2;
+    border-bottom: 2px solid transparent;
     border-spacing: 10px;
 }
 
 .row_group  {
-    width:100%;
+    width:150px;
     height: 150px;
 
-    max-width: 100%;
-    max-height: 100%;
+    max-width: 150px;
+    max-height: 150px;
     background-size: 100% 150px;
     text-align: center;
 
@@ -583,12 +586,16 @@ table, th, td {
 
 .posts_group {
     width:75%;
-
 }
 
 .members_group{
     width:35%;
-    margin: 0 auto;
+    height:100%;
+
+    background-color: #F2F2F2;
+    border: 2px solid #828282;
+    border-radius: 10px;
+    margin:1%;
 }
 
 .table_group_members {

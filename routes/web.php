@@ -48,3 +48,5 @@ Route::patch('profile/edit', 'UserController@edit');
 
 // Group
 Route::resource('groups', 'GroupController');
+Route::get('group/members', 'GroupController@showMembers');
+

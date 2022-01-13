@@ -14,20 +14,24 @@
             @include('partials.post', ['post' => $post, 'style' => 'width:98%;'])
         @endforeach
     </div>
-    <div class="groups_timeline">
-        <div class="members_group">
-            <p style="font-weight:bold; width: 100%"> Groups Members </p>
-            <table class="table_group_members">
-                @foreach($group->members as $member)
-                <tr>
-                    <td class="row_group" background="{{url($member->profilePic->path)}}">
-                        <a class="font_group" href='/users/{{ $member->id }}'>
-                            {{ $member->name }}
-                        </a>
-                    </td>
-                </tr>
+    <div class="members_group">
+
+        <table class="table_group_members">
+            <caption style="caption-side:top; text-align: center; font-weight: bold;"><a class="font_group" href="/group/members"> Group Members </a></caption>
+            @foreach(array_chunk($members, 2) as $rowmembers)
+            <tr>
+                @foreach($rowmembers as $member)
+                <td class="row_group">
+                    <a class="font_group" href='/users/{{ $member->id }}'>
+                        <img alt="profile_pic" src="{{url($member->profilePic->path)}}" style="width:150px; height:150px;">
+                        </img>
+                        {{ $member->name }}
+                    </a>
+                </td>
                 @endforeach
-            </table>
-        </div>
+            </tr>
+            @endforeach
+        </table>
+
     </div>
 </div>
