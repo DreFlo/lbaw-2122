@@ -36,6 +36,16 @@ function addEventListeners() {
     [].forEach.call(banToggles, function (banToggle) {
        banToggle.addEventListener('click', toggleBan);
     });
+
+    let acceptFriendRequests = document.querySelectorAll('button.accept_friend');
+    [].forEach.call(acceptFriendRequests, function (acceptButton) {
+        acceptButton.addEventListener('click', acceptFriendRequest);
+    });
+
+    let denyFriendRequests = document.querySelectorAll('button.deny_friend');
+    [].forEach.call(denyFriendRequests, function (denyButton) {
+        denyButton.addEventListener('click', denyFriendRequest);
+    })
 }
 
 function encodeForAjax(data) {
@@ -151,6 +161,30 @@ function toggleBan() {
         sendAjaxRequest('post', '/api/users/unban', {user_id: user_id, admin_id: admin_id}, null);
         this.innerHTML = 'Ban';
     }
+}
+
+function acceptFriendRequest() {
+    let target_id = this.getAttribute('target_id');
+    let sender_id = this.getAttribute('sender_id');
+    let req_not_id = this.getAttribute('req_not_id');
+
+    console.log(target_id, sender_id);
+
+    sendAjaxRequest('post', '/api/accept_friend_request', {target_id : target_id, sender_id : sender_id, req_not_id: req_not_id}, null);
+
+    this.style.backgroundColor = "gray";
+}
+
+function denyFriendRequest() {
+    let target_id = this.getAttribute('target_id');
+    let sender_id = this.getAttribute('sender_id');
+    let req_not_id = this.getAttribute('req_not_id');
+
+    console.log(target_id, sender_id);
+
+    sendAjaxRequest('post', '/api/accept_friend_request', {target_id : target_id, sender_id : sender_id, req_not_id: req_not_id}, null);
+
+    this.style.backgroundColor = "gray";
 }
 
 function sendItemUpdateRequest() {

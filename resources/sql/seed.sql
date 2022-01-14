@@ -438,6 +438,7 @@ create or replace function check_new_friendship_fn()
     begin
         if (new.req_stat = ''Accepted'') then
             insert into friendship(user_1, user_2) values(new.requester_id, new.target_id);
+            insert into friendship(user_2, user_1) values(new.requester_id, new.target_id);
             delete from friend_request where requester_id = new.requester_id and target_id = new.target_id;
             return null;
         elsif (new.req_stat = ''Declined'') then

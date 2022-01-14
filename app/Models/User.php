@@ -93,7 +93,7 @@ class User extends Authenticatable
             if ($a->content->timestamp === $b->content->timestamp) return 0;
             return $a->content->timestamp < $b->content->timestamp ? 1 : -1;
         });
-        
+
         return $posts;
     }
 
@@ -109,7 +109,7 @@ class User extends Authenticatable
             if ($a->content->timestamp === $b->content->timestamp) return 0;
             return $a->content->timestamp < $b->content->timestamp ? 1 : -1;
         });
-        
+
         return $posts;
     }
 
@@ -158,7 +158,7 @@ class User extends Authenticatable
     public function incomingFriendRequests(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'friend_request', 'target_id', 'requester_id')
-                    ->withPivot('req_stat')->using(FriendRequest::class);
+                    ->withPivot('req_stat')->wherePivot('req_stat', 'Pending')->using(FriendRequest::class);
     }
 
     public function groupRequests(): BelongsToMany
