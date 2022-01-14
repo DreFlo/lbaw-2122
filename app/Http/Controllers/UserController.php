@@ -144,6 +144,19 @@ class UserController extends Controller
         return $users;
     }
 
+    public static function fts(Request $request){
+        $input = $request->input('search');
+
+        $groups = DB::table('group')
+            ->selectRaw('"name"')
+            ->whereRaw("contains(\"name\", '$input')")
+            ->get();
+
+        dd($groups);
+
+        return view('posts.index', compact('posts'));
+    }
+
     public function ban(Request $request) {
         $policy = new UserPolicy();
         $admin = User::find($request->admin_id);

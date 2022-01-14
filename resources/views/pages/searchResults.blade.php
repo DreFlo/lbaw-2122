@@ -8,12 +8,14 @@
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="pills-groups-tab" data-bs-toggle="pill" data-bs-target="#pills-groups" type="button" role="tab" aria-controls="pills-groups" aria-selected="false">Groups</button>
         </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="pills-posts-tab" data-bs-toggle="pill" data-bs-target="#pills-posts" type="button" role="tab" aria-controls="pills-posts" aria-selected="false">Posts</button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="pills-comments-tab" data-bs-toggle="pill" data-bs-target="#pills-comments" type="button" role="tab" aria-controls="pills-comments" aria-selected="false">Comments</button>
-        </li>
+        @if($posts != null && $comments != null)
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="pills-posts-tab" data-bs-toggle="pill" data-bs-target="#pills-posts" type="button" role="tab" aria-controls="pills-posts" aria-selected="false">Posts</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="pills-comments-tab" data-bs-toggle="pill" data-bs-target="#pills-comments" type="button" role="tab" aria-controls="pills-comments" aria-selected="false">Comments</button>
+            </li>
+        @endif
     </ul>
     <div class="tab-content" id="pills-tabContent">
         <div class="tab-pane fade show active bg-transparent" id="pills-users" role="tabpanel" aria-labelledby="pills-users-tab">
@@ -22,9 +24,13 @@
         <div class="tab-pane fade bg-transparent" id="pills-groups" role="tabpanel" aria-labelledby="pills-groups-tab">
             @each('partials.group_search_result', $groups, 'group')
         </div>
-        <div class="tab-pane fade bg-transparent" id="pills-posts" role="tabpanel" aria-labelledby="pills-posts-tab">
-            @each('partials.post_search_result', $posts, 'post')
-        </div>
-        <div class="tab-pane fade bg-transparent" id="pills-comments" role="tabpanel" aria-labelledby="pills-comments-tab">Comments</div>
+        @if($posts != null && $comments != null)
+            <div class="tab-pane fade bg-transparent" id="pills-posts" role="tabpanel" aria-labelledby="pills-posts-tab">
+                @each('partials.post_search_result', $posts, 'post')
+            </div>
+            <div class="tab-pane fade bg-transparent" id="pills-comments" role="tabpanel" aria-labelledby="pills-comments-tab">
+                @each('partials.comment_search_result', $comments, 'comment')
+            </div>
+        @endif
     </div>
 @endsection

@@ -528,7 +528,7 @@ form .reg_txt {
 
 .table_group, .table_group_members {
     width: 100%;
-    
+
     max-width: 100%;
     margin-top: 1%;
 }
@@ -609,33 +609,33 @@ table, tr, th, td {
     margin-bottom: 16px;
     padding: 0 8px;
   }
-  
+
   .about-card {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     margin: 8px;
   }
-  
+
   .about-section {
     padding: 50px;
     text-align: center;
     background-color: #474e5d;
     color: white;
   }
-  
+
   .about-container {
     padding: 0 16px;
   }
-  
+
   .about-container::after, .about-row::after {
     content: "";
     clear: both;
     display: table;
   }
-  
+
   .about-title {
     color: grey;
   }
-  
+
   .about-button {
     border: none;
     outline: 0;
@@ -647,11 +647,11 @@ table, tr, th, td {
     cursor: pointer;
     width: 100%;
   }
-  
+
   .about-button:hover {
     background-color: #ee342d;
   }
-  
+
   @media screen and (max-width: 650px) {
     .about-column {
       width: 100%;
@@ -662,7 +662,7 @@ table, tr, th, td {
   .contacts-container {
     box-sizing: border-box;
   }
-  
+
   /* Style inputs */
   .contacts-input-text, .contacts-select, .contacts-textarea {
     width: 100%;
@@ -672,7 +672,7 @@ table, tr, th, td {
     margin-bottom: 16px;
     resize: vertical;
   }
-  
+
   .contacts-input-submit {
     background-color: #FF271E;
     color: white;
@@ -680,11 +680,11 @@ table, tr, th, td {
     border: none;
     cursor: pointer;
   }
-  
+
   .contacts-input-submit:hover {
     background-color: #ee342d;
   }
-  
+
   .contacts-container {
     border-radius: 5px;
     background-color: #f2f2f2;
@@ -703,7 +703,7 @@ table, tr, th, td {
     display: table;
     clear: both;
   }
-  
+
   @media screen and (max-width: 600px) {
     .contacts-column, .contacts-input-submit {
       width: 100%;
@@ -730,7 +730,7 @@ table, tr, th, td {
     left:    0;
     bottom:   0;
   }
-  
+
   .login-contacts-button {
     position: absolute;
     right:    0;
@@ -743,7 +743,7 @@ table, tr, th, td {
     position: relative;
     transition: 0.5s;
   }
-  
+
   .login-about-button span:after, .login-contacts-button span:after {
     content: '\00bb';
     position: absolute;
@@ -752,12 +752,35 @@ table, tr, th, td {
     right: -20px;
     transition: 0.5s;
   }
-  
+
   .login-about-button:hover span, .login-contacts-button:hover span {
     padding-right: 25px;
   }
-  
+
   .login-about-button:hover span:after, .login-contacts-button:hover span:after {
     opacity: 1;
     right: 0;
   }
+
+.image-cropper {
+    width: 50px;
+    height: 50px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.img-circle {
+    display: inline;
+    margin: 0 auto;
+    height: 100%;
+    width: auto;
+}
+
+.text_result{
+    position: relative;
+    color: black;
+    margin-left: 1%;
+    bottom: 17px;
+}

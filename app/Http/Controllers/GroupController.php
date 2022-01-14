@@ -55,13 +55,13 @@ class GroupController extends Controller
     {
         if(isset($group)) {
             $posts = $group->posts();
-            
+
             $members = [];
             foreach($group->members as $member) {
                 array_push($members, $member);
                 if(count($members) >= 4) break;
             }
-            
+
             return view('pages.group', ['group' => $group, 'posts' => $posts, 'members' => $members]);
         }
 
@@ -125,7 +125,7 @@ class GroupController extends Controller
             ->select('sub.*')
             ->selectRaw("ts_rank_cd(to_tsvector(sub.name), plainto_tsquery('english', ?)) as rank", [$input])
             ->from(
-                DB::raw('(select "group".id as id, "group".name as name, "group".cover_pic as cover_pic, "group".priv_stat as priv_stat, False as belonging
+                DB::raw('(select "group".id as id, "group".name as name, "group".cover_pic as cover_pic, "group".priv_stat as priv_stat
                                 from "group"
                                 where priv_stat = \'Public\'
                                 group by id ) AS sub'))
@@ -138,19 +138,12 @@ class GroupController extends Controller
                 ->select('sub.*')
                 ->selectRaw("ts_rank_cd(to_tsvector(sub.name), plainto_tsquery('english', ?)) as rank", [$input])
                 ->from(
-                    DB::raw("(select \"group\".id as id, \"group\".name as name, \"group\".cover_pic as cover_pic, \"group\".priv_stat as priv_stat, False as belonging
+                    DB::raw("(select \"group\".id as id, \"group\".name as name, \"group\".cover_pic as cover_pic, \"group\".priv_stat as priv_stat
                                 from \"group\"
                                 where priv_stat = 'Private'
                                 group by id ) AS sub"))
                 ->whereRaw("(sub.name) @@ plainto_tsquery('english', ?)", [$input])
                 ->get();
-
-            $auth_user = Auth::user();
-            foreach ($private_groups as $group){
-                if($auth_user->groups->contains($group)){
-                    $group->belonging = True;
-                }
-            }
 
             $groups = $private_groups->merge($groups);
         }

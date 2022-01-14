@@ -1,7 +1,5 @@
 <div class="row g-0 position-relative">
     <div class="post_search_result" id="post_search_result_{{$post->id}}" style="display: block">
-        <!--@include('partials.user_content', ['content' => $post->content])-->
-
         <h2 class="user_content_header" id="user_content_title_{{$post->content->id}}">
             <div class="user_content_title">
                 <a class="link" href="/users/{{$post->content->creator_id}}">{{$post->content->creator->name}}</a>

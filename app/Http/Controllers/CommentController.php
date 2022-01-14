@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
+use App\Models\Post;
+use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
@@ -49,5 +52,32 @@ class CommentController extends Controller
         }
 
         return view('pages.comment', ['comment' => $comment]);
+    }
+
+    public static function search(Request $request){
+        $input = $request->input('search');
+
+        $comments = Post::query()
+            ->select('sub.*')
+            ->selectRaw("ts_rank_cd(to_tsvector(sub.\"text\"), plainto_tsquery('english', ?)) as rank", [$input])
+            ->from(
+                DB::raw("(select *
+                            from (select id
+                                  from comment) as posts left join user_content ON (posts.id = user_content.id)) as sub"))
+            ->whereRaw("(sub.\"text\") @@ plainto_tsquery('english', ?)", [$input])
+            ->orderByDesc('rank')
+            ->get();
+
+        $auth_user = Auth::user();
+        foreach ($comments as $key => $comment){
+            if ($comment->priv_stat == 'Private'){
+                if($comment->creator_id == Auth::id()) continue;
+                elseif (User::find($comment->creator_id)->friends->contains($auth_user)) continue;
+                else $comments->pull($key);
+            }
+
+        }
+
+        return $comments;
     }
 }
