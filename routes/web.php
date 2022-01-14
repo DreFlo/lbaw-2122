@@ -31,6 +31,8 @@ Route::delete('api/likes', 'LikeController@remove');
 Route::post('api/search/users', 'UserController@searchAux');
 Route::post('api/users/ban', 'UserController@ban');
 Route::post('api/users/unban', 'UserController@unban');
+Route::post('api/accept_friend_request', 'FriendRequestController@accept');
+Route::post('api/deny_friend_request', 'FriendRequestController@deny');
 
 // Authentication
 Route::get('login', 'Auth\LoginController@showLoginForm');
@@ -49,6 +51,10 @@ Route::get('users/{id}', 'UserController@show')->whereNumber('id');
 Route::delete('users/{user}', 'UserController@destroy')->whereNumber('id')->name('users.destroy');
 Route::get('profile/edit', 'UserController@showEdit')->name('profile/edit');
 Route::patch('profile/edit', 'UserController@edit');
+
+// Notifications
+Route::get('notifications/post', 'NotificationController@post');
+Route::get('notifications/request', 'NotificationController@request');
 
 // Group
 Route::resource('groups', 'GroupController')->whereNumber('group');

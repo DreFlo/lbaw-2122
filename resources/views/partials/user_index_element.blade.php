@@ -2,7 +2,7 @@
     @if($user->profile_pic != null)
         <img class="rounded-circle m-2" src="{{url($user->profilePic->path)}}" alt="Profile Picture" height="54">
     @endif
-    <a href="users/{{$user->id}}" class="text-dark">{{$user->name}}</a>
+    <a href="/users/{{$user->id}}" class="text-dark">{{$user->name}}</a>
     @if($user->priv_stat === 'Anonymous')
         deleted
     @endif
