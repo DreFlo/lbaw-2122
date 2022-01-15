@@ -19,9 +19,133 @@
     </ul>
     <div class="tab-content" id="pills-tabContent">
         <div class="tab-pane fade show active bg-transparent" id="pills-users" role="tabpanel" aria-labelledby="pills-users-tab">
+            <div class="col-md-3">
+                <div class="filters">
+                   <form class="form-inline my-2 my-lg-0" action="/search" method="get">
+                       <p><input name="search" class="invisible" value={{$request->input('search')}}></p>
+
+                       <a>Sort by:</a>
+                       <select class="form-select input-sm" name="sort_user" aria-label="Sort type">
+                           <option value="rank" @if(!$request->has('sort_user') || ($request->input('sort_user') == 'rank')) selected @endif>Default</option>
+                           <option value="name" @if($request->input('sort_user') == 'name') selected @endif>Alphabetical Order</option>
+                       </select>
+                       <hr>
+                       <a>Order:</a>
+                       <div class="form-check">
+                           <input class="form-check-input" type="radio" name="sort_order_user" id="sort-asc" value="asc"
+                                  @if(($request->input('sort_order_user') == 'asc') || (!$request->has('sort_order_user'))) checked @endif>
+                           <label class="form-check-label" for="flexRadioDefault1">
+                               Ascending
+                           </label>
+                       </div>
+                       <div class="form-check">
+                            <input class="form-check-input" type="radio" name="sort_order_user" id="sort-desc" value="desc"
+                            @if($request->input('sort_order_user') == 'desc') checked @endif>
+                            <label class="form-check-label" for="flexRadioDefault2">
+                                Descending
+                            </label>
+                       </div>
+                       <hr>
+                       @if(\Illuminate\Support\Facades\Auth::check())
+                           <a>Show:</a>
+                           <div class="form-check">
+                               <input class="form-check-input" type="radio" name="sort_user_type" id="sort-asc" value="all"
+                                      @if(($request->input('sort_user_type') == 'all') || (!$request->has('sort_user_type'))) checked @endif>
+                               <label class="form-check-label" for="flexRadioDefault1">
+                                   All users
+                               </label>
+                           </div>
+                           <div class="form-check">
+                               <input class="form-check-input" type="radio" name="sort_user_type" id="sort-desc" value="public"
+                                      @if($request->input('sort_user_type') == 'public') checked @endif>
+                               <label class="form-check-label" for="flexRadioDefault2">
+                                   Public users only
+                               </label>
+                           </div>
+                           <div class="form-check">
+                               <input class="form-check-input" type="radio" name="sort_user_type" id="sort-desc" value="private"
+                                      @if($request->input('sort_user_type') == 'private') checked @endif>
+                               <label class="form-check-label" for="flexRadioDefault2">
+                                   Private users only
+                               </label>
+                           </div>
+                           <div class="form-check">
+                               <input class="form-check-input" type="radio" name="sort_user_type" id="sort-desc" value="friends"
+                                      @if($request->input('sort_user_type') == 'friends') checked @endif>
+                               <label class="form-check-label" for="flexRadioDefault2">
+                                   Friends only
+                               </label>
+                           </div>
+                           <hr>
+                       @endif
+                           <button class="btn btn-outline-success my-2 my-sm-0" type="submit" >Apply</button>
+                   </form>
+                </div>
+            </div>
             @each('partials.user_search_result', $users, 'user')
         </div>
         <div class="tab-pane fade bg-transparent" id="pills-groups" role="tabpanel" aria-labelledby="pills-groups-tab">
+            <div class="filters">
+                <form class="form-inline my-2 my-lg-0" action="/search" method="get">
+                    <p><input name="search" class="invisible" value={{$request->input('search')}}></p>
+
+                    <a>Sort by:</a>
+                    <select class="form-select input-sm" name="sort_group" aria-label="Sort type">
+                        <option value="rank" @if(!$request->has('sort_group') || ($request->input('sort_group') == 'rank')) selected @endif>Default</option>
+                        <option value="name" @if($request->input('sort_group') == 'name') selected @endif>Alphabetical Order</option>
+                    </select>
+                    <hr>
+                    <a>Order:</a>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="sort_order_group" id="sort-asc" value="asc"
+                               @if(($request->input('sort_order_group') == 'asc') || (!$request->has('sort_order_group'))) checked @endif>
+                        <label class="form-check-label" for="flexRadioDefault1">
+                            Ascending
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="sort_order_group" id="sort-desc" value="desc"
+                               @if($request->input('sort_order_group') == 'desc') checked @endif>
+                        <label class="form-check-label" for="flexRadioDefault2">
+                            Descending
+                        </label>
+                    </div>
+                    <hr>
+                    @if(\Illuminate\Support\Facades\Auth::check())
+                        <a>Show:</a>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="sort_group_type" id="sort-asc" value="all"
+                                   @if(($request->input('sort_group_type') == 'all') || (!$request->has('sort_group_type'))) checked @endif>
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                All groups
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="sort_group_type" id="sort-desc" value="public"
+                                   @if($request->input('sort_group_type') == 'public') checked @endif>
+                            <label class="form-check-label" for="flexRadioDefault2">
+                                Public groups only
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="sort_group_type" id="sort-desc" value="private"
+                                   @if($request->input('sort_group_type') == 'private') checked @endif>
+                            <label class="form-check-label" for="flexRadioDefault2">
+                                Private groups only
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="sort_group_type" id="sort-desc" value="member"
+                                   @if($request->input('sort_group_type') == 'member') checked @endif>
+                            <label class="form-check-label" for="flexRadioDefault2">
+                                My groups
+                            </label>
+                        </div>
+                        <hr>
+                    @endif
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" >Apply</button>
+                </form>
+            </div>
             @each('partials.group_search_result', $groups, 'group')
         </div>
         @if($posts != null && $comments != null)

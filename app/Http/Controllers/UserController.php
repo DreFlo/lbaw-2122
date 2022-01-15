@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Group;
 use App\Models\Image;
 use App\Models\User;
 use App\Policies\UserPolicy;
@@ -142,19 +143,6 @@ class UserController extends Controller
         $users = $users->sortByDesc("rank");
 
         return $users;
-    }
-
-    public static function fts(Request $request){
-        $input = $request->input('search');
-
-        $groups = DB::table('group')
-            ->selectRaw('"name"')
-            ->whereRaw("contains(\"name\", '$input')")
-            ->get();
-
-        dd($groups);
-
-        return view('posts.index', compact('posts'));
     }
 
     public function ban(Request $request) {

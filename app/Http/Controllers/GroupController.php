@@ -133,7 +133,6 @@ class GroupController extends Controller
             ->get();
 
         if(Auth::check()){
-            $id = Auth::id();
             $private_groups = Group::query()
                 ->select('sub.*')
                 ->selectRaw("ts_rank_cd(to_tsvector(sub.name), plainto_tsquery('english', ?)) as rank", [$input])
