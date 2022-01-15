@@ -32,6 +32,10 @@
             <div class="auth_link">
                 <a class="button button-outline" href="{{ route('register') }}">Register</a>
             </div>
+
+            <div class="auth_link">
+                <a class="button button-outline" href="{{ route('forget.password.get') }}">Forgot Password?</a>
+            </div>
         </form>
     </div>
 

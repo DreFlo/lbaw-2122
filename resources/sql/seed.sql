@@ -21,6 +21,7 @@ drop table if exists "share_notification" cascade;
 drop table if exists "group_invite_notification" cascade;
 drop table if exists "group_request_notification" cascade;
 drop table if exists "friend_request_notification" cascade;
+drop table if exists "password_resets" cascade;
 
 drop type if exists request_status cascade;
 drop type if exists privacy_status cascade;
@@ -43,6 +44,13 @@ create table "image"
     id serial primary key,
     alt text,
     "path" text not null
+);
+
+create table "password_resets"
+(
+    email text not null,
+    token text not null,
+    "created_at" timestamptz not null default now()
 );
 
 
@@ -486,7 +494,7 @@ insert into "image"(id, path) values (4, 'storage/images/coverpic.png');
 insert into "image"(id, alt, path) values (3, 'Default profile picture','storage/images/blank-profile-picture.png');
 SELECT setval('image_id_seq', max(id)) FROM "image";
 
-insert into "user"(id, "name", birthdate, email, "password", priv_stat, admin_flag) values(1, 'Andre', '2001-03-15', 'a@a.a', '$2a$12$rHC7sIE90OGsGyI9KWiNx.DCMHS2X6Z/hiHeH9D/Bi.zy6xDHoYbS', 'Private', true); /*pass*/
+insert into "user"(id, "name", birthdate, email, "password", priv_stat, admin_flag) values(1, 'Andre', '2001-03-15', 'lbaw2192@gmail.com', '$2a$12$rHC7sIE90OGsGyI9KWiNx.DCMHS2X6Z/hiHeH9D/Bi.zy6xDHoYbS', 'Private', true); /*pass*/
 insert into "user"(id, "name", birthdate, email, "password", priv_stat) values(2, 'Tiago', '2001-05-11', 't@t.t', '$2a$12$rHC7sIE90OGsGyI9KWiNx.DCMHS2X6Z/hiHeH9D/Bi.zy6xDHoYbS', 'Private'); /*pass*/
 insert into "user"(id, "name", birthdate, email, "password", priv_stat) values(3, 'Diogo', '2001-11-30', 'd@d.d', '$2a$12$rHC7sIE90OGsGyI9KWiNx.DCMHS2X6Z/hiHeH9D/Bi.zy6xDHoYbS', 'Private'); /*pass*/
 insert into "user"(id, "name", birthdate, email, "password") values(4, 'Mendes', '1998-10-21', 'm@m.m', '$2a$12$rHC7sIE90OGsGyI9KWiNx.DCMHS2X6Z/hiHeH9D/Bi.zy6xDHoYbS'); /*pass*/

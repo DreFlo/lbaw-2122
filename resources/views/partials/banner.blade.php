@@ -3,6 +3,11 @@
     <a href="{{ route('home') }}" style="text-decoration:none">
         <p class="banner_title"> INFRA </p>
     </a>
+    @if (Auth::check()!=true && !\Request::is('login'))
+        <a href="{{ route('login') }}">
+            <button class="login-button"><span>Login</span></button>
+        </a>
+    @endif
     <form class="form-inline my-2 my-lg-0" action="/search" method="get">
         <input name="search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
     </form>
