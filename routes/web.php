@@ -70,4 +70,6 @@ Route::get('groups/{group}/notifications', 'NotificationController@group');
 // Group
 Route::resource('groups', 'GroupController')->whereNumber('group');
 Route::get('groups/{group}/create_post', 'PostController@createInGroup')->whereNumber('group');
-Route::get('group/members', 'GroupController@showMembers');
+Route::get('groups/{group}/members', 'GroupController@showMembers');
+Route::get('groups/{group}/edit_group', 'GroupController@showEdit');
+Route::patch('groups/{group]/edit_group', 'GroupController@edit');

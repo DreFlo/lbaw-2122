@@ -558,6 +558,7 @@ SELECT setval('group_id_seq', max(id)) FROM "group";
 insert into "membership"(user_id, group_id) values(2,1);
 insert into "membership"(user_id, group_id) values(3,1);
 insert into "membership"(user_id, group_id) values(4,1);
+insert into "membership"(user_id, group_id) values(5,1);
 insert into "membership"(user_id, group_id) values(2,2);
 insert into "membership"(user_id, group_id) values(2,4);
 insert into "membership"(user_id, group_id) values(2,5);

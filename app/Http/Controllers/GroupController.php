@@ -55,13 +55,8 @@ class GroupController extends Controller
     {
         if(isset($group)) {
             $posts = $group->posts();
-
-            $members = [];
-            foreach($group->members as $member) {
-                array_push($members, $member);
-                if(count($members) >= 4) break;
-            }
-
+            
+            $members=collect($group->members)->chunk(4)->first();
             return view('pages.group', ['group' => $group, 'posts' => $posts, 'members' => $members]);
         }
 
@@ -70,9 +65,16 @@ class GroupController extends Controller
 
     public function showMembers(Group $group) {
         if(isset($group)) {
-            $members = $group->members();
-            ddd($members);
-            return view('pages.members_group', ['members' => $members]);
+            $members=$group->sortedMembers();
+            
+            return view('pages.members_group', ['group' => $group, 'members' => $members]);
+        }
+        return redirect('/');
+    }
+
+    public function showEdit(Group $group) {
+        if(isset($group)) {
+            return view('pages.edit_group', ['group' => $group]);
         }
         return redirect('/');
     }
@@ -85,7 +87,7 @@ class GroupController extends Controller
      */
     public function edit(Group $group)
     {
-        //
+        
     }
 
     /**
