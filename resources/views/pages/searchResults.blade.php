@@ -19,70 +19,69 @@
     </ul>
     <div class="tab-content" id="pills-tabContent">
         <div class="tab-pane fade show active bg-transparent" id="pills-users" role="tabpanel" aria-labelledby="pills-users-tab">
-            <div class="col-md-3">
-                <div class="filters">
-                   <form class="form-inline my-2 my-lg-0" action="/search" method="get">
-                       <p><input name="search" class="invisible" value={{$request->input('search')}}></p>
-
-                       <a>Sort by:</a>
-                       <select class="form-select input-sm" name="sort_user" aria-label="Sort type">
-                           <option value="rank" @if(!$request->has('sort_user') || ($request->input('sort_user') == 'rank')) selected @endif>Default</option>
-                           <option value="name" @if($request->input('sort_user') == 'name') selected @endif>Alphabetical Order</option>
-                       </select>
-                       <hr>
-                       <a>Order:</a>
+            <div class="filters">
+               <form class="form-inline my-2 my-lg-0" action="/search" method="get">
+                   <p><input name="search" class="invisible" value={{$request->input('search')}}></p>
+                   <a>Sort by:</a>
+                   <select class="form-select input-sm" name="sort_user" aria-label="Sort type">
+                       <option value="rank" @if(!$request->has('sort_user') || ($request->input('sort_user') == 'rank')) selected @endif>Default</option>
+                       <option value="name" @if($request->input('sort_user') == 'name') selected @endif>Alphabetical Order</option>
+                   </select>
+                   <hr>
+                   <a>Order:</a>
+                   <div class="form-check">
+                       <input class="form-check-input" type="radio" name="sort_order_user" id="sort-asc" value="asc"
+                              @if(($request->input('sort_order_user') == 'asc') || (!$request->has('sort_order_user'))) checked @endif>
+                       <label class="form-check-label" for="flexRadioDefault1">
+                           Ascending
+                       </label>
+                   </div>
+                   <div class="form-check">
+                        <input class="form-check-input" type="radio" name="sort_order_user" id="sort-desc" value="desc"
+                        @if($request->input('sort_order_user') == 'desc') checked @endif>
+                        <label class="form-check-label" for="flexRadioDefault2">
+                            Descending
+                        </label>
+                   </div>
+                   <hr>
+                   @if(\Illuminate\Support\Facades\Auth::check())
+                       <a>Show:</a>
                        <div class="form-check">
-                           <input class="form-check-input" type="radio" name="sort_order_user" id="sort-asc" value="asc"
-                                  @if(($request->input('sort_order_user') == 'asc') || (!$request->has('sort_order_user'))) checked @endif>
+                           <input class="form-check-input" type="radio" name="sort_user_type" id="sort-asc" value="all"
+                                  @if(($request->input('sort_user_type') == 'all') || (!$request->has('sort_user_type'))) checked @endif>
                            <label class="form-check-label" for="flexRadioDefault1">
-                               Ascending
+                               All users
                            </label>
                        </div>
                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="sort_order_user" id="sort-desc" value="desc"
-                            @if($request->input('sort_order_user') == 'desc') checked @endif>
-                            <label class="form-check-label" for="flexRadioDefault2">
-                                Descending
-                            </label>
+                           <input class="form-check-input" type="radio" name="sort_user_type" id="sort-desc" value="public"
+                                  @if($request->input('sort_user_type') == 'public') checked @endif>
+                           <label class="form-check-label" for="flexRadioDefault2">
+                               Public users only
+                           </label>
+                       </div>
+                       <div class="form-check">
+                           <input class="form-check-input" type="radio" name="sort_user_type" id="sort-desc" value="private"
+                                  @if($request->input('sort_user_type') == 'private') checked @endif>
+                           <label class="form-check-label" for="flexRadioDefault2">
+                               Private users only
+                           </label>
+                       </div>
+                       <div class="form-check">
+                           <input class="form-check-input" type="radio" name="sort_user_type" id="sort-desc" value="friends"
+                                  @if($request->input('sort_user_type') == 'friends') checked @endif>
+                           <label class="form-check-label" for="flexRadioDefault2">
+                               Friends only
+                           </label>
                        </div>
                        <hr>
-                       @if(\Illuminate\Support\Facades\Auth::check())
-                           <a>Show:</a>
-                           <div class="form-check">
-                               <input class="form-check-input" type="radio" name="sort_user_type" id="sort-asc" value="all"
-                                      @if(($request->input('sort_user_type') == 'all') || (!$request->has('sort_user_type'))) checked @endif>
-                               <label class="form-check-label" for="flexRadioDefault1">
-                                   All users
-                               </label>
-                           </div>
-                           <div class="form-check">
-                               <input class="form-check-input" type="radio" name="sort_user_type" id="sort-desc" value="public"
-                                      @if($request->input('sort_user_type') == 'public') checked @endif>
-                               <label class="form-check-label" for="flexRadioDefault2">
-                                   Public users only
-                               </label>
-                           </div>
-                           <div class="form-check">
-                               <input class="form-check-input" type="radio" name="sort_user_type" id="sort-desc" value="private"
-                                      @if($request->input('sort_user_type') == 'private') checked @endif>
-                               <label class="form-check-label" for="flexRadioDefault2">
-                                   Private users only
-                               </label>
-                           </div>
-                           <div class="form-check">
-                               <input class="form-check-input" type="radio" name="sort_user_type" id="sort-desc" value="friends"
-                                      @if($request->input('sort_user_type') == 'friends') checked @endif>
-                               <label class="form-check-label" for="flexRadioDefault2">
-                                   Friends only
-                               </label>
-                           </div>
-                           <hr>
-                       @endif
-                           <button class="btn btn-outline-success my-2 my-sm-0" type="submit" >Apply</button>
-                   </form>
-                </div>
+                   @endif
+                       <button class="btn btn-outline-success my-2 my-sm-0" type="submit" >Apply</button>
+               </form>
             </div>
-            @each('partials.user_search_result', $users, 'user')
+            <div class="results">
+                @each('partials.user_search_result', $users, 'user')
+            </div>
         </div>
         <div class="tab-pane fade bg-transparent" id="pills-groups" role="tabpanel" aria-labelledby="pills-groups-tab">
             <div class="filters">
@@ -146,14 +145,140 @@
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit" >Apply</button>
                 </form>
             </div>
-            @each('partials.group_search_result', $groups, 'group')
+            <div class="results">
+                @each('partials.group_search_result', $groups, 'group')
+            </div>
         </div>
         @if($posts != null && $comments != null)
             <div class="tab-pane fade bg-transparent" id="pills-posts" role="tabpanel" aria-labelledby="pills-posts-tab">
-                @each('partials.post_search_result', $posts, 'post')
+                <div class="filters">
+                    <form class="form-inline my-2 my-lg-0" action="/search" method="get">
+                        <p><input name="search" class="invisible" value={{$request->input('search')}}></p>
+
+                        <a>Sort by:</a>
+                        <select class="form-select input-sm" name="sort_post" aria-label="Sort type">
+                            <option value="rank" @if(!$request->has('sort_post') || ($request->input('sort_post') == 'rank')) selected @endif>Default</option>
+                            <option value="timestamp" @if($request->input('sort_post') == 'timestamp') selected @endif>Time posted</option>
+                            <option value="likes" @if($request->input('sort_post') == 'likes') selected @endif>Likes</option>
+                        </select>
+                        <hr>
+                        <a>Order:</a>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="sort_order_post" id="sort-asc" value="asc"
+                                   @if(($request->input('sort_order_post') == 'asc') || (!$request->has('sort_order_post'))) checked @endif>
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Ascending
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="sort_order_post" id="sort-desc" value="desc"
+                                   @if($request->input('sort_order_post') == 'desc') checked @endif>
+                            <label class="form-check-label" for="flexRadioDefault2">
+                                Descending
+                            </label>
+                        </div>
+                        <hr>
+                        <a>Show:</a>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="sort_post_type" id="sort-asc" value="all"
+                                   @if(($request->input('sort_post_type') == 'all') || (!$request->has('sort_post_type'))) checked @endif>
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                All posts
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="sort_post_type" id="sort-desc" value="public"
+                                   @if($request->input('sort_post_type') == 'public') checked @endif>
+                            <label class="form-check-label" for="flexRadioDefault2">
+                                Public posts only
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="sort_post_type" id="sort-desc" value="private"
+                                   @if($request->input('sort_post_type') == 'private') checked @endif>
+                            <label class="form-check-label" for="flexRadioDefault2">
+                                Private posts only
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="sort_post_type" id="sort-desc" value="friends"
+                                   @if($request->input('sort_post_type') == 'friends') checked @endif>
+                            <label class="form-check-label" for="flexRadioDefault2">
+                                Friends posts
+                            </label>
+                        </div>
+                        <hr>
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit" >Apply</button>
+                    </form>
+                </div>
+                <div class="results">
+                    @each('partials.post_search_result', $posts, 'post')
+                </div>
             </div>
             <div class="tab-pane fade bg-transparent" id="pills-comments" role="tabpanel" aria-labelledby="pills-comments-tab">
-                @each('partials.comment_search_result', $comments, 'comment')
+                <div class="filters">
+                    <form class="form-inline my-2 my-lg-0" action="/search" method="get">
+                        <p><input name="search" class="invisible" value={{$request->input('search')}}></p>
+
+                        <a>Sort by:</a>
+                        <select class="form-select input-sm" name="sort_comment" aria-label="Sort type">
+                            <option value="rank" @if(!$request->has('sort_comment') || ($request->input('sort_comment') == 'rank')) selected @endif>Default</option>
+                            <option value="timestamp" @if($request->input('sort_comment') == 'timestamp') selected @endif>Time posted</option>
+                            <option value="likes" @if($request->input('sort_comment') == 'likes') selected @endif>Likes</option>
+                        </select>
+                        <hr>
+                        <a>Order:</a>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="sort_order_comment" id="sort-asc" value="asc"
+                                   @if(($request->input('sort_order_comment') == 'asc') || (!$request->has('sort_order_comment'))) checked @endif>
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Ascending
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="sort_order_comment" id="sort-desc" value="desc"
+                                   @if($request->input('sort_order_comment') == 'desc') checked @endif>
+                            <label class="form-check-label" for="flexRadioDefault2">
+                                Descending
+                            </label>
+                        </div>
+                        <hr>
+                        <a>Show:</a>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="sort_comment_type" id="sort-asc" value="all"
+                                   @if(($request->input('sort_comment_type') == 'all') || (!$request->has('sort_comment_type'))) checked @endif>
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                All comments
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="sort_comment_type" id="sort-desc" value="public"
+                                   @if($request->input('sort_comment_type') == 'public') checked @endif>
+                            <label class="form-check-label" for="flexRadioDefault2">
+                                Public comments only
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="sort_comment_type" id="sort-desc" value="private"
+                                   @if($request->input('sort_comment_type') == 'private') checked @endif>
+                            <label class="form-check-label" for="flexRadioDefault2">
+                                Private comments only
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="sort_comment_type" id="sort-desc" value="friends"
+                                   @if($request->input('sort_comment_type') == 'friends') checked @endif>
+                            <label class="form-check-label" for="flexRadioDefault2">
+                                Friends comments
+                            </label>
+                        </div>
+                        <hr>
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit" >Apply</button>
+                    </form>
+                </div>
+                <div class="results">
+                    @each('partials.comment_search_result', $comments, 'comment')
+                </div>
             </div>
         @endif
     </div>

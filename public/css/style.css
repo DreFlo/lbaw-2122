@@ -801,3 +801,21 @@ table, tr, th, td {
     margin-left: 1%;
     bottom: 17px;
 }
+
+.filters {
+    height: auto; /* Full-height: remove this if you want "auto" height */
+    width: 11%; /* Set the width of the sidebar */
+    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+    /*z-index: 1;*/ /* Stay on top */
+    /*top: 0;*/ /* Stay at the top */
+    /*left: 0;*/
+    background-color: transparent; /* Black */
+    overflow-x: hidden; /* Disable horizontal scroll */
+    margin-top: -2%;
+}
+
+.results {
+    margin-left: 12.25%;
+    padding: 1%;
+    border-left: 1px solid lightgray;
+}

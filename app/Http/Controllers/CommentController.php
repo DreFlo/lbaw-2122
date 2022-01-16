@@ -57,16 +57,27 @@ class CommentController extends Controller
     public static function search(Request $request){
         $input = $request->input('search');
 
-        $comments = Post::query()
+        $ts_comments = Comment::query()
             ->select('sub.*')
             ->selectRaw("ts_rank_cd(to_tsvector(sub.\"text\"), plainto_tsquery('english', ?)) as rank", [$input])
             ->from(
-                DB::raw("(select *
+                DB::raw("(select *, 0 as likes
                             from (select id
-                                  from comment) as posts left join user_content ON (posts.id = user_content.id)) as sub"))
+                                  from comment) as comments left join user_content ON (comments.id = user_content.id)) as sub"))
             ->whereRaw("(sub.\"text\") @@ plainto_tsquery('english', ?)", [$input])
             ->orderByDesc('rank')
             ->get();
+
+        $l_comments = Comment::query()
+            ->select('sub.*')
+            ->from(
+                DB::raw("(select *, 0 as likes
+                            from (select id
+                                  from comment) as comments left join user_content ON (comments.id = user_content.id)) as sub"))
+            ->whereRaw("sub.\"text\" like '%$input%'")
+            ->get();
+
+        $comments = $ts_comments->merge($l_comments);
 
         $auth_user = Auth::user();
         foreach ($comments as $key => $comment){
@@ -76,6 +87,7 @@ class CommentController extends Controller
                 else $comments->pull($key);
             }
 
+            $comment->likes = $comment->content->likeCount();
         }
 
         return $comments;

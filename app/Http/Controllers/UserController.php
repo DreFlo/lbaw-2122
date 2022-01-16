@@ -123,26 +123,43 @@ class UserController extends Controller
     }
 
     public static function search(Request $request){
-        $users = self::search_public_users($request);
+        $input = $request->input('search');
 
         if(Auth::check()){
-            $input = $request->input('search');
-
-            $private_users = User::query()
+            $ts_users = User::query()
                 ->select('sub.*')
                 ->selectRaw("ts_rank_cd(to_tsvector(sub.name), plainto_tsquery('english', ?)) as rank", [$input])
                 ->from(
                     DB::raw('(select "user".id as id, "user".name as name, "user".profile_pic as profile_pic
                                 from "user"
-                                where priv_stat = \'Private\'
                                 group by id ) AS sub'))
                 ->whereRaw("(sub.name) @@ plainto_tsquery('english', ?)", [$input])
+                ->orderByDesc("rank")
                 ->get();
-            $users = $private_users->merge($users);
-        }
-        $users = $users->sortByDesc("rank");
 
-        return $users;
+            $l_users = User::whereRaw(
+                "name like '%$input%'"
+            )->get();
+        }
+        else{
+            $ts_users = User::query()
+                ->select('sub.*')
+                ->selectRaw("ts_rank_cd(to_tsvector(sub.name), plainto_tsquery('english', ?)) as rank", [$input])
+                ->from(
+                    DB::raw('(select "user".id as id, "user".name as name, "user".profile_pic as profile_pic
+                                from "user"
+                                where priv_stat = \'Public\'
+                                group by id ) AS sub'))
+                ->whereRaw("(sub.name) @@ plainto_tsquery('english', ?)", [$input])
+                ->orderByDesc("rank")
+                ->get();
+
+            $l_users = User::whereRaw(
+                "name like '%$input%' and priv_stat = 'Public'"
+            )->get();
+        }
+        return $ts_users->merge($l_users);
+
     }
 
     public function ban(Request $request) {

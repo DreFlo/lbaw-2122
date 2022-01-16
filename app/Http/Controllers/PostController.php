@@ -131,16 +131,27 @@ class PostController extends Controller
     public static function search(Request $request){
         $input = $request->input('search');
 
-        $posts = Post::query()
+        $ts_posts = Post::query()
             ->select('sub.*')
             ->selectRaw("ts_rank_cd(to_tsvector(sub.\"text\"), plainto_tsquery('english', ?)) as rank", [$input])
             ->from(
-                DB::raw("(select *
+                DB::raw("(select *, 0 as likes
                             from (select id
                                   from post) as posts left join user_content ON (posts.id = user_content.id)) as sub"))
             ->whereRaw("(sub.\"text\") @@ plainto_tsquery('english', ?)", [$input])
             ->orderByDesc('rank')
             ->get();
+
+        $l_posts = Post::query()
+            ->select('sub.*')
+            ->from(
+                DB::raw("(select *, 0 as likes
+                            from (select id
+                                  from post) as posts left join user_content ON (posts.id = user_content.id)) as sub"))
+            ->whereRaw("sub.\"text\" like '%$input%'")
+            ->get();
+
+        $posts = $ts_posts->merge($l_posts);
 
         $auth_user = Auth::user();
         foreach ($posts as $key => $post){
@@ -150,6 +161,7 @@ class PostController extends Controller
                 else $posts->pull($key);
             }
 
+            $post->likes = $post->content->likeCount();
         }
 
         return $posts;

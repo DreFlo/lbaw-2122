@@ -121,33 +121,41 @@ class GroupController extends Controller
     public static function search(Request $request){
         $input = $request->input('search');
 
-        $groups = Group::query()
-            ->select('sub.*')
-            ->selectRaw("ts_rank_cd(to_tsvector(sub.name), plainto_tsquery('english', ?)) as rank", [$input])
-            ->from(
-                DB::raw('(select "group".id as id, "group".name as name, "group".cover_pic as cover_pic, "group".priv_stat as priv_stat
-                                from "group"
-                                where priv_stat = \'Public\'
-                                group by id ) AS sub'))
-            ->whereRaw("(sub.name) @@ plainto_tsquery('english', ?)", [$input])
-            ->get();
-
         if(Auth::check()){
-            $private_groups = Group::query()
+            $ts_groups = Group::query()
                 ->select('sub.*')
                 ->selectRaw("ts_rank_cd(to_tsvector(sub.name), plainto_tsquery('english', ?)) as rank", [$input])
                 ->from(
                     DB::raw("(select \"group\".id as id, \"group\".name as name, \"group\".cover_pic as cover_pic, \"group\".priv_stat as priv_stat
                                 from \"group\"
-                                where priv_stat = 'Private'
                                 group by id ) AS sub"))
                 ->whereRaw("(sub.name) @@ plainto_tsquery('english', ?)", [$input])
+                ->orderByDesc("rank")
                 ->get();
 
-            $groups = $private_groups->merge($groups);
+            $l_groups = Group::whereRaw(
+                "name like '%$input%'"
+            )->get();
         }
-        $groups = $groups->sortByDesc("rank");
+        else{
+            $ts_groups = Group::query()
+                ->select('sub.*')
+                ->selectRaw("ts_rank_cd(to_tsvector(sub.name), plainto_tsquery('english', ?)) as rank", [$input])
+                ->from(
+                    DB::raw('(select "group".id as id, "group".name as name, "group".cover_pic as cover_pic, "group".priv_stat as priv_stat
+                                from "group"
+                                where priv_stat = \'Public\'
+                                group by id ) AS sub'))
+                ->whereRaw("(sub.name) @@ plainto_tsquery('english', ?)", [$input])
+                ->orderByDesc("rank")
+                ->get();
 
-        return $groups;
+            $l_groups = Group::whereRaw(
+                "name like '%$input%' and priv_stat = 'Public'"
+            )->get();
+
+        }
+
+        return $ts_groups->merge($l_groups);
     }
 }

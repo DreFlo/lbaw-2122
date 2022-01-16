@@ -83,6 +83,67 @@ class SearchController extends Controller
             $posts = PostController::search($request);
             $comments = CommentController::search($request);
 
+            //Sort posts
+            if($request->has('sort_post')){
+                if($request->input('sort_order_post') == 'asc') $posts = $posts->sortBy($request->input('sort_post'));
+                else $posts = $posts->sortByDesc($request->input('sort_post'));
+            }
+
+            //Filter posts
+            if($request->has('sort_post_type')){
+                switch ($request->input('sort_post_type')){
+                    case 'all':
+                        break;
+                    case 'public':
+                        foreach ($posts as $key => $post){
+                            if ($post->priv_stat != 'Public') $posts->pull($key);
+                        }
+                        break;
+                    case 'private':
+                        foreach ($posts as $key => $post){
+                            if ($post->priv_stat != 'Private') $posts->pull($key);
+                        }
+                        break;
+                    case 'friends':
+                        $auth_user = Auth::user();
+                        foreach ($posts as $key => $post){
+                            if(!$auth_user->friends->contains(User::find($post->creator_id))) $posts->pull($key);
+                        }
+                        break;
+                }
+            }
+
+
+            //Sort comments
+            if($request->has('sort_comment')){
+                if($request->input('sort_order_comment') == 'asc') $comments = $comments->sortBy($request->input('sort_comment'));
+                else $comments = $comments->sortByDesc($request->input('sort_comment'));
+            }
+
+            //Filter comments
+            if($request->has('sort_comment_type')){
+                switch ($request->input('sort_comment_type')){
+                    case 'all':
+                        break;
+                    case 'public':
+                        foreach ($comments as $key => $comment){
+                            if ($comment->priv_stat != 'Public') $comments->pull($key);
+                        }
+                        break;
+                    case 'private':
+                        foreach ($comments as $key => $comment){
+                            if ($comment->priv_stat != 'Private') $comments->pull($key);
+                        }
+                        break;
+                    case 'friends':
+                        $auth_user = Auth::user();
+                        foreach ($comments as $key => $comment){
+                            if(!$auth_user->friends->contains(User::find($comment->creator_id))) $comments->pull($key);
+                        }
+                        break;
+                }
+            }
+
             return view('pages.searchResults', ['users' => $users, 'groups' => $groups, 'posts' => $posts, 'comments' => $comments, 'request' => $request]);
         }
         else{
