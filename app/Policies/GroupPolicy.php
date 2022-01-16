@@ -96,4 +96,8 @@ class GroupPolicy
     {
         return false;
     }
+
+    public function viewNotifications(User $user, Group $group) {
+        return $group->isModerator($user);
+    }
 }

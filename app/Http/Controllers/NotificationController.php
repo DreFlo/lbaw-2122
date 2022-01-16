@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Group;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 
 class NotificationController extends Controller
 {
@@ -58,5 +60,13 @@ class NotificationController extends Controller
             'friendReqNots' => $user->friendRequestNotifications,
             'groupInvNots' => $user->groupInviteNotifications
         ]);
+    }
+
+    public function group(Group $group) {
+        if (!Gate::allows('viewNotifications', $group)) {
+            return redirect('/groups/'.$group->id);
+        }
+
+        return view('pages.group_notifications', ['notifications' => $group->userRequestNotifications]);
     }
 }

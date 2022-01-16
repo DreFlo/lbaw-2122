@@ -56,6 +56,16 @@ function addEventListeners() {
     [].forEach.call(denyInvites, function (denyButton) {
         denyButton.addEventListener('click', denyInvite);
     });
+
+    let acceptRequests = document.querySelectorAll('button.accept_member');
+    [].forEach.call(acceptRequests, function (acceptButton) {
+        acceptButton.addEventListener('click', acceptRequest);
+    });
+
+    let denyRequests = document.querySelectorAll('button.deny_member');
+    [].forEach.call(denyRequests, function (denyButton) {
+        denyButton.addEventListener('click', denyRequest);
+    });
 }
 
 function encodeForAjax(data) {
@@ -215,6 +225,30 @@ function denyInvite() {
     let inv_not_id = this.getAttribute('inv_not_id');
 
     sendAjaxRequest('post', '/api/deny_invite', {group_id : group_id, user_id : user_id, inv_not_id: inv_not_id}, null);
+
+    this.style.backgroundColor = "gray";
+}
+
+function acceptRequest() {
+    let group_id = this.getAttribute('group_id');
+    let user_id = this.getAttribute('user_id');
+    let req_not_id = this.getAttribute('req_not_id');
+
+    console.log(group_id, user_id, req_not_id);
+
+    sendAjaxRequest('post', '/api/accept_request', {group_id : group_id, user_id : user_id, req_not_id: req_not_id}, null);
+
+    this.style.backgroundColor = "gray";
+}
+
+function denyRequest() {
+    let group_id = this.getAttribute('group_id');
+    let user_id = this.getAttribute('user_id');
+    let req_not_id = this.getAttribute('req_not_id');
+
+    console.log(group_id, user_id, req_not_id);
+
+    sendAjaxRequest('post', '/api/deny_request', {group_id : group_id, user_id : user_id, req_not_id: req_not_id}, null);
 
     this.style.backgroundColor = "gray";
 }

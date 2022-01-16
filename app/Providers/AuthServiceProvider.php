@@ -60,5 +60,6 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('handleBan-user', [UserPolicy::class, 'handleBan']);
         Gate::define('createIn-group', [GroupPolicy::class, 'createInGroup']);
         Gate::define('delete-user', [UserPolicy::class, 'delete']);
+        Gate::define('viewNotifications-group', [GroupPolicy::class, 'viewNotifications']);
     }
 }

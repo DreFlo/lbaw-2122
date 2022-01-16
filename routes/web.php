@@ -35,6 +35,8 @@ Route::post('api/accept_friend_request', 'FriendRequestController@accept');
 Route::post('api/deny_friend_request', 'FriendRequestController@deny');
 Route::post('api/accept_invite', 'GroupRequestController@acceptInvite');
 Route::post('api/deny_invite', 'GroupRequestController@denyInvite');
+Route::post('api/accept_request', 'GroupRequestController@acceptRequest');
+Route::post('api/deny_request', 'GroupRequestController@denyRequest');
 
 // Authentication
 Route::get('login', 'Auth\LoginController@showLoginForm');
@@ -63,6 +65,7 @@ Route::get('notifications/post', 'NotificationController@post');
 Route::get('notifications/request', 'NotificationController@request');
 Route::get('notifications/invite', 'NotificationController@invite');
 Route::get('notifications', 'NotificationController@all');
+Route::get('groups/{group}/notifications', 'NotificationController@group');
 
 // Group
 Route::resource('groups', 'GroupController')->whereNumber('group');
