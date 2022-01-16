@@ -19,6 +19,7 @@
                 @endforeach
             </a>
             <div class="dropdown-content">
+                <a href="/notifications">Notifications</a>
                 <a href="{{ route('profile/edit') }}">Edit Profile</a>
                 <a href="{{ route('about') }}">About Us</a>
                 <a href="{{ route('contacts') }}">Contact Us</a>

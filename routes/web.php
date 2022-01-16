@@ -33,6 +33,8 @@ Route::post('api/users/ban', 'UserController@ban');
 Route::post('api/users/unban', 'UserController@unban');
 Route::post('api/accept_friend_request', 'FriendRequestController@accept');
 Route::post('api/deny_friend_request', 'FriendRequestController@deny');
+Route::post('api/accept_invite', 'GroupRequestController@acceptInvite');
+Route::post('api/deny_invite', 'GroupRequestController@denyInvite');
 
 // Authentication
 Route::get('login', 'Auth\LoginController@showLoginForm');
@@ -41,7 +43,7 @@ Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
 Route::post('register', 'Auth\RegisterController@register');
 Route::get('forget-password', 'Auth\ForgotPasswordController@showForgetPasswordForm')->name('forget.password.get');
-Route::post('forget-password', 'Auth\ForgotPasswordController@submitForgetPasswordForm')->name('forget.password.post'); 
+Route::post('forget-password', 'Auth\ForgotPasswordController@submitForgetPasswordForm')->name('forget.password.post');
 Route::get('reset-password/{token}', 'Auth\ForgotPasswordController@showResetPasswordForm')->name('reset.password.get');
 Route::post('reset-password', 'Auth\ForgotPasswordController@submitResetPasswordForm')->name('reset.password.post');
 
@@ -59,6 +61,8 @@ Route::patch('profile/edit', 'UserController@edit');
 // Notifications
 Route::get('notifications/post', 'NotificationController@post');
 Route::get('notifications/request', 'NotificationController@request');
+Route::get('notifications/invite', 'NotificationController@invite');
+Route::get('notifications', 'NotificationController@all');
 
 // Group
 Route::resource('groups', 'GroupController')->whereNumber('group');

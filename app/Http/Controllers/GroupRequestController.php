@@ -4,82 +4,33 @@ namespace App\Http\Controllers;
 
 use App\Models\GroupRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class GroupRequestController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
+    public function acceptInvite(Request $request) {
+        DB::table('group_request')
+            ->where('group_id', $request->group_id)
+            ->where('user_id', $request->user_id)
+            ->update(['req_stat' => 'Accepted']);
+
+        DB::table('group_invite_notification')
+            ->where('id', $request->inv_not_id)
+            ->delete();
+
+        return response('Invite accepted');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+    public function denyInvite(Request $request) {
+        DB::table('group_request')
+            ->where('group_id', $request->group_id)
+            ->where('user_id', $request->user_id)
+            ->update(['req_stat' => 'Declined']);
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        DB::table('group_invite_notification')
+            ->where('id', $request->inv_not_id)
+            ->delete();
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\GroupRequest  $groupRequest
-     * @return \Illuminate\Http\Response
-     */
-    public function show(GroupRequest $groupRequest)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\GroupRequest  $groupRequest
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(GroupRequest $groupRequest)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\GroupRequest  $groupRequest
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, GroupRequest $groupRequest)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\GroupRequest  $groupRequest
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(GroupRequest $groupRequest)
-    {
-        //
+        return response('Invite denied');
     }
 }
