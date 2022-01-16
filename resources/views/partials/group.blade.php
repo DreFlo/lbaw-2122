@@ -29,13 +29,7 @@
             @include('partials.create_post', ['group' => $group, 'style' => 'width:98%'])
         @endif
         @foreach($group->posts as $post)
-            @if(auth()->check()->isAdmin())
-                @include('partials.post', ['post' => $post, 'style' => 'width:98%;'])
-            @elseif($post->priv_stat !== 'Anonymous')
-                @include('partials.post', ['post' => $post, 'style' => 'width:98%;'])
-            @elseif($post->priv_stat !== 'Banned')
-                @include('partials.post', ['post' => $post, 'style' => 'width:98%;'])
-            @elseif()
+            @include('partials.post', ['post' => $post, 'style' => 'width:98%;'])
         @endforeach
     </div>
 
