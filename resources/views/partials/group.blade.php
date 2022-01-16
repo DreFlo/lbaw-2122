@@ -6,15 +6,36 @@
             {{ $group->name }}
         </a>
     </div>
+    @if($group->isModerator(auth()->user()))
+    <a href='/groups/{{$group->id}}/edit_group'>
+        <button class="leave_group" type="button">
+            Edit Group
+        </button>
+    </a>
+    @elseif($group->isMember(auth()->user()))
+    <a href='/groups/{{$group->id}}/leave_group/{{auth()->user()->id}}'>
+        <button class="leave_group" type="button">
+            Leave Group 
+        </button>
+    </a>
+    @endif
 </div>
+
 
 <div class="cont_group">
 
     <div class="posts_group">
-        @include('partials.create_post', ['group' => $group, 'style' => 'width:98%'])
-
+        @if($group->isMember(auth()->user()))
+            @include('partials.create_post', ['group' => $group, 'style' => 'width:98%'])
+        @endif
         @foreach($group->posts as $post)
-            @include('partials.post', ['post' => $post, 'style' => 'width:98%;'])
+            @if(auth()->check()->isAdmin())
+                @include('partials.post', ['post' => $post, 'style' => 'width:98%;'])
+            @elseif($post->priv_stat !== 'Anonymous')
+                @include('partials.post', ['post' => $post, 'style' => 'width:98%;'])
+            @elseif($post->priv_stat !== 'Banned')
+                @include('partials.post', ['post' => $post, 'style' => 'width:98%;'])
+            @elseif()
         @endforeach
     </div>
 

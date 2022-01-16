@@ -65,9 +65,16 @@ class GroupController extends Controller
 
     public function showMembers(Group $group) {
         if(isset($group)) {
-            $members=collect($group->members);
+            $members=$group->sortedMembers();
             
             return view('pages.members_group', ['group' => $group, 'members' => $members]);
+        }
+        return redirect('/');
+    }
+
+    public function showEdit(Group $group) {
+        if(isset($group)) {
+            return view('pages.edit_group', ['group' => $group]);
         }
         return redirect('/');
     }
@@ -80,7 +87,7 @@ class GroupController extends Controller
      */
     public function edit(Group $group)
     {
-        //
+        
     }
 
     /**

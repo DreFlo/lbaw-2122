@@ -94,6 +94,18 @@ class Group extends Model
         return false;
     }
 
+    public function sortedMembers(): \Illuminate\Support\Collection
+    {
+        $members = collect($this->members);
+
+        $members->sort(function ($a, $b) {
+            if ($a->name === $b->name) return 0;
+            return $a->name < $b->name ? 1 : -1;
+        });
+
+        return $members;
+    }
+
     public function isModerator(User $user): bool
     {
         foreach ($this->moderators as $moderator) {

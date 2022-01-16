@@ -783,3 +783,15 @@ opacity: 1;
 right: 0;
 }
 
+.leave_group {
+    position: absolute;
+    background-color: rgb(255, 39, 30);
+    opacity: 0.75;
+    color: white;
+    border-radius: 4px;
+    right: 10px;
+    bottom: 10px;
+    width: 150px;
+    height: 50px;
+
+}
