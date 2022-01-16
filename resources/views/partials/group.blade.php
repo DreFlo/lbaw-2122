@@ -21,8 +21,8 @@
     <div class="members_group">
 
         <table class="table_group_members">
-            <caption style="caption-side:top; text-align: center; font-weight: bold;"><a class="font_group" href="/group/members"> Group Members </a></caption>
-            @foreach(array_chunk($members, 2) as $rowmembers)
+            <caption style="caption-side:top; text-align: center; font-weight: bold;"><a class="font_group" href="/groups/{{$group->id}}/members"> Group Members </a></caption>
+            @foreach($members->chunk(2) as $rowmembers)
             <tr>
                 @foreach($rowmembers as $member)
                 <td class="row_group">

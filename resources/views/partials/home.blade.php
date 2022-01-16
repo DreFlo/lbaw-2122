@@ -8,8 +8,8 @@
 </div>
 
 <div class="groups_timeline">
-    <table  class="table_group">
-        <tr><th style="font-size: xx-large"> Groups </th></tr>
+    <table class="table_group">
+    <caption class="groups_title"> Groups </a></caption>
     @foreach(auth()->user()->groups as $group)
         <tr><td class="row_group" background="{{$group->coverPic->path}}"><a class="font_timeline" href='groups/{{ $group->id }}'>{{ $group->name }}</a></td></tr>
     @endforeach

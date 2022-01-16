@@ -565,6 +565,13 @@ table, tr, th, td {
     font-size: 100px;
 }
 
+.groups_title{
+    caption-side:top;
+    text-align: center;
+    font-weight: bold; 
+    font-size: xx-large;
+    color: black;
+}
 
 .font_timeline:hover, .font_group:hover, .font_group_name:hover {
     color: #FF271E  ;
