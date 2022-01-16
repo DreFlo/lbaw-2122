@@ -84,6 +84,7 @@ class UserContentPolicy
      */
     public function delete(User $user, UserContent $userContent): bool
     {
+        if ($userContent->inGroup() && $userContent->group->isModerator($user)) return true;
         return $user->isAdmin() || $user->id === $userContent->creator_id;
     }
 

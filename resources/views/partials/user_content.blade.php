@@ -16,7 +16,7 @@
         @endif
     </div>
     @if(Auth::check())
-        @if(auth()->user()->id === $content->creator_id || auth()->user()->isAdmin())
+        @if(auth()->user()->id === $content->creator_id || auth()->user()->isAdmin() || ($content->inGroup() && $content->group->isModerator(auth()->user())))
             <div class="user_content_interaction_block" style="flex: auto; justify-self: center">
                 <form action="{{route('user_content.destroy', $content)}}" method="POST" class="user_content_control_form">
                     @csrf
