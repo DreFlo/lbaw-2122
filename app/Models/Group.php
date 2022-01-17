@@ -86,6 +86,20 @@ class Group extends Model
         return $this->hasManyThrough(Share::class, UserContent::class, 'group_id', 'id', 'id', 'id');
     }
 
+    public function sortedPosts() {
+        return collect($this->posts)->sort(function ($a, $b) {
+            if ($a->content->timestamp === $b->content->timestamp) return 0;
+            return $a->content->timestamp < $b->content->timestamp ? 1 : -1;
+        });
+    }
+
+    public function sortedMembers() {
+        return collect($this->members)->sort(function ($a, $b) {
+            if ($a->name === $b->name) return 0;
+            return $a->name > $b->name ? 1 : -1;
+        });
+    }
+
     public function isMember(User $user): bool
     {
         foreach ($this->members as $member) {
@@ -93,6 +107,7 @@ class Group extends Model
         }
         return false;
     }
+
 
     public function isModerator(User $user): bool
     {

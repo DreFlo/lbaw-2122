@@ -69,5 +69,13 @@ Route::get('groups/{group}/notifications', 'NotificationController@group');
 
 // Group
 Route::resource('groups', 'GroupController')->whereNumber('group');
+Route::get('groups/{group}', 'GroupController@show')->name('group');
 Route::get('groups/{group}/create_post', 'PostController@createInGroup')->whereNumber('group');
-Route::get('group/members', 'GroupController@showMembers');
+Route::get('groups/{group}/members', 'GroupController@showMembers');
+Route::get('groups/{group}/edit_group', 'GroupController@showEdit');
+Route::get('groups/{group}/leave_group/{user}', 'GroupController@removeMember');
+Route::get('groups/{group}/add_member/{user}', 'GroupController@addMember');
+Route::get('create_group', 'GroupController@create');
+
+Route::get('create_g', 'GroupController@addNewGroup');
+

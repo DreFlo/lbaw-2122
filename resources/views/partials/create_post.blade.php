@@ -1,4 +1,9 @@
-<div class="post">
+<div style="{{ $style }}" class="post">
+    @if( $group !== null)
+    <a style="margin-left:10px" class="font_group" href="/groups/{{ $group->id }}/create_post">
+        Create Post!
+    </a>
+    @endif
     <form method="POST" action="{{route('posts.store')}}" enctype="multipart/form-data" id="create_post_form">
         @csrf
         <div class="form-group">

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Group;
+
+use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -31,7 +33,12 @@ class GroupController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.create_group');
+    }
+
+    public function addNewGroup(String $name, String $priv_status, Image $cover_pic) 
+    {
+
     }
 
     /**
@@ -52,27 +59,32 @@ class GroupController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Group $group)
-    {
+    {   
+        if (!Gate::allows('view-group', $group)) {
+            abort(403);
+        }
+
         if(isset($group)) {
-            $posts = $group->posts();
 
-            $members = [];
-            foreach($group->members as $member) {
-                array_push($members, $member);
-                if(count($members) >= 4) break;
-            }
-
+            $posts = $group->sortedPosts();
+            $members=collect($group->members)->chunk(4)->first();
             return view('pages.group', ['group' => $group, 'posts' => $posts, 'members' => $members]);
         }
 
         return redirect('/');
     }
-
     public function showMembers(Group $group) {
         if(isset($group)) {
-            $members = $group->members();
-            ddd($members);
-            return view('pages.members_group', ['members' => $members]);
+            $members=$group->sortedMembers();
+
+            return view('pages.members_group', ['group' => $group, 'members' => $members]);
+        }
+        return redirect('/');
+    }
+
+    public function showEdit(Group $group) {
+        if(isset($group)) {
+            return view('pages.edit_group', ['group' => $group]);
         }
         return redirect('/');
     }
@@ -85,7 +97,10 @@ class GroupController extends Controller
      */
     public function edit(Group $group)
     {
-        //
+        if(isset($group)) {
+            return view('pages.edit_group', ['group' => $group]);
+        }
+        return redirect('/');
     }
 
     /**
@@ -116,6 +131,24 @@ class GroupController extends Controller
         $group->save();
 
         return back();
+    }
+    public function addMember(Group $group, User $user) {
+        \DB::table("membership")->insert([
+            'user_id' => $user->id, 
+            'group_id' => $group->id
+        ]);
+
+        return redirect(route('group', $group));
+    }
+    public function removeMember(Group $group, User $user) {
+
+        DB::table("membership")
+            ->where('group_id', $group->id)
+            ->where('user_id', $user->id)
+            ->delete();
+
+        return redirect(route('group', $group));
+
     }
 
     public static function search(Request $request){

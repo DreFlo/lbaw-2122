@@ -8,19 +8,18 @@
 </div>
 
 <div class="groups_timeline">
-    <table  class="table_group">
-        <tr><th style="font-size: xx-large"> Groups </th></tr>
+    <table class="table_group">
+    <caption class="groups_title"> Groups </a></caption>
     @foreach(auth()->user()->groups as $group)
-        <tr><td class="row_group" background="{{$group->coverPic->path}}"><a class="font_timeline" href='groups/{{ $group->id }}'>{{ $group->name }}</a></td></tr>
+        @if($group->priv_stat !== "Anonymous")
+            <tr><td class="row_group" background="{{$group->coverPic->path}}"><a class="font_timeline" href='groups/{{ $group->id }}'>{{ $group->name }}</a></td></tr>
+        @endif
     @endforeach
     </table>
 </div>
 @else
 <div class="post_timeline">
-    @foreach(\App\Models\Post::all()->sort(function ($a, $b) {
-            if ($a->content->timestamp === $b->content->timestamp) return 0;
-            return $a->content->timestamp < $b->content->timestamp ? 1 : -1;
-        }) as $post)    
+    @foreach(\App\Models\Post::all() as $post)    
         @if(\Illuminate\Support\Facades\Gate::allows('view-content', $post->content))
             @include('partials.post', ['post' => $post, 'style' => 'width:98%;'])
         @endif

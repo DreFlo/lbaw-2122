@@ -559,6 +559,7 @@ insert into "membership"(user_id, group_id) values(2,1);
 insert into "membership"(user_id, group_id) values(3,1);
 insert into "membership"(user_id, group_id) values(4,1);
 insert into "membership"(user_id, group_id, moderator) values(2,2, true);
+insert into "membership"(user_id, group_id) values(5,1);
 insert into "membership"(user_id, group_id) values(2,4);
 insert into "membership"(user_id, group_id) values(2,5);
 insert into "membership"(user_id, group_id) values(2,6);
