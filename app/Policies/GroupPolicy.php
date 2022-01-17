@@ -29,8 +29,12 @@ class GroupPolicy
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function view(User $user, Group $group)
-    {
-        return in_array($user, $group->members);
+    {   
+        if($user->isAdmin()) return true;
+        elseif($group->priv_stat === "Anonymous") return false;
+        elseif($group->priv_stat === "Public") return true;
+        elseif($group->priv_stat === "Private") return true;
+        return $group->isMember($user);
     }
 
     /**

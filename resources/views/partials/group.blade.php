@@ -18,18 +18,33 @@
             Leave Group 
         </button>
     </a>
+    @elseif($group->priv_stat === 'Public')
+    <a href='/groups/{{$group->id}}/add_member/{{auth()->user()->id}}'>
+        <button class="leave_group" type="button">
+            Join Group 
+        </button>
+    </a>
+    @elseif($group->priv_stat === 'Private')
+    <a>
+        <button class="leave_group" type="button">
+            Request Join
+        </button>
+    </a>
+
     @endif
 </div>
 
-
+@if($group->priv_stat === 'Public' || $group->isMember(auth()->user()))
 <div class="cont_group">
 
     <div class="posts_group">
         @if($group->isMember(auth()->user()))
             @include('partials.create_post', ['group' => $group, 'style' => 'width:98%'])
         @endif
-        @foreach($group->posts as $post)
-            @include('partials.post', ['post' => $post, 'style' => 'width:98%;'])
+        @foreach($posts as $post)
+            @if(\Illuminate\Support\Facades\Gate::allows('view-content', $post->content))
+                @include('partials.post', ['post' => $post, 'style' => 'width:98%;'])
+            @endif
         @endforeach
     </div>
 
@@ -58,3 +73,8 @@
 
     </div>
 </div>
+@elseif($group->priv_stat === 'Private')
+<div class="private_group">
+    >Private Group
+</div>
+@endif

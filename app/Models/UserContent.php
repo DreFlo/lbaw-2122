@@ -89,14 +89,10 @@ class UserContent extends Model
 
     public function sortedComments(): \Illuminate\Support\Collection
     {
-        $comments = collect($this->comments);
-
-        $comments->sort(function ($a, $b) {
+        return collect($this->comments)->sort(function ($a, $b) {
             if ($a->content->timestamp === $b->content->timestamp) return 0;
             return $a->content->timestamp < $b->content->timestamp ? 1 : -1;
         });
-
-        return $comments;
     }
 
     public function delete()

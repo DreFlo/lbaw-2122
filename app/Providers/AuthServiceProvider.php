@@ -55,6 +55,7 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('share-post', [PostPolicy::class, 'share']);
         Gate::define('view-user', [UserPolicy::class, 'view']);
         Gate::define('viewAny-user', [UserPolicy::class, 'viewAny']);
+        Gate::define('view-group', [GroupPolicy::class, 'view']);
         Gate::define('viewAny-group', [GroupPolicy::class, 'viewAny']);
         Gate::define('delete-group', [GroupPolicy::class, 'delete']);
         Gate::define('handleBan-user', [UserPolicy::class, 'handleBan']);
