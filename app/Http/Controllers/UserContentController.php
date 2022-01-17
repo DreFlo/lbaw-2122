@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\UserContent;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
@@ -11,16 +13,6 @@ use Illuminate\Support\Facades\Gate;
 
 class UserContentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
     /**
      * Display the specified resource.
      *
@@ -44,7 +36,7 @@ class UserContentController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param UserContent $userContent
-     * @return Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function edit(UserContent $userContent)
     {
