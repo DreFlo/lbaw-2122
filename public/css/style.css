@@ -647,6 +647,10 @@ table, tr, th, td {
     padding: 0 16px;
   }
 
+  .about-row {
+      background-color: #f2f2f2;
+  }
+
   .about-container::after, .about-row::after {
     content: "";
     clear: both;
@@ -713,7 +717,9 @@ table, tr, th, td {
   }
 
   .contacts-column {
-    float: left;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
     width: 50%;
     margin-top: 6px;
     padding: 20px;
@@ -858,12 +864,6 @@ color: white;
 padding: 0 16px;
 }
 
-.about-container::after, .about-row::after {
-content: "";
-clear: both;
-display: table;
-}
-
 .about-title {
 color: grey;
 }
@@ -923,24 +923,10 @@ background-color: #f2f2f2;
 padding: 10px;
 }
 
-.contacts-column {
-float: left;
-width: 50%;
-margin-top: 6px;
-padding: 20px;
-}
-
 .contacts-row:after {
 content: "";
 display: table;
 clear: both;
-}
-
-@media screen and (max-width: 600px) {
-.contacts-column, .contacts-input-submit {
-    width: 100%;
-    margin-top: 0;
-}
 }
 
 .login-about-button, .login-contacts-button {

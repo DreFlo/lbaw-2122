@@ -59,7 +59,7 @@ class UserController extends Controller
         $user->birthdate = $request->input('birthdate');
 
         if ($request->file('profile-image') != null) {
-            $user->profile_pic = Image::storeAndRegister($request->file('cover-image'));
+            $user->profile_pic = Image::storeAndRegister($request->file('profile-image'));
         }
 
         if ($request->file('cover-image') != null) {

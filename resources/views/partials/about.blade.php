@@ -12,7 +12,6 @@
         <h2>André Flores</h2>
         <p class="about-title">Web Developer</p>
         <p>Some text that describes me.</p>
-        <p>up201907001@edu.fe.up.pt</p>
         <p>
           <a href="{{ route('contacts') }}">
             <button class="about-button">Contact</button>
@@ -29,7 +28,6 @@
         <h2>Diogo Faria</h2>
         <p class="about-title">Web Developer</p>
         <p>Some text that describes me.</p>
-        <p>up201907014@edu.fe.up.pt</p>
         <p>
           <a href="{{ route('contacts') }}">
             <button class="about-button">Contact</button>
@@ -46,7 +44,6 @@
         <h2>Diogo Mendes</h2>
         <p class="about-title">Web Developer</p>
         <p>Some text that describes me.</p>
-        <p>up201605360@edu.fe.up.pt</p>
         <p>
           <a href="{{ route('contacts') }}">
             <button class="about-button">Contact</button>
@@ -63,7 +60,6 @@
         <h2>Tiago Rodrigues</h2>
         <p class="about-title">Web Developer</p>
         <p>Some text that describes me.</p>
-        <p>up201906807@edu.fe.up.pt</p>
         <p>
           <a href="{{ route('contacts') }}">
             <button class="about-button">Contact</button>
