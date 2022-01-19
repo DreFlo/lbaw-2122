@@ -37,6 +37,8 @@ Route::post('api/accept_invite', 'GroupRequestController@acceptInvite');
 Route::post('api/deny_invite', 'GroupRequestController@denyInvite');
 Route::post('api/accept_request', 'GroupRequestController@acceptRequest');
 Route::post('api/deny_request', 'GroupRequestController@denyRequest');
+Route::post('api/send_request', 'FriendshipController@sendRequest');
+Route::post('api/remove_friend', 'FriendshipController@removeFriend');
 
 // Authentication
 Route::get('login', 'Auth\LoginController@showLoginForm');

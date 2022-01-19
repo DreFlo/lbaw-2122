@@ -47,6 +47,16 @@ function addEventListeners() {
         denyButton.addEventListener('click', denyFriendRequest);
     });
 
+    let sendFriendRequest = document.querySelectorAll('button.send_request');
+    [].forEach.call(sendFriendRequest, function (sendButton) {
+        sendButton.addEventListener('click', sendRequest);
+    });
+
+    let removeFriendship = document.querySelectorAll('button.remove_friend');
+    [].forEach.call(removeFriendship, function (removeButton) {
+        removeButton.addEventListener('click', removeFriend);
+    });
+
     let acceptInvites = document.querySelectorAll('button.accept_invite');
     [].forEach.call(acceptInvites, function (acceptButton) {
         acceptButton.addEventListener('click', acceptInvite);
@@ -205,6 +215,28 @@ function denyFriendRequest() {
     sendAjaxRequest('post', '/api/accept_friend_request', {target_id : target_id, sender_id : sender_id, req_not_id: req_not_id}, null);
 
     this.style.backgroundColor = "gray";
+}
+
+function sendRequest() {
+  let target_id = this.getAttribute('target_id');
+  let sender_id = this.getAttribute('sender_id');
+
+  console.log(target_id, sender_id);
+
+  sendAjaxRequest('post', '/api/send_request', {target_id : target_id, sender_id : sender_id}, null);
+
+  this.style.backgroundColor = "gray";
+}
+
+function removeFriend() {
+  let target_id = this.getAttribute('target_id');
+  let sender_id = this.getAttribute('sender_id');
+
+  console.log(target_id, sender_id);
+
+  sendAjaxRequest('post', '/api/remove_friend', {target_id : target_id, sender_id : sender_id}, null);
+
+  this.style.backgroundColor = "gray";
 }
 
 function acceptInvite() {

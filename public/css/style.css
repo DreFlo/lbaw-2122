@@ -6,6 +6,16 @@
     margin: 1%;
 }
 
+.post-profile {
+    background-color: #F2F2F2;
+    border: 2px solid #828282;
+    border-radius: 10px;
+    width: 50%;
+    position: relative;
+    left: -18px;
+    top: 30px;
+}
+
 .user_content_text {
     margin: 3px 5px;
 }
