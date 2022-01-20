@@ -27,7 +27,7 @@
 
 @if(Auth::check())
     @if (optional(Auth::user())->id != $user->id && optional(Auth::user())->isFriend($user))
-        <button class="btn btn-primary remove_friend" style="background-color: red" type="button" target_id="{{$user->id}}" sender_id="{{Auth::user()->id}}">Remove Friend</button>
+        <a href="{{route('home')}}"><button class="btn btn-primary remove_friend" style="background-color: red" type="button" target_id="{{$user->id}}" sender_id="{{Auth::user()->id}}">Remove Friend</button></a>
     @elseif (optional(Auth::user())->id != $user->id && !(optional(Auth::user())->isFriend($user)))
         <button class="btn btn-primary send_request" style="background-color: green" type="button" target_id="{{$user->id}}" sender_id="{{Auth::user()->id}}">Send Friend Request</button>
     @endif
