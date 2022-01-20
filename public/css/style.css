@@ -1,3 +1,7 @@
+body {
+    line-height: 1.4;
+}
+
 .post {
     background-color: #F2F2F2;
     border: 2px solid #828282;
@@ -578,7 +582,7 @@ table, tr, th, td {
 .groups_title{
     caption-side:top;
     text-align: center;
-    font-weight: bold; 
+    font-weight: bold;
     font-size: xx-large;
     color: black;
 }

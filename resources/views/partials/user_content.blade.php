@@ -48,7 +48,7 @@
                 @if(!$content->likedByUser(auth()->user()->id))
                     <img src="{{asset('storage/graphics/empty_heart.png')}}" alt="Like" style="margin: 0">
                 @else
-                    <img src="{{asset('storage/graphics/full_heart.png')}}" alt="Like" style="margin: 0">
+                    <img src="{{asset('storage/graphics/full_heart.png')}}" alt="Unlike" style="margin: 0">
                 @endif
             </div>
             <div style="flex: auto;">{{$content->likeCount()}}</div>

@@ -14,7 +14,7 @@
         @if($group !== null)
             <input type="hidden" name="visibility" value="{{$group->priv_stat}}">
         @else
-            <lable class="create_post_form">Visibility
+            <label class="create_post_form">Visibility
                 @if (auth()->user()->priv_stat === 'Public')
                     <select name="visibility" id="visibility_selector">
                         <option value="Public" selected>Public</option>
@@ -26,7 +26,7 @@
                         <option value="Private" selected>Private</option>
                     </select>
                 @endif
-            </lable>
+            </label>
         @endif
         <label class="create_post_form">Images
             <input type="file" name="images[]" class="form-control" multiple>
