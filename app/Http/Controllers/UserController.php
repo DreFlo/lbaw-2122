@@ -31,11 +31,16 @@ class UserController extends Controller
     }
 
     public function show(int $id) {
-        if (!Gate::allows('view-user', User::find($id))) {
-            abort(403);
+        $user = User::find($id);
+
+        if ($user == null) {
+            return back();
         }
 
-        $user = User::find($id);
+        if (!Gate::allows('view-user', $user)) {
+            return view('pages.view_user_forbidden', ['user' => $user]);
+        }
+
         if (isset($user)) {
             return view('pages.profile', ['user' => $user]);
         }

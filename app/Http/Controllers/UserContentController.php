@@ -22,7 +22,7 @@ class UserContentController extends Controller
     public function show(UserContent $userContent)
     {
         if (!Gate::allows('view-content', $userContent)) {
-            abort(403);
+            return view('pages.view_content_forbidden', ['user' => $userContent->creator]);
         }
         if ($userContent->isPost()) return redirect('posts/'.$userContent->id);
         elseif ($userContent->isComment()) return redirect('comments/'.$userContent->id);
