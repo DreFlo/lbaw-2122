@@ -20,7 +20,7 @@ class GroupController extends Controller
     public function index()
     {
         if (!Gate::allows('viewAny-group')) {
-            abort(403);
+            return view('pages.view_forbidden', ['message' => 'You can\'t view this page as you are not an admin']);
         }
 
         return view('pages.index_groups');
@@ -36,7 +36,7 @@ class GroupController extends Controller
         return view('pages.create_group');
     }
 
-    public function addNewGroup(String $name, String $priv_status, Image $cover_pic) 
+    public function addNewGroup(String $name, String $priv_status, Image $cover_pic)
     {
 
     }
@@ -59,7 +59,7 @@ class GroupController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Group $group)
-    {   
+    {
         if (!Gate::allows('view-group', $group)) {
             abort(403);
         }
@@ -134,7 +134,7 @@ class GroupController extends Controller
     }
     public function addMember(Group $group, User $user) {
         \DB::table("membership")->insert([
-            'user_id' => $user->id, 
+            'user_id' => $user->id,
             'group_id' => $group->id
         ]);
 

@@ -3,11 +3,11 @@
         @csrf
         @method('PATCH')
         <div class="form-group">
-            <label>
-                <textarea class="form-control" name="text" required>{{$content->text}}</textarea>
+            <label title="Enter post text" class="create_post_form">
+                <textarea class="form-control" name="text" placeholder="Enter Text" required>{{$content->text}}</textarea>
             </label>
         </div>
-        <lable for="visibility">Visibility</lable>
+        <lable for="visibility" class="create_post_form">Visibility</lable>
         @if ($content->priv_stat === 'Public')
             <select name="visibility" id="visibility_selector">
                 <option value="Public" selected>Public</option>
@@ -19,6 +19,6 @@
                 <option value="Private" selected>Private</option>
             </select>
         @endif
-        <button type="submit" class="btn btn-primary">Edit</button>
+        <button type="submit" class="btn btn-primary" style="margin: 1%">Edit</button>
     </form>
 </div>

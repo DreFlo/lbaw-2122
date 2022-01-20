@@ -32,7 +32,10 @@ class UserContentPolicy
      */
     public function view(?User $user, UserContent $userContent): Response
     {
-        if (optional($user)->isAdmin()) {
+        if(optional($user)->priv_stat === 'Banned' || optional($user)->priv_stat === 'Anonymous') {
+            return Response::deny();
+        }
+        elseif (optional($user)->isAdmin()) {
             return Response::allow();
         }
         elseif ($userContent->priv_stat === 'Public') {

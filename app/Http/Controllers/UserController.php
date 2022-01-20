@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Group;
 use App\Models\Image;
 use App\Models\User;
 use App\Policies\UserPolicy;
@@ -31,11 +30,16 @@ class UserController extends Controller
     }
 
     public function show(int $id) {
-        if (!Gate::allows('view-user', User::find($id))) {
-            abort(403);
+        $user = User::find($id);
+
+        if ($user == null) {
+            return back();
         }
 
-        $user = User::find($id);
+        if (!Gate::allows('view-user', $user)) {
+            return view('pages.view_user_forbidden', ['user' => $user]);
+        }
+
         if (isset($user)) {
             return view('pages.profile', ['user' => $user]);
         }
@@ -140,6 +144,12 @@ class UserController extends Controller
             $l_users = User::whereRaw(
                 "name like '%$input%'"
             )->get();
+
+            $users = $ts_users->merge($l_users);
+
+            foreach($users as $key => $user){
+                if($user->priv_stat == 'Anonymous') $users->pull($key);
+            }
         }
         else{
             $ts_users = User::query()
@@ -157,8 +167,10 @@ class UserController extends Controller
             $l_users = User::whereRaw(
                 "name like '%$input%' and priv_stat = 'Public'"
             )->get();
+
+            $users = $ts_users->merge($l_users);
         }
-        return $ts_users->merge($l_users);
+        return $users;
 
     }
 
@@ -196,6 +208,9 @@ class UserController extends Controller
             abort(403);
         }
         $user->priv_stat = 'Anonymous';
+        $user->name = 'Deleted Account';
+        $user->email = $user->email . 'deleted' . $user->id;
+
         $user->save();
 
         return back();

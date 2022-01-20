@@ -26,7 +26,7 @@ class PostController extends Controller
     public function index()
     {
         if (!Gate::allows('viewAny-content')) {
-            abort(403);
+            return view('pages.view_forbidden', ['message' => 'You can\'t view this page as you are not an admin']);
         }
 
         return view('pages.index_posts');
@@ -40,7 +40,7 @@ class PostController extends Controller
     public function create()
     {
         if (!Gate::allows('create-content')) {
-            abort(403);
+            return view('pages.view_forbidden', ['message' => 'You can\'t create content']);
         }
 
         return view('pages.create_post');
@@ -109,7 +109,7 @@ class PostController extends Controller
     public function show(Post $post)
     {
         if (!Gate::allows('view-content', $post->content)) {
-            abort(403);
+            return view('pages.view_content_forbidden', ['user' => $post->content->creator]);
         }
         return view('pages.post', ['post' => $post]);
     }
@@ -121,7 +121,7 @@ class PostController extends Controller
 
     public function createInGroup(Group $group) {
         if (!Gate::allows('createIn-group', $group)) {
-            abort(403);
+            return view('pages.view_forbidden', ['message' => 'You can\'t create content in this group']);
         }
 
         return view('pages.create_post_group', ['group' => $group]);

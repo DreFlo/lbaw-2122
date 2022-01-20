@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Group;
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -12,6 +13,9 @@ use Illuminate\Support\Facades\DB;
 class HomeController extends Controller
 {
     public function show() {
+        if (!Gate::allows('enter-user')) {
+            return view('pages.view_forbidden', ['message' => 'You do have permissions to view this page']);
+        }
         return view('pages.home');
     }
 
