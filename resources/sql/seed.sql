@@ -489,7 +489,7 @@ execute procedure  check_new_membership_fn();
 
 
 insert into "image"(id, path) values (1, 'storage/images/Wheel-of-Time-MyrddraalTeaser.webp');
-insert into "image"(id, path) values (2, 'storage/images/tumblr_nqza7zgUZc1tqgexdo1_1280.jpg');
+insert into "image"(id, alt, path) values (2, 'Feup', 'storage/images/feup.png');
 insert into "image"(id, path) values (4, 'storage/images/coverpic.png');
 insert into "image"(id, alt, path) values (3, 'Default profile picture','storage/images/blank-profile-picture.png');
 SELECT setval('image_id_seq', max(id)) FROM "image";
