@@ -26,6 +26,7 @@ Route::post('comments', 'CommentController@store')->name('comments.add');
 Route::get('comments/{comment}', 'CommentController@show')->whereNumber('comment');
 
 // API
+Route::post('api/create_request', 'GroupRequestController@invite');
 Route::post('api/likes', 'LikeController@store');
 Route::delete('api/likes', 'LikeController@remove');
 Route::post('api/search/users', 'UserController@searchAux');

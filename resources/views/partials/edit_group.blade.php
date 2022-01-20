@@ -33,10 +33,10 @@
             <button type="button" class="notification_text_group"> Notifications </button>
         </a>
     </div>
-    <label title="Search users to invite" id="invite">
-            Tags
-            <input type="text" class="invite_search_field">
-            <button type="button" class="btn btn-primary invite_search_button">Search</button>
-        </label>
+    <label title="Search users to invite" id="invite_label" group_id="{{$group->id}}" class="invite_group">
+        Invite
+        <input type="text" class="invite_search_field">
+        <button type="button" class="btn btn-primary invite_search_button">Search</button>
+    </label>
 </div>
 @endif
