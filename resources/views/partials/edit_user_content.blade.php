@@ -7,7 +7,7 @@
                 <textarea class="form-control" name="text" placeholder="Enter Text" required>{{$content->text}}</textarea>
             </label>
         </div>
-        <lable for="visibility" class="create_post_form">Visibility</lable>
+        <label for="visibility" class="create_post_form">Visibility</label>
         @if ($content->priv_stat === 'Public')
             <select name="visibility" id="visibility_selector">
                 <option value="Public" selected>Public</option>

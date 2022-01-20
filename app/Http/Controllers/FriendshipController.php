@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Friendship;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\User;
 
 class FriendshipController extends Controller
 {
@@ -28,5 +29,17 @@ class FriendshipController extends Controller
             ->delete();
 
         return response('Friendship removed');
+    }
+
+    public static function removeFriendUsers(User $user1, User $user2){
+        DB::table('friendship')
+            ->where('user_1', $user1->id)
+            ->where('user_2', $user2->id)
+            ->delete();
+
+        DB::table('friendship')
+            ->where('user_2', $user2->id)
+            ->where('user_1', $user1->id)
+            ->delete();
     }
 }

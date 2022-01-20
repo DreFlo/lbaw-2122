@@ -61,6 +61,8 @@ Route::get('users/{id}', 'UserController@show')->whereNumber('id');
 Route::delete('users/{user}', 'UserController@destroy')->whereNumber('id')->name('users.destroy');
 Route::get('profile/edit', 'UserController@showEdit')->name('profile/edit');
 Route::patch('profile/edit', 'UserController@edit');
+Route::get('profile/change-password', 'ChangePasswordController@index');
+Route::post('profile/change-password', 'ChangePasswordController@store')->name('change.password');
 
 // Notifications
 Route::get('notifications/post', 'NotificationController@post');

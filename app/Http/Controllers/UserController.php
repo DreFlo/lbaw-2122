@@ -36,6 +36,10 @@ class UserController extends Controller
             return back();
         }
 
+        if($user->priv_stat == 'Anonymous') {
+            return view('pages.view_user_anonymous', ['user' => $user]);
+        }
+
         if (!Gate::allows('view-user', $user)) {
             return view('pages.view_user_forbidden', ['user' => $user]);
         }
@@ -210,6 +214,19 @@ class UserController extends Controller
         $user->priv_stat = 'Anonymous';
         $user->name = 'Deleted Account';
         $user->email = $user->email . 'deleted' . $user->id;
+
+        //Removed Friends
+        $friends= $user->friends;
+        foreach ($friends as $friend){
+            FriendshipController::removeFriendUsers($user, $friend);
+        }
+
+        //Remove Groups
+        $groups = $user->groups;
+        $controller = New GroupController();
+        foreach ($groups as $group){
+            $controller->removeMember($group, $user);
+        }
 
         $user->save();
 
