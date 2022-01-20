@@ -285,6 +285,32 @@ function denyRequest() {
     this.style.backgroundColor = "gray";
 }
 
+function dropdownPostFunction() {
+  document.getElementById("myDropdown-notifs-post").classList.toggle("show");
+}
+
+function dropdownFriendshipFunction() {
+  document.getElementById("myDropdown-notifs-friendship").classList.toggle("show");
+}
+
+function dropdownGroupsFunction() {
+  document.getElementById("myDropdown-notifs-groups").classList.toggle("show");
+}
+
+// Close the dropdown menu if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn-notifs')) {
+    var dropdowns = document.getElementsByClassName("dropdown-content-notifs");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
+
 function sendItemUpdateRequest() {
   let item = this.closest('li.item');
   let id = item.getAttribute('data-id');
