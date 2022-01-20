@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\GroupRequest;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -59,4 +60,23 @@ class GroupRequestController extends Controller
 
         return response('Request denied');
     }
+
+    /**
+     * 
+     */
+    public function request(Request $request){
+
+        if (!Gate::allows('request-group')) {
+            abort(403);
+        }
+
+        DB::table('group_request')->insert([
+            'group_id' => $request->group_id,
+            'user_id' => $request->user_id,
+            'invite' => false
+        ]);
+
+        return back();
+    }
+
 }

@@ -44,6 +44,10 @@ class GroupRequestPolicy
         return true;
     }
 
+    public function request(User $user) {
+        return $user->priv_stat !== 'Banned' && $user->priv_stat !== 'Anonymous';
+    }
+
     /**
      * Determine whether the user can update the model.
      *

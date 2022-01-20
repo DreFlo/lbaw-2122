@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Models\UserContent;
 use App\Policies\GroupPolicy;
 use App\Policies\PostPolicy;
+use App\Policies\GroupRequestPolicy;
 use App\Policies\ShareNotificationPolicy;
 use App\Policies\SharePolicy;
 use App\Policies\TagNotificationPolicy;
@@ -45,7 +46,7 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
+        
         Gate::define('view-content', [UserContentPolicy::class, 'view']);
         Gate::define('create-content', [UserContentPolicy::class, 'create']);
         Gate::define('delete-content', [UserContentPolicy::class, 'delete']);
@@ -58,6 +59,11 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('view-group', [GroupPolicy::class, 'view']);
         Gate::define('viewAny-group', [GroupPolicy::class, 'viewAny']);
         Gate::define('delete-group', [GroupPolicy::class, 'delete']);
+        Gate::define('create-group', [GroupPolicy::class, 'create']);
+        Gate::define('update-group', [GroupPolicy::class, 'update']);
+        Gate::define('request-group', [GroupRequestPolicy::class, 'request']);
+        Gate::define('addmember-group', [GroupPolicy::class, 'addMember']);
+        Gate::define('removeMember-group', [GroupPolicy::class, 'removeMember']);
         Gate::define('handleBan-user', [UserPolicy::class, 'handleBan']);
         Gate::define('createIn-group', [GroupPolicy::class, 'createInGroup']);
         Gate::define('delete-user', [UserPolicy::class, 'delete']);

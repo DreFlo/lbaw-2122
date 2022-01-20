@@ -13,13 +13,14 @@
                     <br>
                     {{ $member->name }}
                     
-                    
                 </a>
-                @if($group->isModerator(auth()->user()))
-                    <a href='/groups/{{$group->id}}/leave_group/{{$member->id}}'>
-                        <img alt="deleteUser" src="/storage/graphics/delete.png" style="width: 25px; height: 25px; margin-bottom: 3%;">
-                        </img>
-                    </a>
+                @if(Auth::check())
+                    @if($group->isModerator(auth()->user()))
+                        <a href='/groups/{{$group->id}}/leave_group/{{$member->id}}'>
+                            <img alt="deleteUser" src="/storage/graphics/delete.png" style="width: 25px; height: 25px; margin-bottom: 3%;">
+                            </img>
+                        </a>
+                    @endif
                 @endif
             </td>
             @endforeach

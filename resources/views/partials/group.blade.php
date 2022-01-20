@@ -6,40 +6,52 @@
             {{ $group->name }}
         </a>
     </div>
-    @if($group->isModerator(auth()->user()))
-    <a href='/groups/{{$group->id}}/edit_group'>
-        <button class="leave_group" type="button">
-            Edit Group
-        </button>
-    </a>
-    @elseif($group->isMember(auth()->user()))
-    <a href='/groups/{{$group->id}}/leave_group/{{auth()->user()->id}}'>
-        <button class="leave_group" type="button">
-            Leave Group 
-        </button>
-    </a>
-    @elseif($group->priv_stat === 'Public')
-    <a href='/groups/{{$group->id}}/add_member/{{auth()->user()->id}}'>
-        <button class="leave_group" type="button">
-            Join Group 
-        </button>
-    </a>
-    @elseif($group->priv_stat === 'Private')
-    <a>
-        <button class="leave_group" type="button">
-            Request Join
-        </button>
-    </a>
-
+    @if(Auth::check())
+        @if($group->isModerator(auth()->user()))
+        <a href='/groups/{{$group->id}}/edit'>
+            <button class="button_group" type="button">
+                Edit Group
+            </button>
+        </a>
+        @elseif($group->isMember(auth()->user()))
+        <a href='/groups/{{$group->id}}/leave_group/{{auth()->user()->id}}'>
+            <button class="button_group" type="button">
+                Leave Group 
+            </button>
+        </a>
+        @elseif($group->priv_stat === 'Public')
+        <a href='/groups/{{$group->id}}/add_member/{{auth()->user()->id}}'>
+            <button class="button_group" type="button">
+                Join Group 
+            </button>
+        </a>
+        @elseif($group->priv_stat === 'Private')
+            @if(auth()->user()->hasRequestedGroup($group))
+                <div class="button_group">
+                    <div class="button_text_group">
+                        Already Requested
+                    </div>
+                </div>
+            @else
+                <form action="{{route('group.request')}}" method="POST">
+                    @csrf
+                    <input type="hidden" name="user_id" value="{{auth()->user()->id}}"></input>
+                    <input type="hidden" name="group_id" value="{{$group->id}}"></input>
+                    <button type="submit" title="Request" class="button_group">Request Join</button>
+                </form>
+            @endif
+        @endif
     @endif
 </div>
 
-@if($group->priv_stat === 'Public' || $group->isMember(auth()->user()))
+@if($group->priv_stat === 'Public' || optional(auth()->user())->inGroup($group))
 <div class="cont_group">
 
     <div class="posts_group">
-        @if($group->isMember(auth()->user()))
-            @include('partials.create_post', ['group' => $group, 'style' => 'width:98%'])
+        @if(Auth::check())
+            @if($group->isMember(auth()->user()))
+                @include('partials.create_post', ['group' => $group, 'style' => 'width:98%'])
+            @endif
         @endif
         @foreach($posts as $post)
             @if(\Illuminate\Support\Facades\Gate::allows('view-content', $post->content))
@@ -73,8 +85,9 @@
 
     </div>
 </div>
+
 @elseif($group->priv_stat === 'Private')
 <div class="private_group">
-    >Private Group
+    Private Group
 </div>
 @endif

@@ -73,6 +73,15 @@ class User extends Authenticatable
                     ->withPivot('moderator')->using(Membership::class);
     }
 
+    public function inGroup(Group $group)
+    {
+        foreach($this->groups as $groupT) {
+            if($groupT->id === $group->id)
+                return true;
+        }
+        return false;
+    }
+
     public function friendsAndGroupsPost()
     {
         $posts = collect();
@@ -164,6 +173,14 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Group::class, 'group_request', 'user_id', 'group_id')
                     ->withPivot('req_stat', 'invite')->using(GroupRequest::class)->wherePivot('invite', false);
+    }
+
+    public function hasRequestedGroup(Group $group) {
+        foreach($this->groupRequests as $groupR) {
+            if($groupR->id === $group->id)
+                return true;
+        }
+        return false;
     }
 
     public function groupInvites(): BelongsToMany

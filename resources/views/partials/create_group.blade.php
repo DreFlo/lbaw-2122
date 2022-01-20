@@ -1,15 +1,18 @@
 <div class="post">
-    <div class="form-group">
-        <div class="font_group">Name:</div>
-        <label title="Enter post text" class="create_post_form">
-            <textarea class="form-control" name="text" placeholder="Enter Text" required></textarea>
+    <a style="margin-left:10px" class="font_group" href="/groups/create">
+        Create Group!
+    </a>
+    <form method="POST" action="{{route('groups.store')}}">
+        @csrf
+        <div class="form_group">
+            <label title="Enter group name" class="create_group_form">
+                <textarea class="form-control" name="name" placeholder="Enter Name" required></textarea>
+            </label>
+        </div>
+        <label class="create_group_form">Cover Picture
+            <input type="file" name="image" class="form-control">
         </label>
-
-        <label class="create_post_form">Cover Picture
-            <input type="file" name="images[]" class="form-control" multiple>
-        </label>
-
-        <lable class="create_post_form">Visibility
+        <label class="create_group_form">Visibility
             @if (auth()->user()->priv_stat === 'Public')
                 <select name="visibility" id="visibility_selector">
                     <option value="Public" selected>Public</option>
@@ -21,9 +24,9 @@
                     <option value="Private" selected>Private</option>
                 </select>
             @endif
-        </lable>
-    </div>
-    <a href='/create_g'>
-        <button  type="button">Create</button>
-    </a>
+        </label>
+        
+        <button style="margin: 1%" class="btn btn-primary" type="submit">Create</button>
+    </form>
+
 </div>

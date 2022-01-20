@@ -21,6 +21,8 @@ class GroupPolicy
         return $user->isAdmin();
     }
 
+    
+
     /**
      * Determine whether the user can view the model.
      *
@@ -28,13 +30,13 @@ class GroupPolicy
      * @param  \App\Models\Group  $group
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Group $group)
+    public function view(?User $user, Group $group)
     {
-        if($user->isAdmin()) return true;
+        if(optional($user)->isAdmin()) return true;
         elseif($group->priv_stat === "Anonymous") return false;
         elseif($group->priv_stat === "Public") return true;
         elseif($group->priv_stat === "Private") return true;
-        return $group->isMember($user);
+        return false;
     }
 
     /**
@@ -45,7 +47,7 @@ class GroupPolicy
      */
     public function create(User $user)
     {
-        return true;
+        return $user->priv_stat !== 'Banned' && $user->priv_stat !== 'Anonymous';
     }
 
     public function createInGroup(User $user, Group $group): bool
@@ -62,7 +64,18 @@ class GroupPolicy
      */
     public function update(User $user, Group $group)
     {
-        return in_array($user, $group->moderators()) || $user->admin_flag;
+        return $group->isModerator($user) || $user->admin_flag;
+    }
+
+    public function addMember(Group $group, User $user)
+    {
+        if($group->isMember($user)) return false;
+        return $user->priv_stat !== 'Banned' && $user->priv_stat !== 'Anonymous';
+    }
+
+    public function removeMember(Group $group, User $user)
+    {
+        return $user->priv_stat !== 'Banned' && $user->priv_stat !== 'Anonymous' && $group->isMember($user);
     }
 
     /**

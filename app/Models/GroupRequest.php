@@ -7,13 +7,14 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class GroupRequest extends Pivot
 {
-    use HasFactory;
+  use HasFactory;
 
-    public $timestamps = false;
+  public $timestamps = false;
 
-    protected $table = 'group_request';
+  protected $table = 'group_request';
 
-    protected $fillable = [
-      'user_id', 'group_id', 'req_stat'
-    ];
+  protected $fillable = [
+    'user_id', 'group_id', 'req_stat'
+  ];
+
 }

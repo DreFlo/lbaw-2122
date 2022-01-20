@@ -50,7 +50,7 @@
     color: #FF271E;
 }
 
-.create_post_form {
+.create_post_form, .create_group_form {
     width: 98%;
     margin: 1%;
 }
@@ -990,17 +990,23 @@ opacity: 1;
 right: 0;
 }
 
-.leave_group {
+.button_group {
     position: absolute;
+    display:flex;
     background-color: rgb(255, 39, 30);
     opacity: 0.75;
-    color: white;
+    
     border-radius: 4px;
     right: 10px;
     bottom: 10px;
     width: 150px;
     height: 50px;
 
+}
+
+.button_text_group{
+    color: white;
+    margin:auto auto;
 }
 
 .delete_group {
@@ -1026,4 +1032,62 @@ right: 0;
     text-align: center;
 
 
+}
+
+.edit_group_page {
+    display: flex;
+    flex-direction: column;
+
+    background-color: #F2F2F2;
+    border: 2px solid #828282;
+    border-radius: 10px;
+
+    margin: auto;
+    margin-top: 50px;
+    width:75%;
+}
+
+.edit_info_group {
+    width: 90%;
+
+    margin: auto;
+}
+.gedit_name_group, .gedit_pic_group {
+    margin: 1%;
+}
+.edit_name_group, .edit_pic_group {
+    font-size: xx-large;
+    font-weight: bold;
+}
+
+.edit_delete_group, .edit_button_group, .notifications_group {
+    display:flex;
+    text-align: center;
+    
+    background-color: #0b5ed7;
+    border-color: #0a58ca;
+    border-radius: 5px;
+
+}
+
+.edit_delete_group {
+    position: absolute;
+    top: 39.05%;
+    left: 72.5%;
+}
+.notifications_group {
+    position: absolute;
+    top: 39.05%;
+    left: 62%;
+}
+
+.edit_button_group {
+    width:15%;
+    margin: 1%;
+}
+
+.delete_text_group, .edit_text_group, .notification_text_group {
+    margin: auto auto;
+    font-size: x-large;
+    color: white;
 }

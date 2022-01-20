@@ -33,12 +33,11 @@ class GroupController extends Controller
      */
     public function create()
     {
+        if (!Gate::allows('create-group')) {
+            abort(403);
+        }
+
         return view('pages.create_group');
-    }
-
-    public function addNewGroup(String $name, String $priv_status, Image $cover_pic)
-    {
-
     }
 
     /**
@@ -49,8 +48,27 @@ class GroupController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        if (!Gate::allows('create-group')) {
+            abort(403);
+        }
+
+        $cover_pic = null;
+        if($request->hasFile('image')) {
+            $cover_pic = Image::storeAndRegister($request->image);
+        }
+        
+        
+        $group_id = DB::table('group')->insertGetId([
+            'name' => $request->input('name'),
+            'priv_stat' => $request->visibility,
+            'creator_id' => $request->user()->id
+        ]);
+
+        return redirect('groups/'.$group_id);
     }
+
+    
 
     /**
      * Display the specified resource.
@@ -73,7 +91,12 @@ class GroupController extends Controller
 
         return redirect('/');
     }
+
     public function showMembers(Group $group) {
+        if (!Gate::allows('view-group', $group)) {
+            abort(403);
+        }
+
         if(isset($group)) {
             $members=$group->sortedMembers();
 
@@ -83,6 +106,9 @@ class GroupController extends Controller
     }
 
     public function showEdit(Group $group) {
+        if (!Gate::allows('update-group', $group)) {
+            abort(403);
+        }
         if(isset($group)) {
             return view('pages.edit_group', ['group' => $group]);
         }
@@ -97,6 +123,9 @@ class GroupController extends Controller
      */
     public function edit(Group $group)
     {
+        if (!Gate::allows('update-group', $group)) {
+            abort(403);
+        }
         if(isset($group)) {
             return view('pages.edit_group', ['group' => $group]);
         }
@@ -133,7 +162,11 @@ class GroupController extends Controller
         return back();
     }
     public function addMember(Group $group, User $user) {
-        \DB::table("membership")->insert([
+
+        if(!Gate::allows('addmember-group', $group)) {
+            abort(403);
+        }
+        DB::table("membership")->insert([
             'user_id' => $user->id,
             'group_id' => $group->id
         ]);
@@ -142,6 +175,9 @@ class GroupController extends Controller
     }
     public function removeMember(Group $group, User $user) {
 
+        if(!Gate::allows('addmember-group', $group)) {
+            abort(403);
+        }
         DB::table("membership")
             ->where('group_id', $group->id)
             ->where('user_id', $user->id)
