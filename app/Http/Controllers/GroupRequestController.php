@@ -79,4 +79,16 @@ class GroupRequestController extends Controller
         return back();
     }
 
+
+    public function invite(Request $request) {
+
+        DB::table('group_request')->insert([
+            'group_id' => $request->group_id,
+            'user_id' => $request->user_id,
+            'invite' => true
+        ]);
+
+        return response("Invite successful");
+    }
+
 }

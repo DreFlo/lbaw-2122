@@ -6,7 +6,11 @@ function addEventListeners() {
 
     let tagSearchButton = document.querySelector("button.tag_search_button");
     if (tagSearchButton != null)
-        tagSearchButton.addEventListener('click', searchUser);
+        tagSearchButton.addEventListener('click', searchUserTag);
+
+    let inviteSearch = document.querySelector("button.invite_search_button");
+    if(inviteSearch != null)
+        inviteSearch.addEventListener('click', searchUserInvite);
 
     let banToggles = document.querySelectorAll('button.ban');
     [].forEach.call(banToggles, function (banToggle) {
@@ -92,14 +96,21 @@ function toggleLike() {
     }
 }
 
-function searchUser() {
+function searchUserTag() {
     let searchBoxes = document.getElementsByClassName('tag_search_field');
     let searchValue = searchBoxes[searchBoxes.length - 1].value;
 
-    sendAjaxRequest('post', '/api/search/users', {searchString: searchValue}, searchHandler);
+    sendAjaxRequest('post', '/api/search/users', {searchString: searchValue}, searchHandlerTag);
 }
 
-function searchHandler() {
+function searchUserInvite() {
+    let searchBoxes = document.getElementsByClassName('invite_search_field');
+    let searchValue = searchBoxes[searchBoxes.length - 1].value;
+
+    sendAjaxRequest('post', '/api/search/users', {searchString: searchValue}, searchHandlerInvite);
+}
+
+function searchHandlerTag() {
     let users = JSON.parse(this.responseText);
 
     let tagLabel = document.getElementById('tag_label');
@@ -138,6 +149,47 @@ function searchHandler() {
     tagLabel.appendChild(searchResults);
 }
 
+function searchHandlerInvite() {
+    let users = JSON.parse(this.responseText);
+
+    let inviteLabel = document.getElementById('invite_label');
+    let group_id = inviteLabel.getAttribute('group_id');
+
+    let searchResults = document.createElement('table');
+
+    searchResults.setAttribute('id', 'invite_search_results');
+    searchResults.classList.add('search_results_table');
+
+    users.forEach(function (user) {
+        let row = document.createElement('tr');
+        row.classList.add('search_results_row');
+
+        let anchor = document.createElement('a');
+        anchor.innerHTML = user.name;
+        anchor.setAttribute('href', '/users/' + user.id);
+        anchor.classList.add('search_results_row_name');
+
+        let addInviteButton = document.createElement('button');
+        addInviteButton.setAttribute('class', 'btn btn-primary');
+        addInviteButton.setAttribute('type', 'button');
+        addInviteButton.classList.add('search_results_row_tag');
+        addInviteButton.innerHTML = 'Invite';
+        addInviteButton.setAttribute('user_id', user.id);
+        addInviteButton.setAttribute('group_id', group_id);
+        addInviteButton.addEventListener('click', addInvite);
+
+        row.appendChild(anchor);
+        row.appendChild(addInviteButton);
+        searchResults.appendChild(row);
+    })
+
+    let previousResults = document.getElementById('invite_search_results');
+
+    if (previousResults != null) inviteLabel.removeChild(previousResults);
+
+    inviteLabel.appendChild(searchResults);
+}
+
 function addTag() {
     let newTag = document.createElement('input');
     newTag.setAttribute('type', 'hidden');
@@ -150,6 +202,17 @@ function addTag() {
 
     this.style.backgroundColor = 'grey';
     this.removeEventListener('click', addTag);
+}
+
+
+function addInvite() {
+    let user_id = this.getAttribute('user_id');
+    let group_id = this.getAttribute('group_id');
+
+    sendAjaxRequest('post', '/api/create_request', {user_id: user_id, group_id: group_id}, null);
+
+    this.style.backgroundColor = 'grey';
+    this.removeEventListener('click', addInvite);
 }
 
 function toggleBan() {

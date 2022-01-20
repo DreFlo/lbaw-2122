@@ -10,19 +10,25 @@
         @if($group->isModerator(auth()->user()))
         <a href='/groups/{{$group->id}}/edit'>
             <button class="button_group" type="button">
-                Edit Group
+                <div class="button_text_group">
+                    Edit Group
+                </div>
             </button>
         </a>
         @elseif($group->isMember(auth()->user()))
         <a href='/groups/{{$group->id}}/leave_group/{{auth()->user()->id}}'>
             <button class="button_group" type="button">
-                Leave Group 
+                <div class="button_text_group">
+                    Leave Group 
+                </div>
             </button>
         </a>
         @elseif($group->priv_stat === 'Public')
         <a href='/groups/{{$group->id}}/add_member/{{auth()->user()->id}}'>
             <button class="button_group" type="button">
-                Join Group 
+                <div class="button_text_group">
+                    Join Group
+                </div>
             </button>
         </a>
         @elseif($group->priv_stat === 'Private')
