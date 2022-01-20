@@ -21,6 +21,11 @@ class UserPolicy
         return $user->isAdmin();
     }
 
+    public function enter(?User $user): bool
+    {
+        return $user === null || $user->priv_stat !== 'Banned' && $user->priv_stat !== 'Anonymous';
+    }
+
     /**
      * Determine whether the user can view the model.
      *
@@ -30,7 +35,9 @@ class UserPolicy
      */
     public function view(?User $user, User $model): Response
     {
-        if ($model->priv_stat === 'Public' || optional($user)->id===$model->id) return Response::allow();
+        if(optional($user)->priv_stat === 'Banned' || optional($user)->priv_stat === 'Anonymous') return Response::deny();
+        elseif($model->priv_stat === 'Banned' || $model->priv_stat === 'Anonymous') return Response::deny();
+        elseif ($model->priv_stat === 'Public' || optional($user)->id===$model->id) return Response::allow();
         elseif (optional($user)->isFriend($model)) return Response::allow();
         return Response::deny();
     }

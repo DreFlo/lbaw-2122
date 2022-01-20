@@ -53,7 +53,7 @@ class CommentController extends Controller
     public function show(Comment $comment)
     {
         if (!Gate::allows('view-content', $comment->content)) {
-            abort(403);
+            return view('pages.view_content_forbidden', ['user' => $comment->content->creator]);
         }
 
         return view('pages.comment', ['comment' => $comment]);

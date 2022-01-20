@@ -60,7 +60,7 @@ class ShareController extends Controller
     {
         if(!Gate::allows('view-content', $share->content) ||
             !Gate::allows('view-content', $share->post->content)) {
-            abort(403);
+            return view('pages.view_content_forbidden', ['user' => $share->content->creator]);
         }
 
         return view('pages.share', ['share' => $share]);

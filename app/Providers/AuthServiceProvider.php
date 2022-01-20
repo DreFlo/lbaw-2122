@@ -62,5 +62,6 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('createIn-group', [GroupPolicy::class, 'createInGroup']);
         Gate::define('delete-user', [UserPolicy::class, 'delete']);
         Gate::define('viewNotifications-group', [GroupPolicy::class, 'viewNotifications']);
+        Gate::define('enter-user', [UserPolicy::class, 'enter']);
     }
 }
