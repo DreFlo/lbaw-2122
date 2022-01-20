@@ -29,7 +29,7 @@ class GroupPolicy
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function view(User $user, Group $group)
-    {   
+    {
         if($user->isAdmin()) return true;
         elseif($group->priv_stat === "Anonymous") return false;
         elseif($group->priv_stat === "Public") return true;
@@ -50,7 +50,7 @@ class GroupPolicy
 
     public function createInGroup(User $user, Group $group): bool
     {
-        return $group->isMember($user);
+        return $group->isMember($user) && $user->priv_stat !== 'Banned' && $user->priv_stat !== 'Anonymous';
     }
 
     /**

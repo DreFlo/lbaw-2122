@@ -24,12 +24,22 @@
                 {{ $user->name }}
         </div>
     </div>
-    @if (optional(Auth::user())->id != $user->id && optional(Auth::user())->isFriend($user))
-        <button class="btn btn-primary remove_friend" style="background-color: red" type="button" target_id="{{$user->id}}" sender_id="{{Auth::user()->id}}">Remove Friend</button>
-    @elseif (optional(Auth::user())->id != $user->id && !(optional(Auth::user())->isFriend($user)))
-        <button class="btn btn-primary send_request" style="background-color: green" type="button" target_id="{{$user->id}}" sender_id="{{Auth::user()->id}}">Send Friend Request</button>
+    @if(Auth::check())
+        @if (optional(Auth::user())->id != $user->id && optional(Auth::user())->isFriend($user))
+            <button class="btn btn-primary remove_friend" style="background-color: red" type="button" target_id="{{$user->id}}" sender_id="{{Auth::user()->id}}">Remove Friend</button>
+        @elseif (optional(Auth::user())->id != $user->id && !(optional(Auth::user())->isFriend($user)))
+            <button class="btn btn-primary send_request" style="background-color: green" type="button" target_id="{{$user->id}}" sender_id="{{Auth::user()->id}}">Send Friend Request</button>
+        @endif
+        @if(auth()->user()->isAdmin() && $user->id !== auth()->user()->id)
+            <button class="btn btn-primary ban" style="background-color: red" user_id="{{$user->id}}" admin_id="{{auth()->user()->id}}">
+                @if($user->priv_stat !== 'Banned')
+                    Ban
+                @else
+                    Unban
+                @endif
+            </button>
+        @endif
     @endif
-
     @if (optional(Auth::user())->id == $user->id)
         <div class="post-profile">
             <h1 style="margin-left:10px" class="font_group">Create Post!</h1>

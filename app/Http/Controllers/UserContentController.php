@@ -41,7 +41,7 @@ class UserContentController extends Controller
     public function edit(UserContent $userContent)
     {
         if (!Gate::allows('update-content', $userContent)) {
-            abort(403);
+            return view('pages.view_forbidden', ['message' => 'You can\'t edit this content']);
         }
 
         return view('pages.edit_user_content', ['content' => $userContent]);
