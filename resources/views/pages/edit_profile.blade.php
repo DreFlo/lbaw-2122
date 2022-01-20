@@ -9,7 +9,7 @@
 
     <div class="mt-4 d-flex">
         <div class="col-3 px-2 d-none d-md-block">
-            <a href="#" style="font-size: 1.3rem">
+            <a href="/profile/change-password" style="font-size: 1.3rem">
                 <span>Change Password</span>
             </a>
             <a href="#" style="font-size: 1.3rem">
