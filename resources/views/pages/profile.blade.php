@@ -50,8 +50,8 @@
             @method('DELETE')
             <button class="btn btn-primary" style="background-color: red" type="submit" title="Delete">Delete Account</button>
         </form>
-        <button class="btn btn-primary" type="button" onclick="location.href = '{{route('groups.create')}}';" title="Delete">Create Group</button>
-        <button class="btn btn-primary" type="button" onclick="location.href = '{{route('posts.create')}}';" title="Delete">Create Post</button>
+        <button class="btn btn-primary" type="button" onclick="location.href = '{{route('groups.create')}}';" title="Create Group">Create Group</button>
+        <button class="btn btn-primary" type="button" onclick="location.href = '{{route('posts.create')}}';" title="Create Post">Create Post</button>
     </div>
 @endif
 
