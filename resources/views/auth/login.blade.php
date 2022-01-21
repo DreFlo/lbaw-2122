@@ -47,7 +47,7 @@
         <button class="login-contacts-button"><span>Contact Us </span></button>
     </a>
 
-    <a href="{{ route('faq') }}">
+    <a href="{{ route('faq') }}" style="position: absolute; left: 60%; bottom: 0;">
         <button class="login-contacts-button"><span>FAQ</span></button>
     </a>
 </div>
