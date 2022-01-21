@@ -2,7 +2,7 @@
     <a style="margin-left:10px" class="font_group" href="/groups/create">
         Create Group!
     </a>
-    <form method="POST" action="{{route('groups.store')}}">
+    <form method="POST" action="{{route('groups.store')}}" enctype="multipart/form-data">
         @csrf
         <div class="form_group">
             <label title="Enter group name" class="create_group_form">
@@ -25,7 +25,7 @@
                 </select>
             @endif
         </label>
-        
+
         <button style="margin: 1%" class="btn btn-primary" type="submit">Create</button>
     </form>
 

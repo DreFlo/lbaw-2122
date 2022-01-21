@@ -46,5 +46,9 @@
     <a href="{{ route('contacts') }}">
         <button class="login-contacts-button"><span>Contact Us </span></button>
     </a>
+
+    <a href="{{ route('faq') }}">
+        <button class="login-contacts-button"><span>FAQ</span></button>
+    </a>
 </div>
 @endsection

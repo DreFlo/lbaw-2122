@@ -638,19 +638,26 @@ table, tr, th, td {
     margin: 1%;
 }
 
-.about-column {
+.about-column, .faq-column {
     float: left;
-    width: 25%;
     margin-bottom: 16px;
     padding: 0 8px;
   }
+
+.about-column {
+    width: 25%;
+}
+
+.faq-column {
+    width: 50%;
+}
 
   .about-card {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     margin: 8px;
   }
 
-  .about-section {
+  .about-section , .faq-section{
     padding: 50px;
     text-align: center;
     background-color: #474e5d;
@@ -661,7 +668,7 @@ table, tr, th, td {
     padding: 0 16px;
   }
 
-  .about-row {
+  .about-row, .faq-row {
       background-color: #f2f2f2;
   }
 
@@ -999,7 +1006,7 @@ right: 0;
     display:flex;
     background-color: rgb(255, 39, 30);
     opacity: 0.75;
-    
+
     border-radius: 4px;
     right: 10px;
     bottom: 10px;
@@ -1112,7 +1119,7 @@ right: 0;
 .edit_delete_group, .edit_button_group, .notifications_group {
     display:flex;
     text-align: center;
-    
+
     background-color: #0b5ed7;
     border-color: #0a58ca;
     border-radius: 5px;
@@ -1146,3 +1153,4 @@ right: 0;
     margin-top: 25px;
     margin-bottom: 100px;
 }
+

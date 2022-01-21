@@ -19,7 +19,7 @@
         <a href='/groups/{{$group->id}}/leave_group/{{auth()->user()->id}}'>
             <button class="button_group" type="button">
                 <div class="button_text_group">
-                    Leave Group 
+                    Leave Group
                 </div>
             </button>
         </a>
@@ -50,7 +50,7 @@
     @endif
 </div>
 
-@if($group->priv_stat === 'Public' || optional(auth()->user())->inGroup($group))
+@if($group->priv_stat === 'Public' || optional(auth()->user())->inGroup($group) || optional(auth()->user())->isAdmin())
 <div class="cont_group">
 
     <div class="posts_group">
@@ -75,13 +75,13 @@
                 @foreach($rowmembers as $member)
                 <td class="row_group">
                     <a class="font_group" href='/users/{{ $member->id }}'>
-                        
+
                         <img alt="profile_pic" src="{{url($member->profilePic->path)}}" style="width:150px; height:150px;">
                         </img>
                         <br>
                         {{ $member->name }}
-                        
-                        
+
+
                     </a>
                 </td>
                 @endforeach

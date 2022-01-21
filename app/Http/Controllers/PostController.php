@@ -159,6 +159,10 @@ class PostController extends Controller
                 elseif (User::find($post->creator_id)->friends->contains($auth_user)) continue;
                 else $posts->pull($key);
             }
+            elseif ($post->priv_stat == 'Anonymous')
+            {
+                $posts->pull($key);
+            }
 
             $post->likes = $post->content->likeCount();
         }

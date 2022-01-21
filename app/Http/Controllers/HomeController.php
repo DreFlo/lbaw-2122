@@ -26,4 +26,8 @@ class HomeController extends Controller
     public function showAbout() {
         return view('pages.about');
     }
+
+    public function showFAQ() {
+        return view('pages.faq');
+    }
 }

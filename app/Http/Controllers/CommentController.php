@@ -91,6 +91,10 @@ class CommentController extends Controller
                 elseif (User::find($comment->creator_id)->friends->contains($auth_user)) continue;
                 else $comments->pull($key);
             }
+            elseif ($comment->priv_stat == 'Anonymous')
+            {
+                $comment->pull($key);
+            }
 
             $comment->likes = $comment->content->likeCount();
         }

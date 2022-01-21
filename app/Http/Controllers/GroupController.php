@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Group;
 
+use App\Models\Image;
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
@@ -55,20 +56,28 @@ class GroupController extends Controller
 
         $cover_pic = null;
         if($request->hasFile('image')) {
-            $cover_pic = Image::storeAndRegister($request->image);
+            $cover_pic = Image::storeAndRegister($request->file('image'));
         }
-        
-        
-        $group_id = DB::table('group')->insertGetId([
-            'name' => $request->input('name'),
-            'priv_stat' => $request->visibility,
-            'creator_id' => $request->user()->id
-        ]);
+        if($cover_pic === null) {
+            $group_id = DB::table('group')->insertGetId([
+                'name' => $request->input('name'),
+                'priv_stat' => $request->visibility,
+                'creator_id' => $request->user()->id
+            ]);
+        }
+        else {
+            $group_id = DB::table('group')->insertGetId([
+                'name' => $request->input('name'),
+                'priv_stat' => $request->visibility,
+                'cover_pic' => $cover_pic,
+                'creator_id' => $request->user()->id
+            ]);
+        }
 
         return redirect('groups/'.$group_id);
     }
 
-    
+
 
     /**
      * Display the specified resource.
@@ -159,7 +168,7 @@ class GroupController extends Controller
         $group->priv_stat = 'Anonymous';
         $group->save();
 
-        return back();
+        return redirect(route('profile'));
     }
     public function addMember(Group $group, User $user) {
 
@@ -225,6 +234,11 @@ class GroupController extends Controller
 
         }
 
-        return $ts_groups->merge($l_groups);
+        $groups = $ts_groups->merge($l_groups);
+        foreach ($groups as $key => $group){
+            if($group->priv_stat == 'Anonymous') $groups->pull($key);
+        }
+
+        return $groups;
     }
 }

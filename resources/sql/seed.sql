@@ -569,6 +569,9 @@ insert into "membership"(user_id, group_id) values(2,8);
 insert into "membership"(user_id, group_id) values(2,9);
 insert into "membership"(user_id, group_id) values(2,10);
 insert into "membership"(user_id, group_id) values(1,5);
+insert into "membership"(user_id, group_id) values(7,3);
+insert into "membership"(user_id, group_id) values(3,3);
+insert into "membership"(user_id, group_id) values(4,3);
 
 insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(1, 'Hi!', 1, 2, 'Public');
 insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(2, 'My recent trip was quite satisfying!', 2, null, 'Public');
@@ -581,12 +584,12 @@ insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(8
 insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(9, 'I finally got a new bike!', 7, null, 'Private');
 insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(10, 'Thank you for repaying the favor when you didnt have to.', 1, 7, 'Public');
 insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(11, 'Share', 1, null, 'Public');
-insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(12, 'The Last Dance is Real', 7, null, 'Public');
+insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(12, 'The Last Dance is Real', 7, 3, 'Public');
 insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(13, 'Obtober is national pizza month', 4, null, 'Public');
 insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(26, 'C++ is the best programming language', 2, null, 'Private');
 insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(15, 'Everything is magical until it becomes routine', 8, null, 'Private');
 insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(16, 'Can you embed the Mobius strip into 3d space in such a way that its boundary forms a perfect circle?', 16, null, 'Private');
-insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(17, 'a^2 + b^2 = c^2', 3, 9, 'Public');
+insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(17, 'a^2 + b^2 = c^2', 3, 3, 'Public');
 insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(18, 'Amiga Da Minha Mulher - Seu Jorge', 3, 8, 'Public');
 insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(19, 'You are so bolotov', 5, null, 'Private');
 insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(20, 'Check out my new AltCoin!!', 2, null, 'Private');
@@ -601,7 +604,7 @@ insert into "user_content"(id, "text", creator_id, group_id, priv_stat) values(1
 SELECT setval('user_content_id_seq', max(id)) FROM "user_content";
 
 insert into "post"(id) values(1);
-insert into "post"(id, pic_1, pic_2) values(2, 1, 2);
+insert into "post"(id, pic_1) values(2, 1);
 insert into "post"(id) values(3);
 insert into "post"(id) values(4);
 insert into "post"(id) values(5);
