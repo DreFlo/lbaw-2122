@@ -1,6 +1,7 @@
-# lbaw2192
+# Infra, A Social Network
 
-The URL for the production environment is http://lbaw2192.lbaw.fe.up.pt/.
+
+## Running
 
 The docker command to start the container is:
 
